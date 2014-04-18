@@ -1,0 +1,18 @@
+https://www.iconfinder.com/search/?q=iconset:UltimateGnome
+
+
+http://www.consultorio-virtual.com/manual-de-usuario/Consultas.ashx
+http://www.fgkpsoft.com.ar/castellano/hc/historiasclinicas.php
+http://www.dapp.com.ar/pers_juan/pediat.htm
+
+
+
+HCE
+- MOTIVO (puede ser un combo)
+- Examen fisico (Texto Libre)  /// - Amenesis??
+- Diagnostivo (TExto Libre)
+- Tratamiento  (TExto Libre)
+- Obsaervaciones (Texto Libre)
+- VADEMECUM ???
+- Recetas??
+CIE 10?

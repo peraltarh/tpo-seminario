@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/iText-2.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/jasperreports-5.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/jgoodies-common-1.8.0.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/jgoodies-looks-2.6.0.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/servlet-api-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/sqljdbc.jar"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/SubstanceLAF.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="D:/Workspace/TP_Seminario/Librerias/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
