@@ -16,3 +16,10 @@ HCE
 - VADEMECUM ???
 - Recetas??
 CIE 10?
+
+
+JSpinner spinner = new JSpinner(new SpinnerDateModel());
+		//spinner.setModel(new SpinnerDateModel(new Date(1397790000000L), null, null, Calendar.AM_PM));
+		spinner.setBounds(97, 91, 199, 22);
+		spinner.setEditor(new DateEditor(spinner, "HH:mm:ss"));
+		practicaPanel.add(spinner);

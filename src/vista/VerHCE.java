@@ -113,6 +113,8 @@ public class VerHCE extends JDialog {
 		nuevaConsultaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
+				AltaConsulta ac = new AltaConsulta();
+				ac.setVisible(true);
 				
 			}
 		});
@@ -129,11 +131,24 @@ public class VerHCE extends JDialog {
 		cancelarButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/cancel.png")));
 		
 		nuevaPrcticaAmbulatoriaButton= new JButton("<html>Nueva Práctica<br>Ambulatoria</html>");
+		nuevaPrcticaAmbulatoriaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				AltaPractica ap = new AltaPractica();
+				ap.setVisible(true);
+			}
+		});
 		nuevaPrcticaAmbulatoriaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/HCE.png")));
 		nuevaPrcticaAmbulatoriaButton.setBounds(10, 70, 154, 40);
 		panelBotones.add(nuevaPrcticaAmbulatoriaButton);
 		
 		JButton nuevaCirugiaButton = new JButton("Nueva Cirug\u00EDa");
+		nuevaCirugiaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 		nuevaCirugiaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/HCE.png")));
 		nuevaCirugiaButton.setBounds(10, 121, 154, 32);
 		panelBotones.add(nuevaCirugiaButton);
