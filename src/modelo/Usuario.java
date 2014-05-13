@@ -1,34 +1,22 @@
 package modelo;
 
-import java.sql.*;
 import java.util.Vector;
-
 import DTO.UsuarioDTO;
-
 import persistencia.AdministradorPersistenciaUsuario;
 
 public class Usuario {
 	
-	private int idUsuario;
+	private int dni;
 	private String nombre;
 	private String apellido;
-	public int getMatricula() {
-		return matricula;
-	}
-
-	public void setMatricula(int matricula) {
-		this.matricula = matricula;
-	}
-
 	private int matricula;
-	private int dni;
 	private String userName;
 	private String password;
 	private boolean borrado;
-	
+	private Vector<Permiso> permisos;
 	
 	public Usuario(){
-		
+		permisos =  new Vector<Permiso>();
 	}
 	
 	public Usuario(String nombre, String apellido,int matricula,
@@ -41,19 +29,18 @@ public class Usuario {
 		this.password = password;
 		this.matricula = matricula;
 		this.borrado = false;
+		permisos =  new Vector<Permiso>();
 		
 		AdministradorPersistenciaUsuario.getInstancia().insert(this);
 		
-		
 	}
 	
-
-	public int getIdUsuario() {
-		return idUsuario;
+	public int getMatricula() {
+		return matricula;
 	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setMatricula(int matricula) {
+		this.matricula = matricula;
 	}
 
 
@@ -96,15 +83,20 @@ public class Usuario {
 	}
 	
 	public UsuarioDTO getView(){
-		return new UsuarioDTO(idUsuario, nombre, apellido, matricula, dni, userName, password, borrado);
+		return new UsuarioDTO(nombre, apellido, matricula, dni, userName, password, borrado,permisos);
 		
 	}
 
-	public void modificarUsuario (String nombre, String apellido,String password) {
+	public void modificarUsuario (String nombre, String apellido,int matricula,String userName, String password, boolean borrado) {
 			
 			this.nombre = nombre;
 			this.apellido = apellido;
 			this.password = password;
+			this.matricula = matricula;
+			this.userName = userName;
+			this.password = password;
+			this.borrado = borrado;
+			
 			
 			AdministradorPersistenciaUsuario.getInstancia().update(this);
 		
@@ -128,16 +120,39 @@ public class Usuario {
 		return AdministradorPersistenciaUsuario.getInstancia().buscarUsuario(dni);
 	}
 	
-	public Usuario buscarUsuarioId (int id) {
-		return AdministradorPersistenciaUsuario.getInstancia().buscar(id);
-	}
+//	public Usuario buscarUsuarioId (int id) {
+//		return AdministradorPersistenciaUsuario.getInstancia().buscar(id);
+//	}
 	
-	public void updateContraseña (int id, String psw) {
+	public void updateContraseña () {
 		AdministradorPersistenciaUsuario.getInstancia().updateContraseña(this);
 	}
 
-	public void updateBorrado(int id) {
+	public void updateBorrado(int dni) {
 		AdministradorPersistenciaUsuario.getInstancia().updateBorrar(this);
+	}
+
+	public Vector<Permiso> getPermisos() {
+		//return permisos;
+		
+		return AdministradorPersistenciaUsuario.getInstancia().getPermisos(dni);
+	}
+
+	public void setPermisos(Vector<Permiso> permisos) {
+		this.permisos = permisos;
+		//savePermisos();
+	}
+	
+	public void savePermisos(){
+		for (int i = 0; i < permisos.size(); i++) {
+			AdministradorPersistenciaUsuario.getInstancia().insertPermisos(permisos.elementAt(i), dni);
+		}
+		
+	}
+
+	public void updatePermisos() {
+		AdministradorPersistenciaUsuario.getInstancia().borrarPermisos(dni);
+		savePermisos();
 	}
 	
 }

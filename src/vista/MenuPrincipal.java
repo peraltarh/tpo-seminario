@@ -11,6 +11,7 @@ import net.sf.jasperreports.engine.JRException;
 import reportes.ReporteEjemplo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Color;
 
@@ -24,7 +25,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	private JMenu jmenuMicuenta;
 	private JMenuItem deleteMenuItem;
 	private JSeparator jSeparator1;
-	private JMenuItem reporteUsuarios;
+	private JMenuItem reportePlanillaFacturacion;
 	private JMenuItem buscarHCE;
 	private JMenu jMenuFacturacion;
 	private JMenu jMenuHCE;
@@ -60,7 +61,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		
 		// SOLO PARA TEST
 		if(usuarioActual== null){
-			usuarioActual =  Sistema.getInstancia().getUsuario(1);
+			usuarioActual =  Sistema.getInstancia().getUsuario(31412777);
 		}
 		
 		initGUI();
@@ -113,7 +114,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		     timerThread.start();
 			
 			setSize(640, 480);
-			setTitle("TP SEMINARIO");
+			setTitle("SOLPA S.A");
 			setExtendedState(JFrame.MAXIMIZED_BOTH);
 			setLocationRelativeTo(null);
 		    setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -127,10 +128,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		jmenuMicuenta = new JMenu();
 		jMenuBar1.add(jmenuMicuenta);
 		jmenuMicuenta.setText("Mi Cuenta");
+		jmenuMicuenta.setMnemonic(KeyEvent.VK_M);
 		{
 			cambiarContraseña = new JMenuItem();
 			jmenuMicuenta.add(cambiarContraseña);
 			cambiarContraseña.setText("Cambiar Contraseña");
+			cambiarContraseña.setMnemonic(KeyEvent.VK_C);
 			cambiarContraseña.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/key.png")));
 			cambiarContraseña.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -153,6 +156,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			});
 			jmenuMicuenta.add(exitMenuItem);
 			exitMenuItem.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/exit.png")));
+			exitMenuItem.setMnemonic(KeyEvent.VK_S);
 			exitMenuItem.setText("Salir");
 		}
 	}
@@ -162,23 +166,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			jMenuFacturacion = new JMenu();
 			jMenuBar1.add(jMenuFacturacion);
 			jMenuFacturacion.setText("Facturacion");
+			jMenuFacturacion.setMnemonic(KeyEvent.VK_F);
 			{
-				reporteUsuarios = new JMenuItem();
-				reporteUsuarios.addActionListener(new ActionListener() {
+				reportePlanillaFacturacion = new JMenuItem();
+				reportePlanillaFacturacion.setText("Exportar Planilla Facturación");
+				reportePlanillaFacturacion.setMnemonic(KeyEvent.VK_E);
+				reportePlanillaFacturacion.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/report.png")));	
+				reportePlanillaFacturacion.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						try {
-							ReporteEjemplo rej = new ReporteEjemplo();
-						} catch (JRException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						PlanillaMensualDialog pmd = new PlanillaMensualDialog();
+						pmd.setVisible(true);
 					}
 				});
 				
-				jMenuFacturacion.add(reporteUsuarios);
+				jMenuFacturacion.add(reportePlanillaFacturacion);
 				
-				reporteUsuarios.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/pdf.png")));
-				reporteUsuarios.setText("Reporte Usuario");
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("REPORTE_FACTURACION");
+				if (validarPermiso==true){
+					reportePlanillaFacturacion.setEnabled(true);
+				}else
+					reportePlanillaFacturacion.setEnabled(false);
+				
+				
 			}
 		}
 
@@ -188,10 +197,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		jMenuHCE = new JMenu();
 		jMenuBar1.add(jMenuHCE);
 		jMenuHCE.setText("Historia Clinica");
+		jMenuHCE.setMnemonic(KeyEvent.VK_H);
 		{
 			buscarHCE = new JMenuItem();
 			buscarHCE.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/HCE.png")));
 			buscarHCE.setText("Buscar Historia Clinica");
+			buscarHCE.setMnemonic(KeyEvent.VK_B);
 			buscarHCE.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					BuscardorHCE b = new  BuscardorHCE();
@@ -201,12 +212,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			
 			jMenuHCE.add(buscarHCE);
 			
+			boolean validarPermiso = Sistema.getInstancia().validarPermiso("VER_HCE");
+			if (validarPermiso==true){
+				buscarHCE.setEnabled(true);
+			}else
+				buscarHCE.setEnabled(false);
+			
 			
 		}
 	}
 
-	
-	
 	
 	public void menuAdministracion(){
 		jMenuBar1 = new JMenuBar();
@@ -215,11 +230,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			jMenu3 = new JMenu();
 			jMenuBar1.add(jMenu3);
 			jMenu3.setText("Administración");
-			
+			jMenu3.setMnemonic(KeyEvent.VK_A);
 			{
 				usuarioMenuItem = new JMenuItem();
 				jMenu3.add(usuarioMenuItem);
 				usuarioMenuItem.setText("Usuarios");
+				usuarioMenuItem.setMnemonic(KeyEvent.VK_U);
 				usuarioMenuItem.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/users.png")));
 				usuarioMenuItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -227,12 +243,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
 						bu.setVisible(true);
 					}
 				});
+				
+				
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("ADMIN_USUARIO");
+				if (validarPermiso==true){
+					usuarioMenuItem.setEnabled(true);
+				}else
+					usuarioMenuItem.setEnabled(false);
+				
 			}
 			
 			{
 				pacienteMenuItem = new JMenuItem();
 				jMenu3.add(pacienteMenuItem);
 				pacienteMenuItem.setText("Pacientes");
+				pacienteMenuItem.setMnemonic(KeyEvent.VK_P);
 				pacienteMenuItem.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/paciente.png")));
 				pacienteMenuItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -240,10 +265,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
 						bp.setVisible(true);
 					}
 				});
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("ADMIN_PACIENTE");
+				if (validarPermiso==true){
+					pacienteMenuItem.setEnabled(true);
+				}else
+					pacienteMenuItem.setEnabled(false);
+				
 			}
 			
 		}
-		
 		
 		
 	}

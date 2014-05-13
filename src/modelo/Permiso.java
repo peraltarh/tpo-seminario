@@ -5,6 +5,7 @@ import java.util.Vector;
 import DTO.PermisoDTO;
 
 import persistencia.AdministradorPersistenciaPermiso;
+import persistencia.AdministradorPersistenciaUsuario;
 
 
 public class Permiso {
@@ -78,6 +79,8 @@ public class Permiso {
 		
 	}
 	
-	
+	public Permiso buscarPermiso (int id) {
+		return AdministradorPersistenciaPermiso.getInstancia().buscarPermiso(id);
+	}
 
 }

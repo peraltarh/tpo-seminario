@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+
 import modelo.Permiso;
 import modelo.Usuario;
 
@@ -42,7 +43,6 @@ public class AdministradorPersistenciaUsuario {
 			while (result.next())
 			{
 				u = new Usuario();
-				u.setIdUsuario(result.getInt("idUsuario"));
 				u.setNombre(result.getString("nombre"));
 				u.setApellido(result.getString("apellido"));
 				u.setMatricula(result.getInt("matricula"));
@@ -50,8 +50,9 @@ public class AdministradorPersistenciaUsuario {
 				u.setUserName(result.getString("username"));
 				u.setPassword(result.getString("password"));
 				u.setBorrado(result.getBoolean("borrado"));
-		
+				u.setPermisos(u.getPermisos());
 				
+		
 			}
 			
 			PoolConnection.getPoolConnection().realeaseConnection(con);
@@ -81,7 +82,6 @@ public class AdministradorPersistenciaUsuario {
 			while (result.next())
 			{
 				u = new Usuario();
-				u.setIdUsuario(result.getInt("idUsuario"));
 				u.setNombre(result.getString("nombre"));
 				u.setApellido(result.getString("apellido"));
 				u.setMatricula(result.getInt("matricula"));
@@ -89,7 +89,7 @@ public class AdministradorPersistenciaUsuario {
 				u.setUserName(result.getString("username"));
 				u.setPassword(result.getString("password"));
 				u.setBorrado(result.getBoolean("borrado"));
-				
+				u.setPermisos(u.getPermisos());
 			}
 			
 			PoolConnection.getPoolConnection().realeaseConnection(con);
@@ -104,44 +104,44 @@ public class AdministradorPersistenciaUsuario {
 	      return u;
 	}
 
-		public Usuario buscar(int id){
-			
-			Usuario u = null;
-			Connection con = PoolConnection.getPoolConnection().getConnection();
-					
-			try
-			{
-				String senten = "SELECT * from usuario where idUsuario = ? and borrado = 0" ;
-				PreparedStatement ps = null;
-				ps = con.prepareStatement(senten);
-				ps.setInt(1,id);
-				ResultSet result = ps.executeQuery();
-				while (result.next())
-				{
-					u = new Usuario();
-					u.setIdUsuario(result.getInt("idUsuario"));
-					u.setNombre(result.getString("nombre"));
-					u.setApellido(result.getString("apellido"));
-					u.setMatricula(result.getInt("matricula"));
-					u.setDni(result.getInt("dni"));
-					u.setUserName(result.getString("username"));
-					u.setPassword(result.getString("password"));
-					u.setBorrado(result.getBoolean("borrado"));
-					
-				}
-				
-				PoolConnection.getPoolConnection().realeaseConnection(con);
-				return u;
-			}
-		      catch( SQLException e ) 
-		      {
-					System.out.println("Mensaje Error: " + e.getMessage());
-					e.printStackTrace();
-					PoolConnection.getPoolConnection().realeaseConnection(con);
-		      }
-		      return u;
-		}
-		
+//		public Usuario buscar(int id){
+//			
+//			Usuario u = null;
+//			Connection con = PoolConnection.getPoolConnection().getConnection();
+//					
+//			try
+//			{
+//				String senten = "SELECT * from usuario where idUsuario = ? and borrado = 0" ;
+//				PreparedStatement ps = null;
+//				ps = con.prepareStatement(senten);
+//				ps.setInt(1,id);
+//				ResultSet result = ps.executeQuery();
+//				while (result.next())
+//				{
+//					u = new Usuario();
+//				//	u.setIdUsuario(result.getInt("idUsuario"));
+//					u.setNombre(result.getString("nombre"));
+//					u.setApellido(result.getString("apellido"));
+//					u.setMatricula(result.getInt("matricula"));
+//					u.setDni(result.getInt("dni"));
+//					u.setUserName(result.getString("username"));
+//					u.setPassword(result.getString("password"));
+//					u.setBorrado(result.getBoolean("borrado"));
+//					
+//				}
+//				
+//				PoolConnection.getPoolConnection().realeaseConnection(con);
+//				return u;
+//			}
+//		      catch( SQLException e ) 
+//		      {
+//					System.out.println("Mensaje Error: " + e.getMessage());
+//					e.printStackTrace();
+//					PoolConnection.getPoolConnection().realeaseConnection(con);
+//		      }
+//		      return u;
+//		}
+//		
 		
 		public void update(Usuario usuario) {
 			
@@ -149,7 +149,7 @@ public class AdministradorPersistenciaUsuario {
 					
 			try
 			{
-				String senten = "UPDATE usuario set nombre= ? , apellido = ? , matricula = ?, password = ? where idUsuario = ?" ;
+				String senten = "UPDATE usuario set nombre= ? , apellido = ? , matricula = ?, password = ? , borrado = ? where dni = ?" ;
 				PreparedStatement ps = null;
 				
 				ps = con.prepareStatement(senten);
@@ -157,7 +157,8 @@ public class AdministradorPersistenciaUsuario {
 				ps.setString(2,usuario.getApellido());
 				ps.setInt(3,usuario.getMatricula());
 				ps.setString(4,usuario.getPassword());
-				ps.setInt(5,usuario.getIdUsuario());
+				ps.setBoolean(5,usuario.isBorrado());
+				ps.setInt(6,usuario.getDni());
 				
 				ps.execute();
 				
@@ -165,7 +166,7 @@ public class AdministradorPersistenciaUsuario {
 			}
 		      catch( SQLException e ) 
 		      {
-					System.out.println("Mensaje Error: " + e.getMessage());
+					System.out.println("Mensaje Error -Update Usuario- : " + e.getMessage());
 					e.printStackTrace();
 					PoolConnection.getPoolConnection().realeaseConnection(con);
 		      }
@@ -173,17 +174,16 @@ public class AdministradorPersistenciaUsuario {
 		
 		
 		public void updateContraseña (Usuario usuario) {
-			
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 					
 			try
 			{
-				String senten = "UPDATE usuario set password = ? where idUsuario = ?" ;
+				String senten = "UPDATE usuario set password = ? where dni = ?" ;
 				PreparedStatement ps = null;
 				
 				ps = con.prepareStatement(senten);
 				ps.setString(1,usuario.getPassword());
-				ps.setInt(2,usuario.getIdUsuario());
+				ps.setInt(2,usuario.getDni());
 				
 				ps.execute();
 				
@@ -204,12 +204,12 @@ public void updateBorrar (Usuario usuario) {
 					
 			try
 			{
-				String senten = "UPDATE usuario set borrado = ? where idUsuario = ?" ;
+				String senten = "UPDATE usuario set borrado = ? where dni = ?" ;
 				PreparedStatement ps = null;
 				
 				ps = con.prepareStatement(senten);
 				ps.setBoolean(1,usuario.isBorrado());
-				ps.setInt(2,usuario.getIdUsuario());
+				ps.setInt(2,usuario.getDni());
 				
 				ps.execute();
 				
@@ -236,7 +236,7 @@ public void updateBorrar (Usuario usuario) {
 				
 				ps.setString(1,usuario.getNombre());
 				ps.setString(2,usuario.getApellido());
-				ps.setInt(3,usuario.getMatricula());
+				ps.setInt(3, usuario.getMatricula());
 				ps.setInt(4,usuario.getDni());
 				ps.setString(5,usuario.getUserName());
 				ps.setString(6,usuario.getPassword());
@@ -295,7 +295,7 @@ public void updateBorrar (Usuario usuario) {
 				while (result.next())
 				{
 					u = new Usuario();
-					u.setIdUsuario(result.getInt("idUsuario"));
+					//u.setIdUsuario(result.getInt("idUsuario"));
 					u.setNombre(result.getString("nombre"));
 					u.setApellido(result.getString("apellido"));
 					u.setMatricula(result.getInt("matricula"));
@@ -303,7 +303,7 @@ public void updateBorrar (Usuario usuario) {
 					u.setUserName(result.getString("username"));
 					u.setPassword(result.getString("password"));
 					u.setBorrado(result.getBoolean("borrado"));
-					
+					u.setPermisos(u.getPermisos());
 					vecUser.add(u);
 					
 				}
@@ -319,6 +319,94 @@ public void updateBorrar (Usuario usuario) {
 		      }
 		      return vecUser;
 
+			
+		}
+
+		public void insertPermisos(Permiso p, int dni) {
+		Connection con = PoolConnection.getPoolConnection().getConnection();
+			
+			try
+			{
+				String senten = "INSERT INTO usuario_permiso VALUES (?,?)" ;
+				PreparedStatement ps = null;
+				ps = con.prepareStatement(senten);
+				
+				ps.setInt(1,dni);
+				ps.setInt(2,p.getIdPermiso());
+				
+				ps.execute();
+				
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+			}
+		      catch( SQLException e ) 
+		      {
+					System.out.println("Mensaje Error -Insert Usuario-: " + e.getMessage());
+					e.printStackTrace();
+					PoolConnection.getPoolConnection().realeaseConnection(con);
+		      }
+			
+		}
+
+		public Vector<Permiso> getPermisos(int dni) {
+			
+			Vector<Permiso> vp =new Vector<Permiso>();
+			Permiso p = null;
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+					
+			try
+			{
+				
+				String senten = "SELECT up.idPermiso as id, p.codigo as code, p.descripcion as descripcion, p.borrado as borrado" +
+						" FROM usuario_permiso as up, permiso as p where dniUsuario = ? and p.idPermiso = up.idPermiso" ;
+				PreparedStatement ps = null;
+				ps = con.prepareStatement(senten);
+				ps.setInt(1,dni);
+				ResultSet result = ps.executeQuery();
+				while (result.next())
+				{
+				
+					p = new Permiso();
+					p.setIdPermiso(result.getInt("id"));
+					p.setCode(result.getString("code"));
+					p.setDescripcion(result.getString("descripcion"));
+					p.setBorrado(result.getBoolean("borrado"));
+					vp.add(p);
+				}
+				
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+				return vp;
+			}
+		      catch( SQLException e ) 
+		      {
+					System.out.println("Mensaje Error: " + e.getMessage());
+					e.printStackTrace();
+					PoolConnection.getPoolConnection().realeaseConnection(con);
+		      }
+		      return vp;
+		}
+
+		public void borrarPermisos(int dni) {
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+					
+			try
+			{
+				
+				String senten = "delete from usuario_permiso where dniUsuario = ?" ;
+				PreparedStatement ps = null;
+				ps = con.prepareStatement(senten);
+				ps.setInt(1,dni);
+				ps.execute();
+							
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+				return;
+			}
+		      catch( SQLException e ) 
+		      {
+					System.out.println("Mensaje Error: " + e.getMessage());
+					e.printStackTrace();
+					PoolConnection.getPoolConnection().realeaseConnection(con);
+		      }
+		      return ;
 			
 		}
 		

@@ -1,27 +1,20 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.Panel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
-import javax.swing.JScrollBar;
 
 import DTO.PermisoDTO;
 
@@ -36,6 +29,10 @@ import java.awt.Font;
 
 public class AltaUsuario extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField dniTextField;
 	private JTextField nombreTextField;
 	private JTextField apellidoTextField;
@@ -143,19 +140,57 @@ public class AltaUsuario extends JDialog {
 			guardarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/guardar.png")));
 			guardarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Vector<Integer> vec = new Vector<Integer>();
-
+					Vector<Integer> vecPermisos = new Vector<Integer>();
+					
 					ListModel a = asignadoList.getModel(); 
 				      for (int i = 0; i < a.getSize(); i++){
-				    	  System.out.println("Descripcion---->"+a.getElementAt(i));
+				    	  //System.out.println("Descripcion---->"+a.getElementAt(i));
 				    	  int id = Sistema.getInstancia().getIdPermiso(a.getElementAt(i).toString());
-				    	  System.out.println("idPermiso--->"+id);
-				    	  vec.add(id);
+				    	  //System.out.println("idPermiso--->"+id);
+				    	  vecPermisos.add(id);
 				      }
-				 
-				      dispose();
-				      BuscardorUsuario bu = new BuscardorUsuario();
-				      bu.setVisible(true);
+					
+					if (dniTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "El DNI es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						dniTextField.requestFocus();
+					}else if (nombreTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "El NOMBRE es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						nombreTextField.requestFocus();
+						
+					}else if(apellidoTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "El APELLIDO es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						apellidoTextField.requestFocus();
+					}else if(usuarioTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "El USUARIO es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						usuarioTextField.requestFocus();
+					}else if(pswTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "La CONTRASEÑA es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						pswTextField.requestFocus();
+					}else if (chckbxEsMdico.isSelected() && matriculaTextField.getText().equalsIgnoreCase("")){
+							JOptionPane.showMessageDialog(null, "La MATRICULA es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+							matriculaTextField.requestFocus();
+					}else if (vecPermisos.size()==0){
+						JOptionPane.showMessageDialog(null, "Debe Asginar al menos un permiso", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+					}else{
+						int matricula;
+						if (!chckbxEsMdico.isSelected()){
+							matricula = 0;
+						}else
+							matricula = Integer.parseInt(matriculaTextField.getText());
+					boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), vecPermisos);
+						if (alta){
+							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue creado.");
+							dispose();
+						}else{
+							JOptionPane.showMessageDialog(null, "No se pudo dar de Alta el Usuario", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					
+					 
+					
+//				      dispose();
+//				      BuscardorUsuario bu = new BuscardorUsuario();
+//				      bu.setVisible(true);
 				      
 				      
 				}
@@ -291,7 +326,7 @@ public class AltaUsuario extends JDialog {
 		llenarDisponibleList ();
 		
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
 	

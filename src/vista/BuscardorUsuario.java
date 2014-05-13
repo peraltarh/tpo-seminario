@@ -1,7 +1,9 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -28,6 +30,10 @@ import controlador.Sistema;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
+
+import com.lowagie.text.List;
+
+import java.awt.Font;
 
 public class BuscardorUsuario extends JDialog {
 
@@ -81,6 +87,7 @@ public class BuscardorUsuario extends JDialog {
 		contentPane.setLayout(null);
 		
 		JLabel lblBuscar = new JLabel("Buscar");
+		lblBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblBuscar.setBounds(10, 19, 46, 14);
 		contentPane.add(lblBuscar);
 		
@@ -102,7 +109,7 @@ public class BuscardorUsuario extends JDialog {
 			}
 		};
 		
-		model.addColumn("id");
+		//model.addColumn("id");
 		model.addColumn("Nombre");
 		model.addColumn("Apellido");
 		model.addColumn("DNI");
@@ -209,7 +216,13 @@ public class BuscardorUsuario extends JDialog {
 				if (registro == -1){
 					JOptionPane.showMessageDialog(null, "Debe Selccionar un usuario para Modificar", "Modificar Usuario", JOptionPane.ERROR_MESSAGE);
 				}else{
-						//TODO
+					int dniUsuario = (Integer) table.getValueAt(registro, 2);
+					
+				//	System.out.println("----->"+dniUsuario);
+						UsuarioDTO user = Sistema.getInstancia().getUsuario(dniUsuario);
+						ModificarUsuario mu = new ModificarUsuario(user);
+						mu.setVisible(true);
+						dispose();
 						
 				}
 				
@@ -225,15 +238,26 @@ public class BuscardorUsuario extends JDialog {
 	
 	private void filtrar() {
 		
+		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
+		
 		RowFilter<TableModel, Object> rf = null;
 		int indiceColumnaTabla = 2;
 		switch (comboBox.getSelectedIndex()) {
-		case 0: indiceColumnaTabla = 3;break;//DNI
-		case 1: indiceColumnaTabla = 4;break;//Usuario
-		case 2: indiceColumnaTabla = 2;break;//Apellido
+		case 0: indiceColumnaTabla = 2;break;//DNI
+		case 1: indiceColumnaTabla = 3;break;//Usuario
+		case 2: indiceColumnaTabla = 1;break;//Apellido
 		}
 		try {
-		rf = RowFilter.regexFilter(buscarTextField.getText(), indiceColumnaTabla);
+			String text = buscarTextField.getText();
+		    String[] textArray = text.split(" ");
+
+		    for (int i = 0; i < textArray.length; i++) {
+		        rfs.add(RowFilter.regexFilter("(?i)" + textArray[i], 0, 1, 2, 4));
+		    }	
+			
+		    rf = RowFilter.andFilter(rfs);	
+		//rf = RowFilter.regexFilter(Pattern.compile(buscarTextField.getText(), Pattern.CASE_INSENSITIVE).toString(),indiceColumnaTabla );
+		
 		} catch (java.util.regex.PatternSyntaxException e) {
 		}
 		sorter.setRowFilter(rf);
@@ -244,15 +268,15 @@ public class BuscardorUsuario extends JDialog {
 
 		model.setNumRows(usuarios.size());
 		for (int i = 0; i < usuarios.size(); i++) {
-			model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
-			model.setValueAt(usuarios.elementAt(i).getNombre(), i, 1);
-			model.setValueAt(usuarios.elementAt(i).getApellido(), i, 2);
-			model.setValueAt(usuarios.elementAt(i).getDni(), i, 3);
-			model.setValueAt(usuarios.elementAt(i).getUserName(), i, 4);
+			//model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
+			model.setValueAt(usuarios.elementAt(i).getNombre(), i, 0);
+			model.setValueAt(usuarios.elementAt(i).getApellido(), i, 1);
+			model.setValueAt(usuarios.elementAt(i).getDni(), i, 2);
+			model.setValueAt(usuarios.elementAt(i).getUserName(), i, 3);
 			if (usuarios.elementAt(i).isBorrado() == true){
-				model.setValueAt("SI", i, 5);	
+				model.setValueAt("SI", i, 4);	
 			}else
-				model.setValueAt("NO", i, 5);
+				model.setValueAt("NO", i, 4);
 				
 		}
 		

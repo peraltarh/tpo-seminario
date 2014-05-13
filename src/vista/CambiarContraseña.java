@@ -22,6 +22,7 @@ import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class CambiarContraseña extends JDialog {
 
@@ -55,6 +56,7 @@ public class CambiarContraseña extends JDialog {
 	
 		
 	public CambiarContraseña() {
+		setTitle("Cambiar Contrase\u00F1a");
 		usuario = Sistema.getInstancia().getUsuario(1);//TEST
 		initGUI();
 	}
@@ -67,6 +69,7 @@ public class CambiarContraseña extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JLabel lblContraseaActual = new JLabel("Contrase\u00F1a Actual");
+			lblContraseaActual.setFont(new Font("Tahoma", Font.BOLD, 11));
 			lblContraseaActual.setBounds(10, 24, 120, 14);
 			contentPanel.add(lblContraseaActual);
 		}
@@ -77,6 +80,7 @@ public class CambiarContraseña extends JDialog {
 		contraseñaActualtextField.setColumns(10);
 		
 		JLabel lblNuevaContrasea = new JLabel("Nueva Contrase\u00F1a");
+		lblNuevaContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNuevaContrasea.setBounds(10, 66, 110, 14);
 		contentPanel.add(lblNuevaContrasea);
 		{
@@ -87,7 +91,8 @@ public class CambiarContraseña extends JDialog {
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Confirmar Contrase\u00F1a");
-			lblNewLabel.setBounds(10, 101, 147, 14);
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel.setBounds(10, 101, 156, 14);
 			contentPanel.add(lblNewLabel);
 		}
 		{
@@ -107,7 +112,7 @@ public class CambiarContraseña extends JDialog {
 							JOptionPane.showMessageDialog(null, "La contraseña no puede ser vacía", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);								
 							}else{
 								if(contraseñaNuevatextField.getText().equals(contraseñaConfirmartextField.getText())){
-									boolean cambiar = Sistema.getInstancia().cambiarContraseña(usuario.getIdUsuario(), contraseñaNuevatextField.getText());
+									boolean cambiar = Sistema.getInstancia().cambiarContraseña(usuario.getDni(), contraseñaNuevatextField.getText());
 									if(cambiar){
 										JOptionPane.showMessageDialog(null, "Se cambio correctamente la contraseña", "Cambiar Contraseña", JOptionPane.INFORMATION_MESSAGE);
 										dispose();
@@ -162,7 +167,7 @@ public class CambiarContraseña extends JDialog {
 			contentPanel.add(separator_1);
 		}
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
 	
