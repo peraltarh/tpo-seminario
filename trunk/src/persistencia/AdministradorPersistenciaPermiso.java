@@ -106,5 +106,45 @@ public class AdministradorPersistenciaPermiso {
 	}
 	
 	
+	
+	public Permiso buscarPermiso (int id){
+		Permiso p = null;
+		Connection con = PoolConnection.getPoolConnection().getConnection();
+		
+		if(con==null){
+			return p;
+		}
+	
+		
+		try
+		{
+			String senten = "SELECT * from permiso where idPermiso = ?" ;
+			PreparedStatement ps = null;
+			ps = con.prepareStatement(senten);
+			ps.setInt(1,id);
+			ResultSet result = ps.executeQuery();
+			while (result.next())
+			{
+				p = new Permiso();
+				p.setIdPermiso(result.getInt("idPermiso"));
+				p.setDescripcion(result.getString("descipcion"));
+				p.setCode(result.getString("codigo"));
+				p.setBorrado(result.getBoolean("borrado"));
+				
+			}
+			
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+			return p;
+		}
+	      catch( SQLException e ) 
+	      {
+				System.out.println("Mensaje Error (buscarIdPermiso): " + e.getMessage());
+				e.printStackTrace();
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+	      }
+	      return p;
+	}
+	
+	
 		
 }

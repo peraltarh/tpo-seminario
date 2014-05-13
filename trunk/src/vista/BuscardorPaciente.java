@@ -1,7 +1,9 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -193,7 +195,7 @@ public class BuscardorPaciente extends JDialog {
 	}
 	
 	private void filtrar() {
-		
+		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
 		RowFilter<TableModel, Object> rf = null;
 		int indiceColumnaTabla = 2;
 		switch (comboBox.getSelectedIndex()) {
@@ -202,7 +204,15 @@ public class BuscardorPaciente extends JDialog {
 		case 2: indiceColumnaTabla = 2;break;//Nro Afiliado
 		}
 		try {
-		rf = RowFilter.regexFilter(buscarTextField.getText(), indiceColumnaTabla);
+			String text = buscarTextField.getText();
+		    String[] textArray = text.split(" ");
+
+		    for (int i = 0; i < textArray.length; i++) {
+		        rfs.add(RowFilter.regexFilter("(?i)" + textArray[i], 0, 1, 2, 4));
+		    }	
+			
+		    rf = RowFilter.andFilter(rfs);	
+		//	rf = RowFilter.regexFilter( Pattern.compile(buscarTextField.getText(), Pattern.CASE_INSENSITIVE).toString(),indiceColumnaTabla );
 		} catch (java.util.regex.PatternSyntaxException e) {
 		}
 		sorter.setRowFilter(rf);

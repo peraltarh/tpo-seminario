@@ -205,7 +205,7 @@ public class AltaPaciente extends JDialog {
 		contentPanel.add(lblDatosObligatorios);
 		
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 		
 }

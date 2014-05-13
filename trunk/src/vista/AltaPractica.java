@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
@@ -31,20 +33,36 @@ import javax.swing.JComboBox;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import controlador.Sistema;
+
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalExclusionType;
 
 public class AltaPractica extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel DiagnosticoPanel;
 	private JTextPane diagnositicoTextPane;
 	private JScrollPane scrollTratamientoTextPane;
-	private JButton cancelarButon;
-	private JSeparator separator;
+	private JButton cancelarButton;
 	private JXDatePicker fechaPractica;
 	private JComboBox ojoComboBox;
 	private JComboBox practicaComboBox;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNombre;
+	private JTextField nombreTextField;
+	private JTextField apellidoTextField;
+	private JTextField obraSocialTextField;
+	private JTextField numeroAfiliadoTextField;
+	private JTextField edadTextField;
 	
 
 	/**
@@ -64,22 +82,75 @@ public class AltaPractica extends JDialog {
 	 * Create the dialog.
 	 */
 	public AltaPractica() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaPractica.class.getResource("/image/practica.png")));
+		setTitle("Pr\u00E1ctica Ambulatoria");
 		initGUI();
 	}
 	
 	private void initGUI(){
-		setBounds(100, 100, 470, 664);
+		setBounds(100, 100, 470, 565);
 		getContentPane().setLayout(null);
 		
 		JPanel datosPacientePanel = new JPanel();
 		datosPacientePanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Datos Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		datosPacientePanel.setBounds(10, 11, 441, 136);
+		datosPacientePanel.setBounds(10, 11, 441, 116);
 		getContentPane().add(datosPacientePanel);
 		datosPacientePanel.setLayout(null);
 		
+		lblNombre = new JLabel("Nombre");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNombre.setBounds(10, 22, 46, 14);
+		datosPacientePanel.add(lblNombre);
+		
+		nombreTextField = new JTextField();
+		nombreTextField.setBounds(68, 19, 137, 20);
+		datosPacientePanel.add(nombreTextField);
+		nombreTextField.setColumns(10);
+		
+		JLabel lblApellido = new JLabel("Apellido");
+		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblApellido.setBounds(226, 22, 46, 14);
+		datosPacientePanel.add(lblApellido);
+		
+		apellidoTextField = new JTextField();
+		apellidoTextField.setBounds(282, 19, 137, 20);
+		datosPacientePanel.add(apellidoTextField);
+		apellidoTextField.setColumns(10);
+		
+		JLabel lblObraSocial = new JLabel("<html>Obra<br>Social</html>");
+		lblObraSocial.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblObraSocial.setBounds(10, 71, 33, 28);
+		datosPacientePanel.add(lblObraSocial);
+		
+		obraSocialTextField = new JTextField();
+		obraSocialTextField.setBounds(68, 79, 137, 20);
+		datosPacientePanel.add(obraSocialTextField);
+		obraSocialTextField.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html>N\u00FAmero<br>Afiliado</html>");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setBounds(226, 75, 59, 24);
+		datosPacientePanel.add(lblNewLabel_2);
+		
+		numeroAfiliadoTextField = new JTextField();
+		numeroAfiliadoTextField.setBounds(282, 79, 137, 20);
+		datosPacientePanel.add(numeroAfiliadoTextField);
+		numeroAfiliadoTextField.setColumns(10);
+		
+		JLabel lblEdad = new JLabel("Edad");
+		lblEdad.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEdad.setBounds(10, 47, 46, 14);
+		datosPacientePanel.add(lblEdad);
+		
+		edadTextField = new JTextField();
+		edadTextField.setBounds(68, 48, 137, 20);
+		datosPacientePanel.add(edadTextField);
+		edadTextField.setColumns(10);
+		
 		JPanel practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pr\u00E1ctica", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		practicaPanel.setBounds(10, 158, 441, 100);
+		practicaPanel.setBounds(10, 127, 441, 100);
 		getContentPane().add(practicaPanel);
 		practicaPanel.setLayout(null);
 		
@@ -91,6 +162,7 @@ public class AltaPractica extends JDialog {
 		practicaPanel.add(practicaComboBox);
 		
 		JLabel lblTipo = new JLabel("Tipo");
+		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTipo.setBounds(10, 29, 46, 14);
 		practicaPanel.add(lblTipo);
 		
@@ -103,10 +175,12 @@ public class AltaPractica extends JDialog {
 				
 		
 		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblFecha.setBounds(10, 62, 46, 14);
 		practicaPanel.add(lblFecha);
 		
 		JLabel lblOjo = new JLabel("OJO");
+		lblOjo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblOjo.setBounds(220, 62, 46, 14);
 		practicaPanel.add(lblOjo);
 		
@@ -120,7 +194,7 @@ public class AltaPractica extends JDialog {
 		
 		DiagnosticoPanel = new JPanel();
 		DiagnosticoPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Diagnostico", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		DiagnosticoPanel.setBounds(10, 269, 441, 225);
+		DiagnosticoPanel.setBounds(10, 234, 441, 208);
 		getContentPane().add(DiagnosticoPanel);
 		DiagnosticoPanel.setLayout(null);
 		
@@ -132,23 +206,39 @@ public class AltaPractica extends JDialog {
 		DiagnosticoPanel.add(scrollTratamientoTextPane);
 		
 		JButton guardarButton = new JButton("Guardar");
+		guardarButton.setSelectedIcon(new ImageIcon(AltaPractica.class.getResource("/image/practica.png")));
+		guardarButton.setMnemonic(KeyEvent.VK_G);
 		guardarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/guardar.png")));
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//TODO
 			}
 		});
-		guardarButton.setBounds(210, 505, 116, 32);
+		guardarButton.setBounds(211, 453, 116, 32);
 		getContentPane().add(guardarButton);
 		
-		cancelarButon = new JButton("Cancelar");
-		cancelarButon.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/cancel.png")));
-		cancelarButon.addActionListener(new ActionListener() {
+		cancelarButton = new JButton("Cancelar");
+		cancelarButton.setMnemonic(KeyEvent.VK_C);
+		cancelarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/cancel.png")));
+		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				VerHCE vhce = new VerHCE();
+				vhce.setVisible(true);
 			}
 		});
-		cancelarButon.setBounds(335, 505, 116, 32);
-		getContentPane().add(cancelarButon);
+		cancelarButton.setBounds(335, 453, 116, 32);
+		getContentPane().add(cancelarButton);
+		
+		lblNewLabel = new JLabel("Secreto m\u00E9dico dentro de los alcances del Art. 156 del CODIGO PENAL.");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblNewLabel.setBounds(10, 510, 441, 19);
+		getContentPane().add(lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("INFORME CONFIDENCIAL");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblNewLabel_1.setBounds(10, 496, 148, 14);
+		getContentPane().add(lblNewLabel_1);
 		
 		this.setLocationRelativeTo(null);
 		setAlwaysOnTop(true);

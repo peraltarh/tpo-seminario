@@ -1,12 +1,12 @@
 package DTO;
 
-import java.sql.*;
+import java.util.Vector;
 
-import persistencia.AdministradorPersistenciaUsuario;
+import modelo.Permiso;
+
 
 public class UsuarioDTO {
 	
-	private int idUsuario;
 	private String nombre;
 	private String apellido;
 	private int matricula;
@@ -14,16 +14,16 @@ public class UsuarioDTO {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	
+	private Vector<Permiso> permisos;
 	
 	public UsuarioDTO(){
 		
 	}
 	
-	public UsuarioDTO(int idUsuario,String nombre, String apellido, int matricula,
-				int dni,String userName, String password,boolean borrado) {
+	public UsuarioDTO(String nombre, String apellido, int matricula,
+				int dni,String userName, String password,boolean borrado,Vector<Permiso> permisos) {
 		super(); 
-		this.idUsuario = idUsuario;
+		
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.matricula = matricula;
@@ -31,19 +31,10 @@ public class UsuarioDTO {
 		this.userName = userName;
 		this.password = password;
 		this.borrado = borrado;
-		
+		this.permisos= permisos;
 		
 	}
 	
-
-	public int getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
 
 	public String getNombre() {
 		return nombre;
@@ -89,6 +80,19 @@ public class UsuarioDTO {
 	}
 	public void setBorrado(boolean borrado) {
 		this.borrado = borrado;
+	}
+
+	public Vector<PermisoDTO> getPermisos() {
+		Vector<PermisoDTO> vpDTO = new Vector<PermisoDTO>();
+		for (int i = 0; i < permisos.size(); i++) {
+				PermisoDTO permisoDTO = permisos.elementAt(i).getView();
+				vpDTO.add(permisoDTO);
+		}
+		return vpDTO;
+	}
+
+	public void setPermisos(Vector<Permiso> permisos) {
+		this.permisos = permisos;
 	}
 
 	

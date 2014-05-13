@@ -150,13 +150,15 @@ public class AltaConsulta extends JDialog {
 		cancelarButon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				VerHCE vhce = new VerHCE();
+				vhce.setVisible(true);
 			}
 		});
 		cancelarButon.setBounds(543, 594, 116, 32);
 		getContentPane().add(cancelarButon);
 		
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
 }
