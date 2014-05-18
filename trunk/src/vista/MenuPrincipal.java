@@ -21,7 +21,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JMenuItem cambiarContraseña;
+	private JMenuItem cambiarContrasena;
 	private JMenu jmenuMicuenta;
 	private JMenuItem deleteMenuItem;
 	private JSeparator jSeparator1;
@@ -130,14 +130,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		jmenuMicuenta.setText("Mi Cuenta");
 		jmenuMicuenta.setMnemonic(KeyEvent.VK_M);
 		{
-			cambiarContraseña = new JMenuItem();
-			jmenuMicuenta.add(cambiarContraseña);
-			cambiarContraseña.setText("Cambiar Contraseña");
-			cambiarContraseña.setMnemonic(KeyEvent.VK_C);
-			cambiarContraseña.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/key.png")));
-			cambiarContraseña.addActionListener(new ActionListener() {
+			cambiarContrasena = new JMenuItem();
+			jmenuMicuenta.add(cambiarContrasena);
+			cambiarContrasena.setText("Cambiar Contrasena");
+			cambiarContrasena.setMnemonic(KeyEvent.VK_C);
+			cambiarContrasena.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/key.png")));
+			cambiarContrasena.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					CambiarContraseña cc = new CambiarContraseña(usuarioActual);
+					CambiarContrasena cc = new CambiarContrasena(usuarioActual);
 					cc.setVisible(true);
 				}
 			});
@@ -169,7 +169,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			jMenuFacturacion.setMnemonic(KeyEvent.VK_F);
 			{
 				reportePlanillaFacturacion = new JMenuItem();
-				reportePlanillaFacturacion.setText("Exportar Planilla Facturación");
+				reportePlanillaFacturacion.setText("Exportar Planilla Facturacinn");
 				reportePlanillaFacturacion.setMnemonic(KeyEvent.VK_E);
 				reportePlanillaFacturacion.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/report.png")));	
 				reportePlanillaFacturacion.addActionListener(new ActionListener() {
@@ -229,7 +229,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		{
 			jMenu3 = new JMenu();
 			jMenuBar1.add(jMenu3);
-			jMenu3.setText("Administración");
+			jMenu3.setText("Administracinn");
 			jMenu3.setMnemonic(KeyEvent.VK_A);
 			{
 				usuarioMenuItem = new JMenuItem();

@@ -13,13 +13,13 @@ public class Paciente {
         Date d = new Date();
         SimpleDateFormat sdfDia = new SimpleDateFormat("dd");
         SimpleDateFormat sdfMes = new SimpleDateFormat("MM");
-        SimpleDateFormat sdfAño = new SimpleDateFormat("yyyy");
-        int año = Integer.parseInt(sdfAño.format(d)) - Integer.parseInt(sdfAño.format(fechaNacimiento));
+        SimpleDateFormat sdfAnio = new SimpleDateFormat("yyyy");
+        int anio = Integer.parseInt(sdfAnio.format(d)) - Integer.parseInt(sdfAnio.format(fechaNacimiento));
         int mes = Integer.parseInt(sdfMes.format(d)) - Integer.parseInt(sdfMes.format(fechaNacimiento));
         int dia = Integer.parseInt(sdfDia.format(d)) - Integer.parseInt(sdfDia.format(fechaNacimiento));
 
         if (mes < 0) {
-            año = año - 1;
+            anio = anio - 1;
             mes = 12 + mes;
         }
 
@@ -28,7 +28,7 @@ public class Paciente {
 
             switch (Integer.parseInt(sdfMes.format(d))) {
                 case 2:
-                    int ano = Integer.parseInt(sdfAño.format(d));
+                    int ano = Integer.parseInt(sdfAnio.format(d));
                     if ((ano % 4 == 0) && ((ano % 100 != 0) || (ano % 400 == 0))) {
                         dia = 29 + dia;
                     } else {
@@ -53,10 +53,10 @@ public class Paciente {
             }
         }
         if (mes < 0) {
-            año = año - 1;
+            anio = anio - 1;
             mes = 12 + mes;
         }
-        String edad = año + " años con " + mes + " meses y " + dia + " días";
+        String edad = anio + " aÃ±os con " + mes + " meses y " + dia + " dias";
         return edad;
     }
      
