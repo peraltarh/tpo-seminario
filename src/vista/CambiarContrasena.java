@@ -24,12 +24,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
-public class CambiarContraseña extends JDialog {
+public class CambiarContrasena extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField contraseñaActualtextField;
-	private JTextField contraseñaNuevatextField;
-	private JTextField contraseñaConfirmartextField;
+	private JTextField contrasenaActualtextField;
+	private JTextField contrasenaNuevatextField;
+	private JTextField contrasenaConfirmartextField;
 	private UsuarioDTO usuario;
 
 	/**
@@ -37,7 +37,7 @@ public class CambiarContraseña extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			CambiarContraseña dialog = new CambiarContraseña();
+			CambiarContrasena dialog = new CambiarContrasena();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -49,13 +49,13 @@ public class CambiarContraseña extends JDialog {
 	 * Create the dialog.
 	 */
 	
-	public CambiarContraseña(UsuarioDTO usuario) {
+	public CambiarContrasena(UsuarioDTO usuario) {
 		this.usuario = usuario;
 		initGUI();
 	}
 	
 		
-	public CambiarContraseña() {
+	public CambiarContrasena() {
 		setTitle("Cambiar Contrase\u00F1a");
 		usuario = Sistema.getInstancia().getUsuario(1);//TEST
 		initGUI();
@@ -74,20 +74,20 @@ public class CambiarContraseña extends JDialog {
 			contentPanel.add(lblContraseaActual);
 		}
 		
-		contraseñaActualtextField = new JTextField();
-		contraseñaActualtextField.setBounds(140, 21, 175, 20);
-		contentPanel.add(contraseñaActualtextField);
-		contraseñaActualtextField.setColumns(10);
+		contrasenaActualtextField = new JTextField();
+		contrasenaActualtextField.setBounds(140, 21, 175, 20);
+		contentPanel.add(contrasenaActualtextField);
+		contrasenaActualtextField.setColumns(10);
 		
 		JLabel lblNuevaContrasea = new JLabel("Nueva Contrase\u00F1a");
 		lblNuevaContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNuevaContrasea.setBounds(10, 66, 110, 14);
 		contentPanel.add(lblNuevaContrasea);
 		{
-			contraseñaNuevatextField = new JTextField();
-			contraseñaNuevatextField.setBounds(140, 64, 175, 20);
-			contentPanel.add(contraseñaNuevatextField);
-			contraseñaNuevatextField.setColumns(10);
+			contrasenaNuevatextField = new JTextField();
+			contrasenaNuevatextField.setBounds(140, 64, 175, 20);
+			contentPanel.add(contrasenaNuevatextField);
+			contrasenaNuevatextField.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Confirmar Contrase\u00F1a");
@@ -96,41 +96,41 @@ public class CambiarContraseña extends JDialog {
 			contentPanel.add(lblNewLabel);
 		}
 		{
-			contraseñaConfirmartextField = new JTextField();
-			contraseñaConfirmartextField.setBounds(140, 98, 174, 20);
-			contentPanel.add(contraseñaConfirmartextField);
-			contraseñaConfirmartextField.setColumns(10);
+			contrasenaConfirmartextField = new JTextField();
+			contrasenaConfirmartextField.setBounds(140, 98, 174, 20);
+			contentPanel.add(contrasenaConfirmartextField);
+			contrasenaConfirmartextField.setColumns(10);
 		}
 		{
 			JButton aceptarButton = new JButton("Aceptar");
 			aceptarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//boolean validar = Sistema.getInstancia().validarContraseñaActual(idUsuario, contraseñaActualtextField.getText());
-					if(usuario.getPassword().equalsIgnoreCase(contraseñaActualtextField.getText())){
+					//boolean validar = Sistema.getInstancia().validarContrasenaActual(idUsuario, contrasenaActualtextField.getText());
+					if(usuario.getPassword().equalsIgnoreCase(contrasenaActualtextField.getText())){
 						
-						if (contraseñaNuevatextField.getText().length() == 0){
-							JOptionPane.showMessageDialog(null, "La contraseña no puede ser vacía", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);								
+						if (contrasenaNuevatextField.getText().length() == 0){
+							JOptionPane.showMessageDialog(null, "La contrasena no puede ser vacna", "Cambiar Contrasena", JOptionPane.ERROR_MESSAGE);								
 							}else{
-								if(contraseñaNuevatextField.getText().equals(contraseñaConfirmartextField.getText())){
-									boolean cambiar = Sistema.getInstancia().cambiarContraseña(usuario.getDni(), contraseñaNuevatextField.getText());
+								if(contrasenaNuevatextField.getText().equals(contrasenaConfirmartextField.getText())){
+									boolean cambiar = Sistema.getInstancia().cambiarContrasena(usuario.getDni(), contrasenaNuevatextField.getText());
 									if(cambiar){
-										JOptionPane.showMessageDialog(null, "Se cambio correctamente la contraseña", "Cambiar Contraseña", JOptionPane.INFORMATION_MESSAGE);
+										JOptionPane.showMessageDialog(null, "Se cambio correctamente la contrasena", "Cambiar Contrasena", JOptionPane.INFORMATION_MESSAGE);
 										dispose();
 									}else
-										JOptionPane.showMessageDialog(null, "No se pudo cambiar la contraseña", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, "No se pudo cambiar la contrasena", "Cambiar Contrasena", JOptionPane.ERROR_MESSAGE);
 									
 							}else{
-								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
-								contraseñaNuevatextField.requestFocus();
-								contraseñaNuevatextField.setBorder(new LineBorder(Color.RED, 2));
-								contraseñaConfirmartextField.setBorder(new LineBorder(Color.RED, 2));
+								JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden", "Cambiar Contrasena", JOptionPane.ERROR_MESSAGE);
+								contrasenaNuevatextField.requestFocus();
+								contrasenaNuevatextField.setBorder(new LineBorder(Color.RED, 2));
+								contrasenaConfirmartextField.setBorder(new LineBorder(Color.RED, 2));
 							}
 								
 							}
 					}else{
-						JOptionPane.showMessageDialog(null, "La Contraseña Actual no es correcta", "Cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
-						contraseñaActualtextField.requestFocus();
-						contraseñaActualtextField.setBorder(new LineBorder(Color.RED, 2));
+						JOptionPane.showMessageDialog(null, "La Contrasena Actual no es correcta", "Cambiar Contrasena", JOptionPane.ERROR_MESSAGE);
+						contrasenaActualtextField.requestFocus();
+						contrasenaActualtextField.setBorder(new LineBorder(Color.RED, 2));
 					}
 						
 				}

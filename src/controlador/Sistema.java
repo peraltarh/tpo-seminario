@@ -74,7 +74,7 @@ public Date fechaActualMasUnDia(){
 				
 	}
 	
-	public boolean validarContraseñaActual(int dni , String psw){
+	public boolean validarContrasenaActual(int dni , String psw){
 		Usuario u = new Usuario().buscarUsuario(dni);
 		
 		if (u!=null){
@@ -103,11 +103,11 @@ public Date fechaActualMasUnDia(){
 	}
 	
 	
-	public boolean cambiarContraseña(int dni, String psw){
+	public boolean cambiarContrasena(int dni, String psw){
 			Usuario u = buscarUsuario(dni);
 			if (u!=null){
 				u.setPassword(psw);
-				u.updateContraseña();
+				u.updateContrasena();
 				return true;
 			}else
 				return false;

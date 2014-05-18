@@ -124,8 +124,8 @@ public class Usuario {
 //		return AdministradorPersistenciaUsuario.getInstancia().buscar(id);
 //	}
 	
-	public void updateContraseña () {
-		AdministradorPersistenciaUsuario.getInstancia().updateContraseña(this);
+	public void updateContrasena () {
+		AdministradorPersistenciaUsuario.getInstancia().updateContrasena(this);
 	}
 
 	public void updateBorrado(int dni) {

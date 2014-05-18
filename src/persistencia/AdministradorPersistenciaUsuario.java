@@ -173,7 +173,7 @@ public class AdministradorPersistenciaUsuario {
 		}
 		
 		
-		public void updateContraseña (Usuario usuario) {
+		public void updateContrasena (Usuario usuario) {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 					
 			try
@@ -191,7 +191,7 @@ public class AdministradorPersistenciaUsuario {
 			}
 		      catch( SQLException e ) 
 		      {
-					System.out.println("Mensaje Error -updateContraseña- : " + e.getMessage());
+					System.out.println("Mensaje Error -updateContrasena- : " + e.getMessage());
 					e.printStackTrace();
 					PoolConnection.getPoolConnection().realeaseConnection(con);
 		      }
