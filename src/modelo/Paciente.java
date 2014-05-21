@@ -5,10 +5,43 @@ import java.util.Date;
 
 public class Paciente {
 
-	public Paciente() {
-		// TODO Auto-generated constructor stub
+	private long dni;
+	private String tipoDoc;
+	private String sexo;
+	private String nombre;
+	private String apellido;
+	private long celular;
+	private long telefono;
+	private Date fechaNaciemiento;
+	private String email;
+	private ObraSocial obraSocial;
+	private float nroAfiliado;
+		
+
+	public Paciente(long dni, String tipoDoc, String sexo, String nombre,
+			String apellido, long celular, long telefono,
+			Date fechaNaciemiento, String email, ObraSocial obraSocial,
+			float nroAfiliado) {
+		super();
+		this.dni = dni;
+		this.tipoDoc = tipoDoc;
+		this.sexo = sexo;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.celular = celular;
+		this.telefono = telefono;
+		this.fechaNaciemiento = fechaNaciemiento;
+		this.email = email;
+		this.obraSocial = obraSocial;
+		this.nroAfiliado = nroAfiliado;
 	}
-	
+
+
+
+
+
+
+
 	public String calcularEdad(Date fechaNacimiento) {
         Date d = new Date();
         SimpleDateFormat sdfDia = new SimpleDateFormat("dd");
@@ -59,6 +92,53 @@ public class Paciente {
         String edad = anio + " años con " + mes + " meses y " + dia + " dias";
         return edad;
     }
-     
+
+
+	public long getDni() {
+		return dni;
+	}
+
+
+	public String getTipoDoc() {
+		return tipoDoc;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public long getCelular() {
+		return celular;
+	}
+
+	public long getTelefono() {
+		return telefono;
+	}
+
+	public Date getFechaNaciemiento() {
+		return fechaNaciemiento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public ObraSocial getObraSocial() {
+		return obraSocial;
+	}
+
+	public float getNroAfiliado() {
+		return nroAfiliado;
+	}
+
+	
 	
 }
