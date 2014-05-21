@@ -2,7 +2,7 @@ package vista;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
@@ -46,7 +46,7 @@ public class BuscardorUsuario extends JDialog {
 	private JTable table;
 	private DefaultTableModel model;
 	private JScrollPane scrollPane;
-	private Vector <UsuarioDTO> usuarios;
+	private ArrayList <UsuarioDTO> usuarios;
 	private JComboBox comboBox;
 	
 	
@@ -269,11 +269,11 @@ public class BuscardorUsuario extends JDialog {
 		model.setNumRows(usuarios.size());
 		for (int i = 0; i < usuarios.size(); i++) {
 			//model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
-			model.setValueAt(usuarios.elementAt(i).getNombre(), i, 0);
-			model.setValueAt(usuarios.elementAt(i).getApellido(), i, 1);
-			model.setValueAt(usuarios.elementAt(i).getDni(), i, 2);
-			model.setValueAt(usuarios.elementAt(i).getUserName(), i, 3);
-			if (usuarios.elementAt(i).isBorrado() == true){
+			model.setValueAt(usuarios.get(i).getNombre(), i, 0);
+			model.setValueAt(usuarios.get(i).getApellido(), i, 1);
+			model.setValueAt(usuarios.get(i).getDni(), i, 2);
+			model.setValueAt(usuarios.get(i).getUserName(), i, 3);
+			if (usuarios.get(i).isBorrado() == true){
 				model.setValueAt("SI", i, 4);	
 			}else
 				model.setValueAt("NO", i, 4);

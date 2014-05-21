@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import modelo.Permiso;
@@ -24,9 +25,9 @@ public class AdministradorPersistenciaPermiso {
 		return pool;
 	}
 	
-	public Vector<Permiso> buscarAll() {
+	public ArrayList<Permiso> buscarAll() {
 		Permiso p = null;
-		Vector<Permiso> pv = new Vector<Permiso>();
+		ArrayList<Permiso> pv = new ArrayList<Permiso>();
 		
 		Connection con = PoolConnection.getPoolConnection().getConnection();
 				

@@ -22,6 +22,7 @@ import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -44,7 +45,6 @@ public class AltaUsuario extends JDialog {
 	private JList asignadoList;
 	private JList disponibleList;
 	private JLabel lblMatricula;
-	
 
 	/**
 	 * Launch the application.
@@ -140,7 +140,7 @@ public class AltaUsuario extends JDialog {
 			guardarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/guardar.png")));
 			guardarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Vector<Integer> vecPermisos = new Vector<Integer>();
+					ArrayList<Integer> vecPermisos = new ArrayList<Integer>();
 					
 					ListModel a = asignadoList.getModel(); 
 				      for (int i = 0; i < a.getSize(); i++){
@@ -333,10 +333,10 @@ public class AltaUsuario extends JDialog {
 	
 	public void llenarDisponibleList (){
 		
-		Vector<PermisoDTO> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
+		ArrayList<PermisoDTO> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
 		
 		for (int i = 0; i < vecPermisoDTO.size(); i++) {
-			disponibleModel.addElement(vecPermisoDTO.elementAt(i).getDescripcion());
+			disponibleModel.addElement(vecPermisoDTO.get(i).getDescripcion());
 		}
 		
 	}

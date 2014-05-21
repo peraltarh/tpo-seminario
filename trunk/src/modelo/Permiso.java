@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import DTO.PermisoDTO;
@@ -64,7 +65,7 @@ public class Permiso {
 	}
 
 
-	public Vector<Permiso> buscarAll() {
+	public ArrayList<Permiso> buscarAll() {
 		return AdministradorPersistenciaPermiso.getInstancia().buscarAll();
 	}
 
