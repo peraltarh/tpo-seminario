@@ -1,6 +1,7 @@
 package modelo;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import DTO.UsuarioDTO;
 import persistencia.AdministradorPersistenciaUsuario;
 
@@ -13,10 +14,10 @@ public class Usuario {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	private Vector<Permiso> permisos;
+	private ArrayList<Permiso> permisos;
 	
 	public Usuario(){
-		permisos =  new Vector<Permiso>();
+		permisos =  new ArrayList<Permiso>();
 	}
 	
 	public Usuario(String nombre, String apellido,int matricula,
@@ -29,7 +30,7 @@ public class Usuario {
 		this.password = password;
 		this.matricula = matricula;
 		this.borrado = false;
-		permisos =  new Vector<Permiso>();
+		permisos =  new ArrayList<Permiso>();
 		
 		AdministradorPersistenciaUsuario.getInstancia().insert(this);
 		
@@ -108,7 +109,7 @@ public class Usuario {
 		
 	}
 	
-	public Vector<Usuario> buscarAll (){
+	public ArrayList<Usuario> buscarAll (){
 		return AdministradorPersistenciaUsuario.getInstancia().buscarAll();
 	}
 	
@@ -132,20 +133,20 @@ public class Usuario {
 		AdministradorPersistenciaUsuario.getInstancia().updateBorrar(this);
 	}
 
-	public Vector<Permiso> getPermisos() {
+	public ArrayList<Permiso> getPermisos() {
 		//return permisos;
 		
 		return AdministradorPersistenciaUsuario.getInstancia().getPermisos(dni);
 	}
 
-	public void setPermisos(Vector<Permiso> permisos) {
+	public void setPermisos(ArrayList<Permiso> permisos) {
 		this.permisos = permisos;
 		//savePermisos();
 	}
 	
 	public void savePermisos(){
 		for (int i = 0; i < permisos.size(); i++) {
-			AdministradorPersistenciaUsuario.getInstancia().insertPermisos(permisos.elementAt(i), dni);
+			AdministradorPersistenciaUsuario.getInstancia().insertPermisos(permisos.get(i), dni);
 		}
 		
 	}

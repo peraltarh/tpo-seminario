@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
+
 
 import DTO.PermisoDTO;
 import DTO.UsuarioDTO;
@@ -20,30 +21,41 @@ import persistencia.PoolConnection;
 
 
 
-import modelo.Paciente;
-import modelo.Permiso;
-import modelo.Usuario;
+import modelo.*;
+
 
 public class Sistema{
 	
 	
 	
 	private static Sistema instancia;
-	private Vector<Usuario> usuarios;
-	private Vector<Permiso> permisos;
+	private ArrayList<Usuario> usuarios;
+	private ArrayList<Permiso> permisos;
+	private ArrayList<HistoriaClinica> historiasClinicas;
+	private ArrayList<ObraSocial> obrasSociales;
+	private ArrayList<Prestacion> prestaciones;
+	private ArrayList<Nomenclador> nomencladores;
+	
+	
 	private UsuarioDTO usuarioActual;
 	
+	
+	private Sistema() {
+		usuarios = new ArrayList<Usuario>();
+		permisos = new ArrayList<Permiso>();
+		historiasClinicas = new ArrayList<HistoriaClinica>();
+		obrasSociales = new ArrayList<ObraSocial>();
+		prestaciones = new ArrayList<Prestacion>();
+		nomencladores = new ArrayList<Nomenclador>();
+	}
+	
+
 	public static Sistema getInstancia(){
 		if(instancia == null)
 			instancia = new Sistema();
 		return instancia;
 	}
 	
-	private Sistema() {
-		usuarios = new Vector<Usuario>();
-		permisos = new Vector<Permiso>();
-		
-	}
 	
 	public java.sql.Date fechaActual(){
 		
@@ -59,7 +71,8 @@ public class Sistema{
 				
 	}
 	
-public Date fechaActualMasUnDia(){
+	
+	public Date fechaActualMasUnDia(){
 		
 		Calendar calendar = Calendar.getInstance();
 		
@@ -74,6 +87,7 @@ public Date fechaActualMasUnDia(){
 				
 	}
 	
+	
 	public boolean validarContrasenaActual(int dni , String psw){
 		Usuario u = new Usuario().buscarUsuario(dni);
 		
@@ -86,6 +100,7 @@ public Date fechaActualMasUnDia(){
 			return false;
 	}
 
+	
 	public boolean validarLogin(String userName, String password){
 		
 		Usuario u = new Usuario().buscarUsuario(userName);
@@ -125,7 +140,6 @@ public Date fechaActualMasUnDia(){
 	}
 	
 	
-	
 	public boolean probarConexion(){
 		
 		Connection con = PoolConnection.getPoolConnection().getConnection();
@@ -134,6 +148,7 @@ public Date fechaActualMasUnDia(){
 		}else
 		return true;
 	}
+	
 	
 	public Usuario buscarUsuario(String userName, String password){
 		
@@ -145,13 +160,14 @@ public Date fechaActualMasUnDia(){
 		return null;
 	}
 	
+	
 	private Usuario buscarUsuario(int dni){
 		
 		Usuario a = null;
 		
 		for(int i = 0; i<usuarios.size(); i++){
-			if(usuarios.elementAt(i).getDni() == dni)
-				return usuarios.elementAt(i);
+			if(usuarios.get(i).getDni() == dni)
+				return usuarios.get(i);
 		}
 		
 		a = new Usuario().buscarUsuario(dni);
@@ -165,13 +181,13 @@ public Date fechaActualMasUnDia(){
 	}
 	
 	
-private Permiso buscarPermiso(int id){
+	private Permiso buscarPermiso(int id){
 		
 		Permiso p = null;
 		
 		for(int i = 0; i<permisos.size(); i++){
-			if(permisos.elementAt(i).getIdPermiso() == id)
-				return permisos.elementAt(i);
+			if(permisos.get(i).getIdPermiso() == id)
+				return permisos.get(i);
 		}
 		
 		p = new Permiso().buscarPermiso(id);
@@ -180,17 +196,17 @@ private Permiso buscarPermiso(int id){
 	}
 	
 	
-	public Vector<PermisoDTO> getAllPermisos(){
+	public ArrayList<PermisoDTO> getAllPermisos(){
 			
-			Vector<PermisoDTO> vecPermisoDTO = new Vector<PermisoDTO>();
+			ArrayList<PermisoDTO> vecPermisoDTO = new ArrayList<PermisoDTO>();
 			
 			if(permisos.size() == 0){
 				permisos = new Permiso().buscarAll();	
 			}
 			
 			for(int i=0;i<permisos.size();i++){
-				if(permisos.elementAt(i).isBorrado() == false){
-					vecPermisoDTO.add(permisos.elementAt(i).getView());	
+				if(permisos.get(i).isBorrado() == false){
+					vecPermisoDTO.add(permisos.get(i).getView());	
 				}
 				
 			}
@@ -199,15 +215,15 @@ private Permiso buscarPermiso(int id){
 		}
 		
 	
-	public Vector<UsuarioDTO> getUsuarios (){
-		Vector<UsuarioDTO> vecUsuarioDTO = new Vector<UsuarioDTO>();
+	public ArrayList<UsuarioDTO> getUsuarios (){
+		ArrayList<UsuarioDTO> vecUsuarioDTO = new ArrayList<UsuarioDTO>();
 		
 		if(usuarios.size() == 0){
 			usuarios = new Usuario().buscarAll();	
 		}
 		
 		for(int i=0;i<usuarios.size();i++){
-			vecUsuarioDTO.add(usuarios.elementAt(i).getView());	
+			vecUsuarioDTO.add(usuarios.get(i).getView());	
 		}
 			
 		return vecUsuarioDTO;
@@ -231,6 +247,7 @@ private Permiso buscarPermiso(int id){
 		return usuarioActual;
 	}
 
+	
 	public int getIdPermiso(String desc) {
 		
 		if(permisos.size() == 0){
@@ -238,24 +255,25 @@ private Permiso buscarPermiso(int id){
 		}
 		
 		for(int i=0;i<permisos.size();i++){
-			if(permisos.elementAt(i).getDescripcion().equals(desc)){
-					return permisos.elementAt(i).getIdPermiso();
+			if(permisos.get(i).getDescripcion().equals(desc)){
+					return permisos.get(i).getIdPermiso();
 			}
 			
 		}
 		return 0;
 	}
 	
-	public boolean altaUsuario(String nombre, String apellido, int dni, int matricula, String userName, String password, Vector<Integer> vecPermisos ){
+	
+	public boolean altaUsuario(String nombre, String apellido, int dni, int matricula, String userName, String password, ArrayList<Integer> vecPermisos ){
 		
 		Usuario u = buscarUsuario(dni);
 		Permiso p;
-		Vector<Permiso> vp = new Vector<Permiso>();
+		ArrayList<Permiso> vp = new ArrayList<Permiso>();
 		
 		if(u == null){
 			u = new Usuario(nombre, apellido, matricula, dni, userName, password);
 			for (int i = 0; i < vecPermisos.size(); i++) {
-				p = buscarPermiso(vecPermisos.elementAt(i));
+				p = buscarPermiso(vecPermisos.get(i));
 				if (p!=null){
 					vp.add(p);
 				}
@@ -270,18 +288,18 @@ private Permiso buscarPermiso(int id){
 	}
 	
 	
-public boolean modificarUsuario(String nombre, String apellido, int dni, int matricula, String userName, 
-		String password, Vector<Integer> vecPermisos, boolean borrado){
+	public boolean modificarUsuario(String nombre, String apellido, int dni, int matricula, String userName, 
+		String password, ArrayList<Integer> vecPermisos, boolean borrado){
 		
 		Usuario u = buscarUsuario(dni);
 		Permiso p;
-		Vector<Permiso> vp = new Vector<Permiso>();
+		ArrayList<Permiso> vp = new ArrayList<Permiso>();
 		
 		if(u != null){
 			u.modificarUsuario(nombre, apellido, matricula, userName, password, borrado);
 			
 			for (int i = 0; i < vecPermisos.size(); i++) {
-				p = buscarPermiso(vecPermisos.elementAt(i));
+				p = buscarPermiso(vecPermisos.get(i));
 				if (p!=null){
 					vp.add(p);
 				}
@@ -295,10 +313,11 @@ public boolean modificarUsuario(String nombre, String apellido, int dni, int mat
 		}
 	}
 	
+	
 	public boolean validarPermiso (String permiso){
-		Vector<PermisoDTO> vp = usuarioActual.getPermisos();
+		ArrayList<PermisoDTO> vp = usuarioActual.getPermisos();
 		for (int i = 0; i < vp.size(); i++) {
-			if (vp.elementAt(i).getCode().equalsIgnoreCase(permiso))
+			if (vp.get(i).getCode().equalsIgnoreCase(permiso))
 				return true;
 		}
 		return false;
@@ -362,5 +381,7 @@ public boolean modificarUsuario(String nombre, String apellido, int dni, int mat
 		
 		
 	}
+
+
 }
 	

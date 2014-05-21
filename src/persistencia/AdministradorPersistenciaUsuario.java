@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
+
 
 
 import modelo.Permiso;
@@ -280,9 +281,9 @@ public void updateBorrar (Usuario usuario) {
 
 		}
 		
-		public Vector<Usuario> buscarAll() {
+		public ArrayList<Usuario> buscarAll() {
 			Usuario u = null;
-			Vector<Usuario> vecUser = new Vector<Usuario>();
+			ArrayList<Usuario> vecUser = new ArrayList<Usuario>();
 			
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 					
@@ -347,9 +348,9 @@ public void updateBorrar (Usuario usuario) {
 			
 		}
 
-		public Vector<Permiso> getPermisos(int dni) {
+		public ArrayList<Permiso> getPermisos(int dni) {
 			
-			Vector<Permiso> vp =new Vector<Permiso>();
+			ArrayList<Permiso> vp =new ArrayList<Permiso>();
 			Permiso p = null;
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 					

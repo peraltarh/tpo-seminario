@@ -1,6 +1,6 @@
 package DTO;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import modelo.Permiso;
 
@@ -14,14 +14,14 @@ public class UsuarioDTO {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	private Vector<Permiso> permisos;
+	private ArrayList<Permiso> permisos;
 	
 	public UsuarioDTO(){
 		
 	}
 	
 	public UsuarioDTO(String nombre, String apellido, int matricula,
-				int dni,String userName, String password,boolean borrado,Vector<Permiso> permisos) {
+				int dni,String userName, String password,boolean borrado,ArrayList<Permiso> permisos) {
 		super(); 
 		
 		this.nombre = nombre;
@@ -82,16 +82,16 @@ public class UsuarioDTO {
 		this.borrado = borrado;
 	}
 
-	public Vector<PermisoDTO> getPermisos() {
-		Vector<PermisoDTO> vpDTO = new Vector<PermisoDTO>();
+	public ArrayList<PermisoDTO> getPermisos() {
+		ArrayList<PermisoDTO> vpDTO = new ArrayList<PermisoDTO>();
 		for (int i = 0; i < permisos.size(); i++) {
-				PermisoDTO permisoDTO = permisos.elementAt(i).getView();
+				PermisoDTO permisoDTO = permisos.get(i).getView();
 				vpDTO.add(permisoDTO);
 		}
 		return vpDTO;
 	}
 
-	public void setPermisos(Vector<Permiso> permisos) {
+	public void setPermisos(ArrayList<Permiso> permisos) {
 		this.permisos = permisos;
 	}
 

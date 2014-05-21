@@ -61,7 +61,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		
 		// SOLO PARA TEST
 		if(usuarioActual== null){
-			usuarioActual =  Sistema.getInstancia().getUsuario(31412777);
+			usuarioActual =  Sistema.getInstancia().getUsuario(11111111);
 		}
 		
 		initGUI();

@@ -11,12 +11,11 @@ public class HistoriaClinica {
 	private ArrayList<itemHistoriaClinica> preacticas;
 	
 	
-	public HistoriaClinica( Paciente paciente,
-			ArrayList<itemHistoriaClinica> preacticas) {
+	public HistoriaClinica( Paciente paciente) {
 		super();
 		this.idHistoriaClinica = HistoriaClinica.idHistoriaClinicaInc++;
 		this.paciente = paciente;
-		this.preacticas = preacticas;
+		this.preacticas = new ArrayList<itemHistoriaClinica>();
 	}
 
 
