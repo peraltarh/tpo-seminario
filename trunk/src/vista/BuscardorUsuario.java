@@ -80,7 +80,7 @@ public class BuscardorUsuario extends JDialog {
 		setTitle("Buscar Usuarios");
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 671, 324);
+		setBounds(100, 100, 699, 324);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -177,31 +177,31 @@ public class BuscardorUsuario extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(530, -12, 146, 322);
+		panel.setBounds(530, -12, 176, 322);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton nuevoButton = new JButton("Nuevo");
-		nuevoButton.setBounds(10, 25, 116, 32);
-		panel.add(nuevoButton);
-		nuevoButton.addActionListener(new ActionListener() {
+		JButton nuevoAdministrativoButton = new JButton("<html>Usuario <br>Administrativo</br></html>");
+		nuevoAdministrativoButton.setBounds(10, 23, 140, 40);
+		panel.add(nuevoAdministrativoButton);
+		nuevoAdministrativoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				AltaUsuario au = new AltaUsuario();
+				AltaUsuarioAdministrativo au = new AltaUsuarioAdministrativo();
 				au.setVisible(true);
 				
 			}
 		});
-		nuevoButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/plus.png")));
+		nuevoAdministrativoButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/plus.png")));
 		
 		JButton modificarButton = new JButton("Modificar");
-		modificarButton.setBounds(10, 68, 116, 32);
+		modificarButton.setBounds(10, 130, 140, 32);
 		panel.add(modificarButton);
 		modificarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/modificar.png")));
 		//contentPane.add(table);
 		
 		JButton cancelarButton = new JButton("Cancelar");
-		cancelarButton.setBounds(10, 265, 116, 32);
+		cancelarButton.setBounds(10, 265, 140, 32);
 		panel.add(cancelarButton);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -209,6 +209,19 @@ public class BuscardorUsuario extends JDialog {
 			}
 		});
 		cancelarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/cancel.png")));
+		
+		JButton nuevoMedicobutton = new JButton("<html>Usuario <br>M\u00E9dico</br></html>");
+		nuevoMedicobutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				AltaUsuarioMedico au = new AltaUsuarioMedico();
+				au.setVisible(true);
+			}
+		});
+		nuevoMedicobutton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/plus.png")));
+		nuevoMedicobutton.setBounds(10, 74, 140, 40);
+		panel.add(nuevoMedicobutton);
 		modificarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
