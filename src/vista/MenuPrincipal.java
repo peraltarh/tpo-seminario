@@ -229,7 +229,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		{
 			jMenu3 = new JMenu();
 			jMenuBar1.add(jMenu3);
-			jMenu3.setText("Administracinn");
+			jMenu3.setText("Administración");
 			jMenu3.setMnemonic(KeyEvent.VK_A);
 			{
 				usuarioMenuItem = new JMenuItem();

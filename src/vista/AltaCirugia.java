@@ -54,8 +54,6 @@ public class AltaCirugia extends JDialog {
 	private JLabel lblNombre;
 	private JTextField nombreTextField;
 	private JTextField apellidoTextField;
-	private JTextField obraSocialTextField;
-	private JTextField numeroAfiliadoTextField;
 	private JTextField edadTextField;
 	private JLabel lblNewLabel_3;
 	private JTextField textField;
@@ -65,6 +63,8 @@ public class AltaCirugia extends JDialog {
 	private JTextField textField_1;
 	private JLabel lblHoraFin;
 	private JTextField textField_2;
+	private JLabel label;
+	private JComboBox comboBox_1;
 	
 
 	/**
@@ -123,20 +123,10 @@ public class AltaCirugia extends JDialog {
 		lblObraSocial.setBounds(10, 71, 33, 28);
 		datosPacientePanel.add(lblObraSocial);
 		
-		obraSocialTextField = new JTextField();
-		obraSocialTextField.setBounds(68, 79, 137, 20);
-		datosPacientePanel.add(obraSocialTextField);
-		obraSocialTextField.setColumns(10);
-		
 		JLabel lblNewLabel_2 = new JLabel("<html>N\u00FAmero<br>Afiliado</html>");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_2.setBounds(226, 75, 59, 24);
 		datosPacientePanel.add(lblNewLabel_2);
-		
-		numeroAfiliadoTextField = new JTextField();
-		numeroAfiliadoTextField.setBounds(282, 79, 137, 20);
-		datosPacientePanel.add(numeroAfiliadoTextField);
-		numeroAfiliadoTextField.setColumns(10);
 		
 		JLabel lblEdad = new JLabel("Edad");
 		lblEdad.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -147,6 +137,23 @@ public class AltaCirugia extends JDialog {
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
+		
+		JComboBox obraSocialComboBox = new JComboBox();
+		obraSocialComboBox.setBounds(68, 77, 137, 22);
+		datosPacientePanel.add(obraSocialComboBox);
+		
+		JTextField numeroAfiliadoTextField = new JTextField();
+		numeroAfiliadoTextField.setBounds(282, 75, 137, 22);
+		datosPacientePanel.add(numeroAfiliadoTextField);
+		
+		label = new JLabel("Sexo");
+		label.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label.setBounds(226, 51, 69, 14);
+		datosPacientePanel.add(label);
+		
+		comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(282, 47, 137, 22);
+		datosPacientePanel.add(comboBox_1);
 		
 		JPanel practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Cirug\u00EDa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));

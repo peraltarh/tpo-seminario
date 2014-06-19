@@ -19,8 +19,11 @@ import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.ScrollPaneConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
@@ -29,6 +32,7 @@ import javax.swing.border.TitledBorder;
 import controlador.Sistema;
 
 import java.awt.Font;
+import java.awt.Color;
 
 public class VerHCE extends JDialog {
 
@@ -47,8 +51,10 @@ public class VerHCE extends JDialog {
 	private JTextField apellidoTextField;
 	private JTextField nombreTextField;
 	private JTextField edadTextField;
-	private JTextField ObraSocialTextField;
-	private JTextField numeroAfiliadoTextField;
+	private JTextPane detalleTextPane;
+	private JScrollPane scrollDetalleTextPane;
+	private JTextField textField;
+	private JButton buscarButton;
 	
 	/**
 	 * Launch the application.
@@ -78,7 +84,7 @@ public class VerHCE extends JDialog {
 		setTitle("Buscar HCE");
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 758, 463);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -103,7 +109,7 @@ public class VerHCE extends JDialog {
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 135, 146, 224);
+		scrollPane.setBounds(10, 141, 146, 291);
 		getContentPane().add(scrollPane);
 		
 		table.setModel(model);
@@ -112,7 +118,7 @@ public class VerHCE extends JDialog {
 		
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelBotones.setBounds(582, 0, 190, 324);
+		panelBotones.setBounds(582, -11, 175, 469);
 		contentPane.add(panelBotones);
 		panelBotones.setLayout(null);
 		
@@ -137,7 +143,7 @@ public class VerHCE extends JDialog {
 		
 		
 		JButton cancelarButton = new JButton("Cancelar");
-		cancelarButton.setBounds(10, 265, 154, 32);
+		cancelarButton.setBounds(10, 359, 154, 32);
 		panelBotones.add(cancelarButton);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -186,18 +192,18 @@ public class VerHCE extends JDialog {
 		
 		JPanel panelDatosPaciente = new JPanel();
 		panelDatosPaciente.setBorder(new TitledBorder(null, "Datos Paciente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelDatosPaciente.setBounds(10, 11, 562, 113);
+		panelDatosPaciente.setBounds(10, 52, 562, 78);
 		contentPane.add(panelDatosPaciente);
 		panelDatosPaciente.setLayout(null);
 		
 		apellidoTextField = new JTextField();
 		apellidoTextField.setColumns(10);
-		apellidoTextField.setBounds(372, 22, 137, 20);
+		apellidoTextField.setBounds(328, 22, 197, 20);
 		panelDatosPaciente.add(apellidoTextField);
 		
 		nombreTextField = new JTextField();
 		nombreTextField.setColumns(10);
-		nombreTextField.setBounds(78, 22, 137, 20);
+		nombreTextField.setBounds(78, 22, 184, 20);
 		panelDatosPaciente.add(nombreTextField);
 		
 		JLabel label = new JLabel("Nombre");
@@ -212,50 +218,65 @@ public class VerHCE extends JDialog {
 		
 		edadTextField = new JTextField();
 		edadTextField.setColumns(10);
-		edadTextField.setBounds(78, 51, 137, 20);
+		edadTextField.setBounds(78, 47, 184, 20);
 		panelDatosPaciente.add(edadTextField);
-		
-		JLabel label_2 = new JLabel("<html>Obra<br>Social</html>");
-		label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_2.setBounds(20, 74, 33, 28);
-		panelDatosPaciente.add(label_2);
-		
-		ObraSocialTextField = new JTextField();
-		ObraSocialTextField.setColumns(10);
-		ObraSocialTextField.setBounds(78, 82, 137, 20);
-		panelDatosPaciente.add(ObraSocialTextField);
-		
-		JLabel label_3 = new JLabel("<html>N\u00FAmero<br>Afiliado</html>");
-		label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_3.setBounds(236, 78, 59, 24);
-		panelDatosPaciente.add(label_3);
-		
-		numeroAfiliadoTextField = new JTextField();
-		numeroAfiliadoTextField.setColumns(10);
-		numeroAfiliadoTextField.setBounds(292, 82, 137, 20);
-		panelDatosPaciente.add(numeroAfiliadoTextField);
 		
 		JLabel label_4 = new JLabel("Apellido");
 		label_4.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_4.setBounds(236, 25, 46, 14);
+		label_4.setBounds(272, 25, 46, 14);
 		panelDatosPaciente.add(label_4);
 		
+		JLabel label_3 = new JLabel("Sexo");
+		label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_3.setBounds(282, 50, 69, 14);
+		panelDatosPaciente.add(label_3);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
+		comboBox_1.setBounds(328, 46, 197, 22);
+		panelDatosPaciente.add(comboBox_1);
+		
 		JPanel panelConsultas = new JPanel();
-		panelConsultas.setBorder(new TitledBorder(null, "Detalle Consulta", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelConsultas.setBounds(166, 128, 406, 263);
+		panelConsultas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Detalle", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelConsultas.setBounds(166, 130, 406, 303);
 		contentPane.add(panelConsultas);
+		panelConsultas.setLayout(null);
 		
-		JPanel panelPracticaAmbulatoria = new JPanel();
-		panelPracticaAmbulatoria.setBorder(new TitledBorder(null, "Detalle Pr\u00E1ctica Ambulatoria", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelPracticaAmbulatoria.setBounds(10, 480, 146, 50);
-		contentPane.add(panelPracticaAmbulatoria);
+		detalleTextPane = new JTextPane();
+		scrollDetalleTextPane = new JScrollPane(detalleTextPane);
+		scrollDetalleTextPane.setBounds(10, 17, 386, 272);
+		scrollDetalleTextPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panelConsultas.add(scrollDetalleTextPane);
+		detalleTextPane.setContentType("text/html");
 		
-		JPanel panelCirugia = new JPanel();
-		panelCirugia.setBorder(new TitledBorder(null, "Detalle Cirug\u00EDa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelCirugia.setBounds(511, 480, 190, 84);
-		contentPane.add(panelCirugia);
 		
-		//llenarTabla();
+		//String detalle = "<html><b style=\"color:pink\">" + myBirthday + "</span></html>";
+		
+		
+		//TODO Solo para imprimir las pantallas
+		String detalle = "<html><b>Obra Social:</b>OSECAC - <b>Numero Afiliado:</b>11111111 <br><b>Observaciones:</b></br><br>El paciente evoluciona correctamente</br></html>";
+		detalleTextPane.setText(detalle);
+		
+		JLabel label_2 = new JLabel("Buscar");
+		label_2.setBounds(23, 23, 46, 14);
+		contentPane.add(label_2);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(79, 18, 217, 25);
+		contentPane.add(textField);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LC"}));
+		comboBox.setBounds(306, 16, 114, 25);
+		contentPane.add(comboBox);
+		
+		buscarButton = new JButton("Buscar");
+		buscarButton.setIcon(new ImageIcon(BuscardorHCE.class.getResource("/image/search.png")));
+		buscarButton.setBounds(456, 15, 116, 32);
+		contentPane.add(buscarButton);
+		
+		llenarTabla();
 		
 		this.setLocationRelativeTo(null);
 		//setAlwaysOnTop(true);
@@ -278,6 +299,10 @@ public class VerHCE extends JDialog {
 //				model.setValueAt("NO", i, 5);
 //				
 //		}
+		
+		//TODO Solo para imprimir pantallas
+		 model.addRow(new Object[]{"28/05/2013", "Consulta"});        
+	    	table.setModel(model);
 		
 		table.setModel(model);
 		sorter = new TableRowSorter<TableModel>(model);

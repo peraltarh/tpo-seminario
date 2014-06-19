@@ -27,8 +27,12 @@ import java.util.Vector;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
-public class AltaUsuario extends JDialog {
+public class AltaUsuarioMedico extends JDialog {
 	
 	/**
 	 * 
@@ -51,7 +55,7 @@ public class AltaUsuario extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			AltaUsuario dialog = new AltaUsuario();
+			AltaUsuarioMedico dialog = new AltaUsuarioMedico();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			
@@ -63,81 +67,85 @@ public class AltaUsuario extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AltaUsuario() {
+	public AltaUsuarioMedico() {
 		initGUI();
 	}
 	
 	public void initGUI(){
-		setTitle("Alta Usuario");
+		setTitle("Alta Usuario Medico");
 		setBounds(100, 100, 445, 587);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Identificaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 419, 152);
+		panel.setBounds(10, 0, 419, 163);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblDni = new JLabel("DNI (*)");
+		JLabel lblDni = new JLabel("Tipo Doc.");
 		lblDni.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblDni.setBounds(10, 24, 46, 14);
+		lblDni.setBounds(10, 19, 76, 14);
 		panel.add(lblDni);
 		
 		dniTextField = new JTextField();
-		dniTextField.setBounds(103, 21, 210, 20);
+		dniTextField.setBounds(103, 45, 210, 20);
 		panel.add(dniTextField);
 		dniTextField.setColumns(10);
 		
 		JLabel lblNombre = new JLabel("Nombre (*)");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNombre.setBounds(10, 50, 76, 14);
+		lblNombre.setBounds(10, 76, 76, 14);
 		panel.add(lblNombre);
 		
 		nombreTextField = new JTextField();
-		nombreTextField.setBounds(103, 47, 294, 20);
+		nombreTextField.setBounds(103, 73, 294, 20);
 		panel.add(nombreTextField);
 		nombreTextField.setColumns(10);
 		
 		JLabel lblApellido = new JLabel("Apellido (*)");
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblApellido.setBounds(10, 75, 76, 14);
+		lblApellido.setBounds(10, 107, 76, 14);
 		panel.add(lblApellido);
 		
 		apellidoTextField = new JTextField();
-		apellidoTextField.setBounds(103, 78, 294, 20);
+		apellidoTextField.setBounds(103, 104, 294, 20);
 		panel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
 		
-		final JCheckBox chckbxEsMdico = new JCheckBox("Es M\u00E9dico");
-		chckbxEsMdico.setFont(new Font("Tahoma", Font.BOLD, 11));
-		chckbxEsMdico.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				if (chckbxEsMdico.isSelected()){
-					matriculaTextField.setVisible(true);
-					lblMatricula.setVisible(true);
-				}else{
-					matriculaTextField.setVisible(false);
-					lblMatricula.setVisible(false);	
-				}
-			}
-		});
-		chckbxEsMdico.setBounds(6, 96, 97, 23);
-		panel.add(chckbxEsMdico);
-		
 		lblMatricula = new JLabel("Matr\u00EDcula (*)");
 		lblMatricula.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblMatricula.setBounds(10, 125, 76, 14);
+		lblMatricula.setBounds(10, 135, 76, 14);
 		panel.add(lblMatricula);
-		lblMatricula.setVisible(false);
+		//lblMatricula.setVisible(false);
 		
 		matriculaTextField = new JTextField();
-		matriculaTextField.setBounds(103, 122, 210, 20);
+		matriculaTextField.setBounds(103, 132, 210, 20);
 		panel.add(matriculaTextField);
+		
+		JLabel label = new JLabel("DNI (*)");
+		label.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label.setBounds(10, 48, 46, 14);
+		panel.add(label);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LE", "LC"}));
+		comboBox.setBounds(103, 15, 109, 22);
+		panel.add(comboBox);
+		
+		JLabel lblSexo = new JLabel("Sexo");
+		lblSexo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSexo.setBounds(244, 20, 69, 14);
+		panel.add(lblSexo);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
+		comboBox_1.setBounds(311, 15, 86, 22);
+		panel.add(comboBox_1);
 		//matriculaTextField.setColumns(10);
-		matriculaTextField.setVisible(false);
+		//matriculaTextField.setVisible(false);
 		{
 			JButton guardarButton = new JButton("Guardar");
-			guardarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/guardar.png")));
+			guardarButton.setIcon(new ImageIcon(AltaUsuarioMedico.class.getResource("/image/guardar.png")));
 			guardarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<Integer> vecPermisos = new ArrayList<Integer>();
@@ -166,17 +174,17 @@ public class AltaUsuario extends JDialog {
 					}else if(pswTextField.getText().equalsIgnoreCase("")){
 						JOptionPane.showMessageDialog(null, "La CONTRASEÑA es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
 						pswTextField.requestFocus();
-					}else if (chckbxEsMdico.isSelected() && matriculaTextField.getText().equalsIgnoreCase("")){
-							JOptionPane.showMessageDialog(null, "La MATRICULA es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
-							matriculaTextField.requestFocus();
+					}else if(matriculaTextField.getText().equalsIgnoreCase("")){
+						JOptionPane.showMessageDialog(null, "La Matricula es un dato Obligatorio", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						matriculaTextField.requestFocus();
 					}else if (vecPermisos.size()==0){
-						JOptionPane.showMessageDialog(null, "Debe Asginar al menos un permiso", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Debe Asginar al menos una Especialidad", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
 					}else{
-						int matricula;
-						if (!chckbxEsMdico.isSelected()){
-							matricula = 0;
-						}else
-							matricula = Integer.parseInt(matriculaTextField.getText());
+//						int matricula;
+//						if (!chckbxEsMdico.isSelected()){
+//							matricula = 0;
+//						}else
+							int matricula = Integer.parseInt(matriculaTextField.getText());
 					boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), vecPermisos);
 						if (alta){
 							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue creado.");
@@ -242,27 +250,27 @@ public class AltaUsuario extends JDialog {
 		pswTextField.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Permisos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Especialidad", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_2.setBounds(10, 263, 419, 245);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblPermisosDisponibles = new JLabel("Permisos Disponibles");
-		lblPermisosDisponibles.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblPermisosDisponibles.setBounds(10, 23, 150, 14);
-		panel_2.add(lblPermisosDisponibles);
+		JLabel lblEspecialidadDisponibles = new JLabel("Especialidad Disponibles");
+		lblEspecialidadDisponibles.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEspecialidadDisponibles.setBounds(10, 23, 150, 14);
+		panel_2.add(lblEspecialidadDisponibles);
 		
-		JLabel lblPermisosAsignados = new JLabel("Permisos Asignados");
-		lblPermisosAsignados.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblPermisosAsignados.setBounds(251, 23, 143, 14);
-		panel_2.add(lblPermisosAsignados);
+		JLabel lblEspecialidadAsignados = new JLabel("Especialidad Asignadas");
+		lblEspecialidadAsignados.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblEspecialidadAsignados.setBounds(251, 23, 143, 14);
+		panel_2.add(lblEspecialidadAsignados);
 		
 	
 		asignadoModel =  new DefaultListModel();
 		disponibleModel =  new DefaultListModel();
 		
 		JButton agregarButton = new JButton("");
-		agregarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/der.png")));
+		agregarButton.setIcon(new ImageIcon(AltaUsuarioMedico.class.getResource("/image/der.png")));
 		agregarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i;
@@ -284,7 +292,7 @@ public class AltaUsuario extends JDialog {
 		panel_2.add(agregarButton);
 		
 		JButton removerButton = new JButton("");
-		removerButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/izq.png")));
+		removerButton.setIcon(new ImageIcon(AltaUsuarioMedico.class.getResource("/image/izq.png")));
 		removerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i;
