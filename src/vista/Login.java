@@ -2,9 +2,7 @@ package vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.SkinInfo;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
+
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -13,14 +11,11 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 
 import controlador.Sistema;
 import javax.swing.JPasswordField;
@@ -34,6 +29,14 @@ import java.awt.event.KeyAdapter;
 
 
 public class Login extends javax.swing.JDialog {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 
 	{
 		
@@ -76,7 +79,6 @@ public class Login extends javax.swing.JDialog {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				JFrame frame = new JFrame();
 				Login inst = new Login();
 				inst.setVisible(true);
 			}
@@ -91,6 +93,7 @@ public class Login extends javax.swing.JDialog {
 	
 
 	
+	@SuppressWarnings("serial")
 	private void initGUI() {
 		try {
 			{
@@ -182,6 +185,7 @@ public class Login extends javax.swing.JDialog {
 					aceptarButton.setFont(new java.awt.Font("Tahoma",1,11));
 					aceptarButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/ok.png")));
 					aceptarButton.addActionListener(new ActionListener() {
+						@SuppressWarnings("deprecation")
 						public void actionPerformed(ActionEvent evt) {
 							
 							if (usuarioText.getText().equalsIgnoreCase("")){

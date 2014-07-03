@@ -16,20 +16,18 @@ import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
-import DTO.UsuarioDTO;
 
 import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-
-
 import java.awt.Font;
 
-public class ModificarUsuario extends JDialog {
+public class AltaUsuario extends JDialog {
 	
 	/**
 	 * 
@@ -46,15 +44,13 @@ public class ModificarUsuario extends JDialog {
 	private JList asignadoList;
 	private JList disponibleList;
 	private JLabel lblMatricula;
-	private UsuarioDTO userDTO;
-	private JCheckBox borradoCheckBox;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ModificarUsuario dialog = new ModificarUsuario();
+			AltaUsuario dialog = new AltaUsuario();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			
@@ -66,17 +62,12 @@ public class ModificarUsuario extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ModificarUsuario(UsuarioDTO user) {
-		this.userDTO = user;
-		initGUI();
-	}
-	
-	public ModificarUsuario() {
+	public AltaUsuario() {
 		initGUI();
 	}
 	
 	public void initGUI(){
-		setTitle("Modificar Usuario");
+		setTitle("Alta Usuario");
 		setBounds(100, 100, 445, 587);
 		getContentPane().setLayout(null);
 		
@@ -95,8 +86,6 @@ public class ModificarUsuario extends JDialog {
 		dniTextField.setBounds(103, 21, 210, 20);
 		panel.add(dniTextField);
 		dniTextField.setColumns(10);
-		dniTextField.setText(String.valueOf(userDTO.getDni()));
-		dniTextField.setEditable(false);
 		
 		JLabel lblNombre = new JLabel("Nombre (*)");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -107,7 +96,6 @@ public class ModificarUsuario extends JDialog {
 		nombreTextField.setBounds(103, 47, 294, 20);
 		panel.add(nombreTextField);
 		nombreTextField.setColumns(10);
-		nombreTextField.setText(String.valueOf(userDTO.getNombre()));
 		
 		JLabel lblApellido = new JLabel("Apellido (*)");
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -118,7 +106,6 @@ public class ModificarUsuario extends JDialog {
 		apellidoTextField.setBounds(103, 78, 294, 20);
 		panel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
-		apellidoTextField.setText(String.valueOf(userDTO.getApellido()));
 		
 		final JCheckBox chckbxEsMdico = new JCheckBox("Es M\u00E9dico");
 		chckbxEsMdico.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -136,8 +123,6 @@ public class ModificarUsuario extends JDialog {
 		chckbxEsMdico.setBounds(6, 96, 97, 23);
 		panel.add(chckbxEsMdico);
 		
-		
-		
 		lblMatricula = new JLabel("Matr\u00EDcula (*)");
 		lblMatricula.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMatricula.setBounds(10, 125, 76, 14);
@@ -149,16 +134,9 @@ public class ModificarUsuario extends JDialog {
 		panel.add(matriculaTextField);
 		//matriculaTextField.setColumns(10);
 		matriculaTextField.setVisible(false);
-		
-		if(userDTO.getMatricula()!=0){
-			matriculaTextField.setText(String.valueOf(userDTO.getMatricula()));
-			chckbxEsMdico.setSelected(true);
-		}
-		
-		
 		{
 			JButton guardarButton = new JButton("Guardar");
-			guardarButton.setIcon(new ImageIcon(ModificarUsuario.class.getResource("/image/guardar.png")));
+			guardarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/guardar.png")));
 			guardarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<Integer> vecPermisos = new ArrayList<Integer>();
@@ -168,7 +146,7 @@ public class ModificarUsuario extends JDialog {
 				    	  //System.out.println("Descripcion---->"+a.getElementAt(i));
 				    	//  int id = Sistema.getInstancia().getIdPermiso(a.getElementAt(i).toString());
 				    	  //System.out.println("idPermiso--->"+id);
-				    	  //vecPermisos.add(id);
+				    //	  vecPermisos.add(id);
 				      }
 					
 					if (dniTextField.getText().equalsIgnoreCase("")){
@@ -198,15 +176,13 @@ public class ModificarUsuario extends JDialog {
 							matricula = 0;
 						}else
 							matricula = Integer.parseInt(matriculaTextField.getText());
-		//TODO
-						boolean alta = Sistema.getInstancia().modificarUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a",borradoCheckBox.isSelected());
+				//TODO
+						boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
 						if (alta){
-							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue Modificado.");
+							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue creado.");
 							dispose();
-							BuscardorUsuario bu = new BuscardorUsuario();
-							bu.setVisible(true);
 						}else{
-							JOptionPane.showMessageDialog(null, "No se pudo modificar el Usuario", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No se pudo dar de Alta el Usuario", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					
@@ -254,7 +230,6 @@ public class ModificarUsuario extends JDialog {
 		usuarioTextField.setBounds(106, 22, 289, 20);
 		panel_1.add(usuarioTextField);
 		usuarioTextField.setColumns(10);
-		usuarioTextField.setText(String.valueOf(userDTO.getUserName()));
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a (*)");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -265,7 +240,6 @@ public class ModificarUsuario extends JDialog {
 		pswTextField.setBounds(106, 55, 289, 20);
 		panel_1.add(pswTextField);
 		pswTextField.setColumns(10);
-		pswTextField.setText(String.valueOf(userDTO.getPassword()));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Permisos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -288,7 +262,7 @@ public class ModificarUsuario extends JDialog {
 		disponibleModel =  new DefaultListModel();
 		
 		JButton agregarButton = new JButton("");
-		agregarButton.setIcon(new ImageIcon(ModificarUsuario.class.getResource("/image/der.png")));
+		agregarButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/der.png")));
 		agregarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i;
@@ -310,7 +284,7 @@ public class ModificarUsuario extends JDialog {
 		panel_2.add(agregarButton);
 		
 		JButton removerButton = new JButton("");
-		removerButton.setIcon(new ImageIcon(ModificarUsuario.class.getResource("/image/izq.png")));
+		removerButton.setIcon(new ImageIcon(AltaUsuario.class.getResource("/image/izq.png")));
 		removerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i;
@@ -346,48 +320,24 @@ public class ModificarUsuario extends JDialog {
 		asignadoList.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		
 		JLabel lblDatosObligatorios = new JLabel("(*) Datos Obligatorios");
-		lblDatosObligatorios.setBounds(10, 535, 146, 14);
+		lblDatosObligatorios.setBounds(10, 526, 146, 14);
 		getContentPane().add(lblDatosObligatorios);
-		
-		borradoCheckBox = new JCheckBox("Borrado");
-		borradoCheckBox.setBounds(10, 506, 97, 23);
-		getContentPane().add(borradoCheckBox);
 	   
-		if (userDTO.isBorrado()==true){
-			borradoCheckBox.setSelected(true);
-		}else
-			borradoCheckBox.setSelected(false);
-		
 		llenarDisponibleList ();
 		
 		this.setLocationRelativeTo(null);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
-	
-	
-
 	
 	
 	public void llenarDisponibleList (){
 		
 		ArrayList<String> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
 		
-		String PermisoDTOAsignado  = userDTO.getEspecialidad();
-		//TODO
-//		for (int i = 0; i < vecPermisoDTOAsignado.size(); i++) {
-//			asignadoModel.addElement(vecPermisoDTOAsignado.get(i).getDescripcion());
-//		}
-//		
-//		
-//		for (int i = 0; i < vecPermisoDTO.size(); i++) {
-//			if (buscar(vecPermisoDTOAsignado, vecPermisoDTO.get(i).getIdPermiso())==false){
-//				disponibleModel.addElement(vecPermisoDTO.get(i).getDescripcion());	
-//			}
-//			
-//		}
+		for (int i = 0; i < vecPermisoDTO.size(); i++) {
+			disponibleModel.addElement(vecPermisoDTO.get(i));
+		}
 		
-		
-		
-				
 	}
 }

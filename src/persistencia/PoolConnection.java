@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Vector;
 
-import javax.sql.ConnectionEvent;
 
 
 public class PoolConnection
@@ -67,7 +66,7 @@ public class PoolConnection
 	}
 	public void getConfiguration()
 	{
-		//String configuracion = "MYSQL";
+		//String configuracion = "SQL";
 		String configuracion = "database.properties";
 		Properties propiedades;
 	 

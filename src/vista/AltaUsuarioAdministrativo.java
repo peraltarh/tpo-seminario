@@ -16,7 +16,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
-import DTO.PermisoDTO;
 
 import controlador.Sistema;
 

@@ -2,8 +2,6 @@ package vista;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -30,8 +28,6 @@ import controlador.Sistema;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
-
-import com.lowagie.text.List;
 
 import java.awt.Font;
 
@@ -76,6 +72,7 @@ public class BuscardorUsuario extends JDialog {
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initGUI(){
 		setTitle("Buscar Usuarios");
 		setResizable(false);
@@ -109,12 +106,12 @@ public class BuscardorUsuario extends JDialog {
 			}
 		};
 		
-		//model.addColumn("id");
 		model.addColumn("Nombre");
 		model.addColumn("Apellido");
 		model.addColumn("DNI");
 		model.addColumn("Nombre Usuario");
 		model.addColumn("Borrado");
+		model.addColumn("Especialidad");
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -129,36 +126,7 @@ public class BuscardorUsuario extends JDialog {
 		JButton buscarButton = new JButton("Buscar");
 		buscarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-//				String ele = buscarTextField.getText();
-//				
-//				if (comboBox.getSelectedIndex() == 0){
-//					for (int i = 0; i < table.getRowCount(); i++) {
-//											
-//				           if (table.getValueAt(i, 3).toString().equals(ele)) {                                           
-//				        	   table.changeSelection(i, 3, false, false);
-//				                  break;
-//				           }
-//				    }	
-//				}
-//				if (comboBox.getSelectedIndex() == 1){
-//					for (int i = 0; i < table.getRowCount(); i++) {
-//											
-//				           if (table.getValueAt(i, 4).toString().equalsIgnoreCase(ele)) {                                           
-//				        	   table.changeSelection(i, 4, false, false);
-//				                  break;
-//				           }
-//				    }	
-//				}
-//				if (comboBox.getSelectedIndex() == 2){
-//					for (int i = 0; i < table.getRowCount(); i++) {
-//						 if (table.getValueAt(i, 2).toString().equalsIgnoreCase(ele)) {                                           
-//				        	   table.changeSelection(i,2, false, false);
-//				                  break;
-//				           }
-//				    }	
-//				}
-				filtrar();
+							filtrar();
 				
 			}
 		});
@@ -171,7 +139,7 @@ public class BuscardorUsuario extends JDialog {
 		contentPane.add(separator);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "Usuario", "Apellido"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "Nombre", "Apellido"}));
 		comboBox.setBounds(280, 14, 114, 25);
 		contentPane.add(comboBox);
 		
@@ -254,12 +222,14 @@ public class BuscardorUsuario extends JDialog {
 		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
 		
 		RowFilter<TableModel, Object> rf = null;
+		@SuppressWarnings("unused")
 		int indiceColumnaTabla = 2;
 		switch (comboBox.getSelectedIndex()) {
 		case 0: indiceColumnaTabla = 2;break;//DNI
 		case 1: indiceColumnaTabla = 3;break;//Usuario
 		case 2: indiceColumnaTabla = 1;break;//Apellido
 		}
+		
 		try {
 			String text = buscarTextField.getText();
 		    String[] textArray = text.split(" ");
@@ -269,19 +239,21 @@ public class BuscardorUsuario extends JDialog {
 		    }	
 			
 		    rf = RowFilter.andFilter(rfs);	
-		//rf = RowFilter.regexFilter(Pattern.compile(buscarTextField.getText(), Pattern.CASE_INSENSITIVE).toString(),indiceColumnaTabla );
 		
 		} catch (java.util.regex.PatternSyntaxException e) {
+			
 		}
+		
 		sorter.setRowFilter(rf);
 		}
+	
+	
 	
 	public void llenarTabla(){
 		usuarios = Sistema.getInstancia().getUsuarios();
 
 		model.setNumRows(usuarios.size());
 		for (int i = 0; i < usuarios.size(); i++) {
-			//model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
 			model.setValueAt(usuarios.get(i).getNombre(), i, 0);
 			model.setValueAt(usuarios.get(i).getApellido(), i, 1);
 			model.setValueAt(usuarios.get(i).getDni(), i, 2);
@@ -290,7 +262,8 @@ public class BuscardorUsuario extends JDialog {
 				model.setValueAt("SI", i, 4);	
 			}else
 				model.setValueAt("NO", i, 4);
-				
+			model.setValueAt(usuarios.get(i).getEspecialidad(), i, 5);
+			
 		}
 		
 		table.setModel(model);

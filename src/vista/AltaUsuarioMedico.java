@@ -16,7 +16,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
-import DTO.PermisoDTO;
 
 import controlador.Sistema;
 
@@ -153,9 +152,9 @@ public class AltaUsuarioMedico extends JDialog {
 					ListModel a = asignadoList.getModel(); 
 				      for (int i = 0; i < a.getSize(); i++){
 				    	  //System.out.println("Descripcion---->"+a.getElementAt(i));
-				    	  int id = Sistema.getInstancia().getIdPermiso(a.getElementAt(i).toString());
+				  //  	  int id = Sistema.getInstancia().getIdPermiso(a.getElementAt(i).toString());
 				    	  //System.out.println("idPermiso--->"+id);
-				    	  vecPermisos.add(id);
+				    //	  vecPermisos.add(id);
 				      }
 					
 					if (dniTextField.getText().equalsIgnoreCase("")){
@@ -185,7 +184,8 @@ public class AltaUsuarioMedico extends JDialog {
 //							matricula = 0;
 //						}else
 							int matricula = Integer.parseInt(matriculaTextField.getText());
-					boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), vecPermisos);
+				//TODO
+							boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
 						if (alta){
 							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue creado.");
 							dispose();
@@ -341,10 +341,10 @@ public class AltaUsuarioMedico extends JDialog {
 	
 	public void llenarDisponibleList (){
 		
-		ArrayList<PermisoDTO> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
+		ArrayList<String> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
 		
 		for (int i = 0; i < vecPermisoDTO.size(); i++) {
-			disponibleModel.addElement(vecPermisoDTO.get(i).getDescripcion());
+			disponibleModel.addElement(vecPermisoDTO.get(i));
 		}
 		
 	}

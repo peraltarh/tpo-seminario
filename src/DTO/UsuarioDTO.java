@@ -1,9 +1,5 @@
 package DTO;
 
-import java.util.ArrayList;
-
-import modelo.Permiso;
-
 
 public class UsuarioDTO {
 	
@@ -14,14 +10,14 @@ public class UsuarioDTO {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	private ArrayList<Permiso> permisos;
+	private String especialidad;
 	
 	public UsuarioDTO(){
 		
 	}
 	
 	public UsuarioDTO(String nombre, String apellido, int matricula,
-				int dni,String userName, String password,boolean borrado,ArrayList<Permiso> permisos) {
+				int dni,String userName, String password,boolean borrado,String especialidad) {
 		super(); 
 		
 		this.nombre = nombre;
@@ -31,7 +27,7 @@ public class UsuarioDTO {
 		this.userName = userName;
 		this.password = password;
 		this.borrado = borrado;
-		this.permisos= permisos;
+		this.especialidad= especialidad;
 		
 	}
 	
@@ -60,6 +56,11 @@ public class UsuarioDTO {
 	public int getDni() {
 		return dni;
 	}
+	
+	public String getEspecialidad() {
+		return especialidad;
+	}
+	
 	public void setDni(int dni) {
 		this.dni = dni;
 	}
@@ -82,17 +83,8 @@ public class UsuarioDTO {
 		this.borrado = borrado;
 	}
 
-	public ArrayList<PermisoDTO> getPermisos() {
-		ArrayList<PermisoDTO> vpDTO = new ArrayList<PermisoDTO>();
-		for (int i = 0; i < permisos.size(); i++) {
-				PermisoDTO permisoDTO = permisos.get(i).getView();
-				vpDTO.add(permisoDTO);
-		}
-		return vpDTO;
-	}
-
-	public void setPermisos(ArrayList<Permiso> permisos) {
-		this.permisos = permisos;
+	public void setEspecialidad(String especialidad) {
+		this.especialidad = especialidad;
 	}
 
 	
