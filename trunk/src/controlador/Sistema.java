@@ -13,10 +13,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-import DTO.PermisoDTO;
+import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
 
+import persistencia.AdministradorPersistenciaPaciente;
+import persistencia.AdministradorPersistenciaUsuario;
 import persistencia.PoolConnection;
 
 
@@ -30,33 +32,35 @@ public class Sistema{
 	
 	private static Sistema instancia;
 	private ArrayList<Usuario> usuarios;
-	private ArrayList<Permiso> permisos;
+	private ArrayList<String> permisos;
 	private ArrayList<HistoriaClinica> historiasClinicas;
 	private ArrayList<ObraSocial> obrasSociales;
 	private ArrayList<Prestacion> prestaciones;
 	private ArrayList<Nomenclador> nomencladores;
+	private ArrayList<Paciente> pacientes;
 	
 	
 	private UsuarioDTO usuarioActual;
 	
-	
+	//OK
 	private Sistema() {
 		usuarios = new ArrayList<Usuario>();
-		permisos = new ArrayList<Permiso>();
+		permisos = new ArrayList<String>();
 		historiasClinicas = new ArrayList<HistoriaClinica>();
 		obrasSociales = new ArrayList<ObraSocial>();
 		prestaciones = new ArrayList<Prestacion>();
 		nomencladores = new ArrayList<Nomenclador>();
+		pacientes = new ArrayList<Paciente>();
 	}
 	
-
+	//OK
 	public static Sistema getInstancia(){
 		if(instancia == null)
 			instancia = new Sistema();
 		return instancia;
 	}
 	
-	
+	//OK
 	public java.sql.Date fechaActual(){
 		
 		Calendar calendar = Calendar.getInstance();
@@ -71,7 +75,7 @@ public class Sistema{
 				
 	}
 	
-	
+	//OK
 	public Date fechaActualMasUnDia(){
 		
 		Calendar calendar = Calendar.getInstance();
@@ -87,10 +91,11 @@ public class Sistema{
 				
 	}
 	
-	
+	//OK
 	public boolean validarContrasenaActual(int dni , String psw){
-		Usuario u = new Usuario().buscarUsuario(dni);
 		
+		Usuario u = buscarUsuario(dni) ;
+				
 		if (u!=null){
 			if(psw.equals(u.getPassword())){
 				return true;
@@ -100,10 +105,12 @@ public class Sistema{
 			return false;
 	}
 
-	
+	//OK
 	public boolean validarLogin(String userName, String password){
 		
-		Usuario u = new Usuario().buscarUsuario(userName);
+		
+		Usuario u = this.buscarUsuario(userName, password) ;
+		
 		
 		if (u!=null){
 			
@@ -117,9 +124,11 @@ public class Sistema{
 		return false;
 	}
 	
-	
+	//OK
 	public boolean cambiarContrasena(int dni, String psw){
-			Usuario u = buscarUsuario(dni);
+		
+		Usuario u = buscarUsuario(dni) ;
+			
 			if (u!=null){
 				u.setPassword(psw);
 				u.updateContrasena();
@@ -128,9 +137,10 @@ public class Sistema{
 				return false;
 	}
 	
-
+	//OK
 	public boolean borrarUsuario(int dni){
-			Usuario u = buscarUsuario(dni);
+		Usuario u = buscarUsuario(dni) ;
+		
 			if (u!=null){
 				u.setBorrado(true);
 				u.updateBorrado(dni);
@@ -139,7 +149,7 @@ public class Sistema{
 				return false;
 	}
 	
-	
+	//OK
 	public boolean probarConexion(){
 		
 		Connection con = PoolConnection.getPoolConnection().getConnection();
@@ -149,10 +159,25 @@ public class Sistema{
 		return true;
 	}
 	
-	
+	//OK
 	public Usuario buscarUsuario(String userName, String password){
 		
-		Usuario u = new Usuario().buscarUsuario(userName);
+		Usuario u = null ;
+		
+		if (!usuarios.isEmpty()){
+		for (Usuario usuarioTemp : this.usuarios) {
+			if (usuarioTemp.getUserName().equals(userName)){
+				u = usuarioTemp;
+				break;
+			}
+		}
+		}
+		if (u == null){
+			
+		u = new Usuario().buscarUsuario(userName);
+		this.usuarios.add(u);
+		
+		}
 		
 		if (u!=null){
 			return u;
@@ -160,57 +185,43 @@ public class Sistema{
 		return null;
 	}
 	
-	
-	private Usuario buscarUsuario(int dni){
+	//OK
+	public Usuario buscarUsuario(int dni){
 		
-		Usuario a = null;
+		Usuario u = null ;
 		
-		for(int i = 0; i<usuarios.size(); i++){
-			if(usuarios.get(i).getDni() == dni)
-				return usuarios.get(i);
+		if (!usuarios.isEmpty()){
+		for (Usuario usuarioTemp : this.usuarios) {
+			if (usuarioTemp.getDni() == dni)
+			{
+				u = usuarioTemp;
+				break;
+			}
+		}
 		}
 		
-		a = new Usuario().buscarUsuario(dni);
-//		if(a==null){
-//			return a;
-//		}else{
-//			//usuarios.add(a);
-//			return a;
-//		}
-		return a;
+		if (u == null){
+		u = new Usuario().buscarUsuario(dni);
+		this.usuarios.add(u);
+		}
+		
+		return u;
 	}
 	
 	
-	private Permiso buscarPermiso(int id){
-		
-		Permiso p = null;
-		
-		for(int i = 0; i<permisos.size(); i++){
-			if(permisos.get(i).getIdPermiso() == id)
-				return permisos.get(i);
-		}
-		
-		p = new Permiso().buscarPermiso(id);
-
-		return p;
-	}
-	
-	
-	public ArrayList<PermisoDTO> getAllPermisos(){
+	//OK
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getAllPermisos(){
 			
-			ArrayList<PermisoDTO> vecPermisoDTO = new ArrayList<PermisoDTO>();
+			ArrayList<String> vecPermisoDTO = new ArrayList<String>();
 			
 			if(permisos.size() == 0){
-				permisos = new Permiso().buscarAll();	
-			}
-			
-			for(int i=0;i<permisos.size();i++){
-				if(permisos.get(i).isBorrado() == false){
-					vecPermisoDTO.add(permisos.get(i).getView());	
-				}
 				
 			}
-			
+
+			if (!permisos.isEmpty()) {return (ArrayList<String>)permisos.clone();}
+			else{permisos = AdministradorPersistenciaUsuario.getInstancia().getEspecialidades();	}
+
 			return vecPermisoDTO;
 		}
 		
@@ -230,6 +241,7 @@ public class Sistema{
 		
 	}
 	
+	
 	public UsuarioDTO getUsuario(int dni){
 		Usuario u = buscarUsuario(dni);
 		if (u==null){
@@ -239,46 +251,23 @@ public class Sistema{
 			return usuarioActual;	
 		}
 		
-		
 	}
-
+	
 	
 	public UsuarioDTO getUsuarioActual() {
 		return usuarioActual;
 	}
 
 	
-	public int getIdPermiso(String desc) {
-		
-		if(permisos.size() == 0){
-			return new Permiso().buscarIdPermiso(desc);	
-		}
-		
-		for(int i=0;i<permisos.size();i++){
-			if(permisos.get(i).getDescripcion().equals(desc)){
-					return permisos.get(i).getIdPermiso();
-			}
-			
-		}
-		return 0;
-	}
-	
-	
-	public boolean altaUsuario(String nombre, String apellido, int dni, int matricula, String userName, String password, ArrayList<Integer> vecPermisos ){
+	public boolean altaUsuario(String nombre, String apellido, int dni, int matricula, String userName, String password, String Permisos ){
 		
 		Usuario u = buscarUsuario(dni);
-		Permiso p;
-		ArrayList<Permiso> vp = new ArrayList<Permiso>();
+		String vp = Permisos;
 		
 		if(u == null){
 			u = new Usuario(nombre, apellido, matricula, dni, userName, password);
-			for (int i = 0; i < vecPermisos.size(); i++) {
-				p = buscarPermiso(vecPermisos.get(i));
-				if (p!=null){
-					vp.add(p);
-				}
-			}
-			u.setPermisos(vp);
+
+			u.setEspecialidad(vp);
 			u.savePermisos();
 			usuarios.add(u);
 			return true;
@@ -289,24 +278,15 @@ public class Sistema{
 	
 	
 	public boolean modificarUsuario(String nombre, String apellido, int dni, int matricula, String userName, 
-		String password, ArrayList<Integer> vecPermisos, boolean borrado){
+		String password, String Permisos, boolean borrado){
 		
 		Usuario u = buscarUsuario(dni);
-		Permiso p;
-		ArrayList<Permiso> vp = new ArrayList<Permiso>();
+		String vp = Permisos;
 		
 		if(u != null){
 			u.modificarUsuario(nombre, apellido, matricula, userName, password, borrado);
-			
-			for (int i = 0; i < vecPermisos.size(); i++) {
-				p = buscarPermiso(vecPermisos.get(i));
-				if (p!=null){
-					vp.add(p);
-				}
-			}
-			
-			u.setPermisos(vp);
-			u.updatePermisos();
+					
+			u.setEspecialidad(vp);
 			return true;
 		}else{
 			return false;
@@ -315,11 +295,11 @@ public class Sistema{
 	
 	
 	public boolean validarPermiso (String permiso){
-		ArrayList<PermisoDTO> vp = usuarioActual.getPermisos();
-		for (int i = 0; i < vp.size(); i++) {
-			if (vp.get(i).getCode().equalsIgnoreCase(permiso))
+		String vp = usuarioActual.getEspecialidad();
+
+			if (vp.contains(permiso))
 				return true;
-		}
+		
 		return false;
 		
 	}
@@ -380,6 +360,23 @@ public class Sistema{
 			return false;
 		
 		
+	}
+
+	
+	
+	public ArrayList<PacienteDTO> getPacientes() {
+
+		ArrayList<PacienteDTO> pacientesDTO = new ArrayList<PacienteDTO>();
+		
+		if(this.pacientes.isEmpty()){
+			this.pacientes = AdministradorPersistenciaPaciente.getInstancia().buscarAll();
+		}
+		
+		for (Paciente pacienteTemp : this.pacientes) {
+			pacientesDTO.add(new PacienteDTO(pacienteTemp));
+		}
+		
+		return pacientesDTO;
 	}
 
 

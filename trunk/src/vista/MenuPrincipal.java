@@ -7,8 +7,6 @@ import java.util.Date;
 import javax.swing.*;
 import DTO.UsuarioDTO;
 import controlador.Sistema;
-import net.sf.jasperreports.engine.JRException;
-import reportes.ReporteEjemplo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,8 +21,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	private JMenuItem cambiarContrasena;
 	private JMenu jmenuMicuenta;
-	private JMenuItem deleteMenuItem;
-	private JSeparator jSeparator1;
 	private JMenuItem reportePlanillaFacturacion;
 	private JMenuItem buscarHCE;
 	private JMenu jMenuFacturacion;
@@ -35,7 +31,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	private JMenuItem pacienteMenuItem;
 	private JMenu jMenu3;
 	private JMenuBar jMenuBar1;
-	private JButton btnNewButton;
 	protected TimerThread timerThread;
 	private UsuarioDTO usuarioActual;
 	private JLabel solpaLabel;
@@ -61,7 +56,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		
 		// SOLO PARA TEST
 		if(usuarioActual== null){
-			usuarioActual =  Sistema.getInstancia().getUsuario(11111111);
+			usuarioActual =  Sistema.getInstancia().getUsuario(30489590);
 		}
 		
 		initGUI();
@@ -121,6 +116,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 					
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println( e.getMessage());
 		}
 	}
 	
@@ -181,7 +177,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				
 				jMenuFacturacion.add(reportePlanillaFacturacion);
 				
-				boolean validarPermiso = Sistema.getInstancia().validarPermiso("REPORTE_FACTURACION");
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("Administrativo");
 				if (validarPermiso==true){
 					reportePlanillaFacturacion.setEnabled(true);
 				}else
@@ -212,7 +208,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			
 			jMenuHCE.add(buscarHCE);
 			
-			boolean validarPermiso = Sistema.getInstancia().validarPermiso("VER_HCE");
+			boolean validarPermiso = Sistema.getInstancia().validarPermiso("Oftalmologo");
 			if (validarPermiso==true){
 				buscarHCE.setEnabled(true);
 			}else
@@ -245,7 +241,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				});
 				
 				
-				boolean validarPermiso = Sistema.getInstancia().validarPermiso("ADMIN_USUARIO");
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("Administrativo");
 				if (validarPermiso==true){
 					usuarioMenuItem.setEnabled(true);
 				}else
@@ -265,7 +261,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 						bp.setVisible(true);
 					}
 				});
-				boolean validarPermiso = Sistema.getInstancia().validarPermiso("ADMIN_PACIENTE");
+				boolean validarPermiso = Sistema.getInstancia().validarPermiso("Administrativo");
 				if (validarPermiso==true){
 					pacienteMenuItem.setEnabled(true);
 				}else
@@ -281,14 +277,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	
 	private void addButtons(JToolBar toolBar) {
 		// TODO Auto-generated method stub
-		btnNewButton = new JButton();
-		btnNewButton.setToolTipText("BOTON");
-		btnNewButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/pdf.png")));
-		toolBar.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setIcon(new ImageIcon(getClass().getClassLoader().getResource("image/pdf_16.png")));
-		toolBar.add(btnNewButton_1);
 	}
 	
 	public class TimerThread extends Thread {

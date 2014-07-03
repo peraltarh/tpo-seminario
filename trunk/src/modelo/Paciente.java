@@ -36,12 +36,8 @@ public class Paciente {
 		this.nroAfiliado = nroAfiliado;
 	}
 
-
-
-
-
-
-
+	public Paciente(){};
+	
 	public String calcularEdad(Date fechaNacimiento) {
         Date d = new Date();
         SimpleDateFormat sdfDia = new SimpleDateFormat("dd");
@@ -137,6 +133,50 @@ public class Paciente {
 
 	public float getNroAfiliado() {
 		return nroAfiliado;
+	}
+
+	public void setDni(long dni) {
+		this.dni = dni;
+	}
+
+	public void setTipoDoc(String tipoDoc) {
+		this.tipoDoc = tipoDoc;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public void setCelular(long celular) {
+		this.celular = celular;
+	}
+
+	public void setTelefono(long telefono) {
+		this.telefono = telefono;
+	}
+
+	public void setFechaNaciemiento(Date fechaNaciemiento) {
+		this.fechaNaciemiento = fechaNaciemiento;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setObraSocial(ObraSocial obraSocial) {
+		this.obraSocial = obraSocial;
+	}
+
+	public void setNroAfiliado(float nroAfiliado) {
+		this.nroAfiliado = nroAfiliado;
 	}
 
 	

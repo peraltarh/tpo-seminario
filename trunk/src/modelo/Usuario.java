@@ -1,12 +1,12 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import DTO.UsuarioDTO;
 import persistencia.AdministradorPersistenciaUsuario;
 
 public class Usuario {
 	
+	private String especialiadad;
 	private int dni;
 	private String nombre;
 	private String apellido;
@@ -14,14 +14,12 @@ public class Usuario {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	private ArrayList<Permiso> permisos;
+		
 	
-	public Usuario(){
-		permisos =  new ArrayList<Permiso>();
-	}
+	public Usuario(){};
 	
 	public Usuario(String nombre, String apellido,int matricula,
-				int dni,String userName, String password) {
+				int dni,String userName, String password ) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -30,7 +28,7 @@ public class Usuario {
 		this.password = password;
 		this.matricula = matricula;
 		this.borrado = false;
-		permisos =  new ArrayList<Permiso>();
+		this.especialiadad =  null;
 		
 		AdministradorPersistenciaUsuario.getInstancia().insert(this);
 		
@@ -84,7 +82,7 @@ public class Usuario {
 	}
 	
 	public UsuarioDTO getView(){
-		return new UsuarioDTO(nombre, apellido, matricula, dni, userName, password, borrado,permisos);
+		return new UsuarioDTO(nombre, apellido, matricula, dni, userName, password, borrado, especialiadad);
 		
 	}
 
@@ -133,27 +131,22 @@ public class Usuario {
 		AdministradorPersistenciaUsuario.getInstancia().updateBorrar(this);
 	}
 
-	public ArrayList<Permiso> getPermisos() {
-		//return permisos;
-		
-		return AdministradorPersistenciaUsuario.getInstancia().getPermisos(dni);
+	public String getEspecialidad() {
+
+		return this.especialiadad;
 	}
 
-	public void setPermisos(ArrayList<Permiso> permisos) {
-		this.permisos = permisos;
-		//savePermisos();
+	public void setEspecialidad(String especialidad) {
+		this.especialiadad = especialidad;
 	}
 	
 	public void savePermisos(){
-		for (int i = 0; i < permisos.size(); i++) {
-			AdministradorPersistenciaUsuario.getInstancia().insertPermisos(permisos.get(i), dni);
-		}
-		
+//		for (int i = 0; i < permisos.size(); i++) {
+//			AdministradorPersistenciaUsuario.getInstancia().insertPermisos(permisos.get(i), dni);
+//		}
+//		
 	}
 
-	public void updatePermisos() {
-		AdministradorPersistenciaUsuario.getInstancia().borrarPermisos(dni);
-		savePermisos();
-	}
+
 	
 }

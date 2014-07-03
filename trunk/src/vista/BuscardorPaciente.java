@@ -27,6 +27,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
 
+import DTO.PacienteDTO;
+import DTO.UsuarioDTO;
+
+import controlador.Sistema;
+
 public class BuscardorPaciente extends JDialog {
 
 	/**
@@ -38,7 +43,7 @@ public class BuscardorPaciente extends JDialog {
 	private JTable table;
 	private DefaultTableModel model;
 	private JScrollPane scrollPane;
-	//private Vector <UsuarioDTO> usuarios;
+	private ArrayList <PacienteDTO> pacientes;
 	private JComboBox comboBox;
 	
 	
@@ -100,13 +105,10 @@ public class BuscardorPaciente extends JDialog {
 			}
 		};
 		
-		model.addColumn("id");
 		model.addColumn("Nombre");
 		model.addColumn("Apellido");
+		model.addColumn("Tipo Doc.");
 		model.addColumn("DNI");
-		model.addColumn("Obra Social");
-		model.addColumn("Numero Afiliado");
-		model.addColumn("Borrado");
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -134,7 +136,7 @@ public class BuscardorPaciente extends JDialog {
 		contentPane.add(separator);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "Apellido", "Nro Afiliado"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "Apellido", "Nombre"}));
 		comboBox.setBounds(280, 14, 114, 25);
 		contentPane.add(comboBox);
 		
@@ -187,7 +189,7 @@ public class BuscardorPaciente extends JDialog {
 			}
 		});
 		
-		//llenarTabla();
+		llenarTabla();
 		
 		this.setLocationRelativeTo(null);
 		//setAlwaysOnTop(true);
@@ -201,7 +203,7 @@ public class BuscardorPaciente extends JDialog {
 		switch (comboBox.getSelectedIndex()) {
 		case 0: indiceColumnaTabla = 3;break;//DNI
 		case 1: indiceColumnaTabla = 4;break;//Apellido
-		case 2: indiceColumnaTabla = 2;break;//Nro Afiliado
+		case 2: indiceColumnaTabla = 2;break;//Nombre
 		}
 		try {
 			String text = buscarTextField.getText();
@@ -212,28 +214,21 @@ public class BuscardorPaciente extends JDialog {
 		    }	
 			
 		    rf = RowFilter.andFilter(rfs);	
-		//	rf = RowFilter.regexFilter( Pattern.compile(buscarTextField.getText(), Pattern.CASE_INSENSITIVE).toString(),indiceColumnaTabla );
 		} catch (java.util.regex.PatternSyntaxException e) {
 		}
 		sorter.setRowFilter(rf);
 		}
 	
 	public void llenarTabla(){
-//		usuarios = Sistema.getInstancia().getUsuarios();
-//
-//		model.setNumRows(usuarios.size());
-//		for (int i = 0; i < usuarios.size(); i++) {
-//			model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
-//			model.setValueAt(usuarios.elementAt(i).getNombre(), i, 1);
-//			model.setValueAt(usuarios.elementAt(i).getApellido(), i, 2);
-//			model.setValueAt(usuarios.elementAt(i).getDni(), i, 3);
-//			model.setValueAt(usuarios.elementAt(i).getUserName(), i, 4);
-//			if (usuarios.elementAt(i).isBorrado() == true){
-//				model.setValueAt("SI", i, 5);	
-//			}else
-//				model.setValueAt("NO", i, 5);
-//				
-//		}
+		pacientes = Sistema.getInstancia().getPacientes();
+
+		model.setNumRows(pacientes.size());
+		for (int i = 0; i < pacientes.size(); i++) {
+			model.setValueAt(pacientes.get(i).getNombre(), i, 0);
+			model.setValueAt(pacientes.get(i).getApellido(), i,1);
+			model.setValueAt(pacientes.get(i).getTipoDoc(), i, 2);	
+			model.setValueAt(pacientes.get(i).getDni(), i, 3);		
+		}
 		
 		table.setModel(model);
 		sorter = new TableRowSorter<TableModel>(model);
