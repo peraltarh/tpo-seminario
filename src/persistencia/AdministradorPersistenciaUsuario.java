@@ -43,7 +43,7 @@ public class AdministradorPersistenciaUsuario {
 				u = new Usuario();
 				u.setNombre(result.getString("nombre"));
 				u.setApellido(result.getString("apellido"));
-				u.setMatricula(result.getInt("matricula"));
+				u.setMatricula(result.getString("matricula"));
 				u.setDni(result.getInt("nro"));
 				u.setUserName(result.getString("usuarioLogin"));
 				u.setPassword(result.getString("clave"));
@@ -82,7 +82,7 @@ public class AdministradorPersistenciaUsuario {
 				u = new Usuario();
 				u.setNombre(result.getString("nombre"));
 				u.setApellido(result.getString("apellido"));
-				u.setMatricula(result.getInt("matricula"));
+				u.setMatricula(result.getString("matricula"));
 				u.setDni(result.getInt("nro"));
 				u.setUserName(result.getString("usuarioLogin"));
 				u.setPassword(result.getString("clave"));
@@ -116,7 +116,7 @@ public class AdministradorPersistenciaUsuario {
 				ps = con.prepareStatement(senten);
 				ps.setString(1,usuario.getNombre());
 				ps.setString(2,usuario.getApellido());
-				ps.setInt(3,usuario.getMatricula());
+				ps.setString(3,usuario.getMatricula());
 				ps.setString(4,usuario.getPassword());
 				ps.setBoolean(5,usuario.isBorrado());
 				ps.setInt(6,usuario.getDni());
@@ -197,7 +197,7 @@ public class AdministradorPersistenciaUsuario {
 				
 				ps.setString(1,usuario.getNombre());
 				ps.setString(2,usuario.getApellido());
-				ps.setInt(3, usuario.getMatricula());
+				ps.setString(3, usuario.getMatricula());
 				ps.setInt(4,usuario.getDni());
 				ps.setString(5,usuario.getUserName());
 				ps.setString(6,usuario.getPassword());
@@ -261,7 +261,7 @@ public class AdministradorPersistenciaUsuario {
 					//u.setIdUsuario(result.getInt("idUsuario"));
 					u.setNombre(result.getString("nombre"));
 					u.setApellido(result.getString("apellido"));
-					u.setMatricula(result.getInt("matricula"));
+					u.setMatricula(result.getString("matricula"));
 					u.setDni(result.getInt("nro"));
 					u.setUserName(result.getString("usuarioLogin"));
 					u.setPassword(result.getString("clave"));

@@ -270,7 +270,6 @@ public class AdministradorPersistenciaPaciente {
 					p.setTelefono(result.getLong("telefono"));
 					p.setFechaNaciemiento(result.getDate("fechaNacimiento"));
 					vecPac.add(p);
-					
 				}
 				
 				PoolConnection.getPoolConnection().realeaseConnection(con);

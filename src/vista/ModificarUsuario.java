@@ -17,14 +17,15 @@ import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
 import DTO.UsuarioDTO;
-
 import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
 
 
 import java.awt.Font;
@@ -150,7 +151,7 @@ public class ModificarUsuario extends JDialog {
 		//matriculaTextField.setColumns(10);
 		matriculaTextField.setVisible(false);
 		
-		if(userDTO.getMatricula()!=0){
+		if(userDTO.getMatricula()!=null){
 			matriculaTextField.setText(String.valueOf(userDTO.getMatricula()));
 			chckbxEsMdico.setSelected(true);
 		}
@@ -193,11 +194,11 @@ public class ModificarUsuario extends JDialog {
 					}else if (vecPermisos.size()==0){
 						JOptionPane.showMessageDialog(null, "Debe Asginar al menos un permiso", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
 					}else{
-						int matricula;
+						String matricula;
 						if (!chckbxEsMdico.isSelected()){
-							matricula = 0;
+							matricula = null;
 						}else
-							matricula = Integer.parseInt(matriculaTextField.getText());
+							matricula = matriculaTextField.getText();
 		//TODO
 						boolean alta = Sistema.getInstancia().modificarUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a",borradoCheckBox.isSelected());
 						if (alta){

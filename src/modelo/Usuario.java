@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+
 import DTO.UsuarioDTO;
 import persistencia.AdministradorPersistenciaUsuario;
 
@@ -10,7 +11,7 @@ public class Usuario {
 	private int dni;
 	private String nombre;
 	private String apellido;
-	private int matricula;
+	private String matricula;
 	private String userName;
 	private String password;
 	private boolean borrado;
@@ -18,7 +19,7 @@ public class Usuario {
 	
 	public Usuario(){};
 	
-	public Usuario(String nombre, String apellido,int matricula,
+	public Usuario(String nombre, String apellido,String matricula,
 				int dni,String userName, String password ) {
 		super();
 		this.nombre = nombre;
@@ -34,11 +35,11 @@ public class Usuario {
 		
 	}
 	
-	public int getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(int matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 
@@ -86,7 +87,7 @@ public class Usuario {
 		
 	}
 
-	public void modificarUsuario (String nombre, String apellido,int matricula,String userName, String password, boolean borrado) {
+	public void modificarUsuario (String nombre, String apellido,String matricula,String userName, String password, boolean borrado) {
 			
 			this.nombre = nombre;
 			this.apellido = apellido;

@@ -17,18 +17,23 @@ import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
 
+
 import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
 import java.awt.Font;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.EtchedBorder;
+
 import java.awt.Color;
 
 public class AltaUsuarioMedico extends JDialog {
@@ -183,7 +188,7 @@ public class AltaUsuarioMedico extends JDialog {
 //						if (!chckbxEsMdico.isSelected()){
 //							matricula = 0;
 //						}else
-							int matricula = Integer.parseInt(matriculaTextField.getText());
+							String matricula = matriculaTextField.getText();
 				//TODO
 							boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
 						if (alta){
