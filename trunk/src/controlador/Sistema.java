@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
@@ -259,7 +260,7 @@ public class Sistema{
 	}
 
 	
-	public boolean altaUsuario(String nombre, String apellido, int dni, int matricula, String userName, String password, String Permisos ){
+	public boolean altaUsuario(String nombre, String apellido, int dni, String matricula, String userName, String password, String Permisos ){
 		
 		Usuario u = buscarUsuario(dni);
 		String vp = Permisos;
@@ -277,7 +278,7 @@ public class Sistema{
 	}
 	
 	
-	public boolean modificarUsuario(String nombre, String apellido, int dni, int matricula, String userName, 
+	public boolean modificarUsuario(String nombre, String apellido, int dni, String matricula, String userName, 
 		String password, String Permisos, boolean borrado){
 		
 		Usuario u = buscarUsuario(dni);

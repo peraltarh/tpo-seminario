@@ -5,7 +5,7 @@ public class UsuarioDTO {
 	
 	private String nombre;
 	private String apellido;
-	private int matricula;
+	private String matricula;
 	private int dni;
 	private String userName;
 	private String password;
@@ -16,7 +16,7 @@ public class UsuarioDTO {
 		
 	}
 	
-	public UsuarioDTO(String nombre, String apellido, int matricula,
+	public UsuarioDTO(String nombre, String apellido, String matricula,
 				int dni,String userName, String password,boolean borrado,String especialidad) {
 		super(); 
 		
@@ -45,11 +45,11 @@ public class UsuarioDTO {
 		this.apellido = apellido;
 	}
 	
-	public int getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(int matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 

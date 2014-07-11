@@ -17,14 +17,17 @@ import javax.swing.JList;
 import javax.swing.border.BevelBorder;
 
 
+
 import controlador.Sistema;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
 import java.awt.Font;
 
 public class AltaUsuario extends JDialog {
@@ -171,11 +174,11 @@ public class AltaUsuario extends JDialog {
 					}else if (vecPermisos.size()==0){
 						JOptionPane.showMessageDialog(null, "Debe Asginar al menos un permiso", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
 					}else{
-						int matricula;
+						String matricula;
 						if (!chckbxEsMdico.isSelected()){
-							matricula = 0;
+							matricula = null;
 						}else
-							matricula = Integer.parseInt(matriculaTextField.getText());
+							matricula = matriculaTextField.getText();
 				//TODO
 						boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
 						if (alta){
