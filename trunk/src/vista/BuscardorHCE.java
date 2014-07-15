@@ -23,9 +23,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.border.EtchedBorder;
+
+import controlador.Sistema;
+import modelo.Paciente;
+import persistencia.AdministradorPersistenciaPaciente;
 
 public class BuscardorHCE extends JDialog {
 
@@ -101,13 +107,10 @@ public class BuscardorHCE extends JDialog {
 		};
 		
 		//TODO Ver que columnas hay que agregar
-		model.addColumn("id");
 		model.addColumn("Nombre");
 		model.addColumn("Apellido");
+		model.addColumn("Tipo");
 		model.addColumn("DNI");
-		model.addColumn("Obra Social");
-		model.addColumn("Numero Afiliado");
-		model.addColumn("Borrado");
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -122,8 +125,9 @@ public class BuscardorHCE extends JDialog {
 		JButton buscarButton = new JButton("Buscar");
 		buscarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filtrar();
 				
+				Paciente p=AdministradorPersistenciaPaciente.getInstancia().buscarPaciente(buscarTextField.getText(),comboBox.getSelectedItem().toString());
+				cargarTabla(p);
 			}
 		});
 		buscarButton.setBounds(404, 7, 116, 32);
@@ -135,7 +139,7 @@ public class BuscardorHCE extends JDialog {
 		contentPane.add(separator);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "Apellido", "Nro Afiliado"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LU", "LR"}));
 		comboBox.setBounds(280, 14, 114, 25);
 		contentPane.add(comboBox);
 		
@@ -175,6 +179,17 @@ public class BuscardorHCE extends JDialog {
 		setModal(true);
 	}
 	
+	protected void cargarTabla(Paciente p) {
+		model.setNumRows(1);
+		model.setValueAt(p.getNombre(), 0, 0);
+		model.setValueAt(p.getApellido(), 0,1);
+		model.setValueAt(p.getTipoDoc(), 0, 2);	
+		model.setValueAt(p.getDni(), 0, 3);	
+		table.setModel(model);
+		sorter = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(sorter);
+	}
+
 	private void filtrar() {
 		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
 		RowFilter<TableModel, Object> rf = null;
@@ -199,27 +214,9 @@ public class BuscardorHCE extends JDialog {
 		sorter.setRowFilter(rf);
 		}
 	
-	public void llenarTabla(){
-//		usuarios = Sistema.getInstancia().getUsuarios();
-//
-//		model.setNumRows(usuarios.size());
-//		for (int i = 0; i < usuarios.size(); i++) {
-//			model.setValueAt(usuarios.elementAt(i).getIdUsuario(), i, 0);
-//			model.setValueAt(usuarios.elementAt(i).getNombre(), i, 1);
-//			model.setValueAt(usuarios.elementAt(i).getApellido(), i, 2);
-//			model.setValueAt(usuarios.elementAt(i).getDni(), i, 3);
-//			model.setValueAt(usuarios.elementAt(i).getUserName(), i, 4);
-//			if (usuarios.elementAt(i).isBorrado() == true){
-//				model.setValueAt("SI", i, 5);	
-//			}else
-//				model.setValueAt("NO", i, 5);
-//				
-//		}
-		
-		table.setModel(model);
-		sorter = new TableRowSorter<TableModel>(model);
-		table.setRowSorter(sorter);
-		
-	}
+	
+
+
+	
 }
 

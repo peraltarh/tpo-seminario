@@ -219,7 +219,8 @@ public class BuscardorPaciente extends JDialog {
 		sorter.setRowFilter(rf);
 		}
 	
-	public void llenarTabla(){
+	public void llenarTabla()
+	{
 		pacientes = Sistema.getInstancia().getPacientes();
 
 		model.setNumRows(pacientes.size());
