@@ -35,7 +35,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 	
 			int idPrestacion=2;
 			String senten = "INSERT INTO practicaQuirurgica" +
-					"(idPrestacion,usuarioLogin,ojo,,diagnostico,monitoreo,horaInicio,horaFin,anestesia) "
+					"(idPrestacion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia) "
 					+ "VALUES (?,?,?,?,?,?,?,?);SELECT @@IDENTITY";
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);

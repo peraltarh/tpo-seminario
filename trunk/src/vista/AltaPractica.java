@@ -15,6 +15,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JEditorPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,23 +24,30 @@ import java.awt.event.KeyEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
+
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javax.swing.JSpinner.DateEditor;
 
+import javax.swing.JSpinner.DateEditor;
 import javax.swing.JComboBox;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import persistencia.AdministradorPersistenciaAuditoria;
+import persistencia.AdministradorPersistenciaPracticaAmbulatoria;
+import persistencia.AdministradorPersistenciaPracticaQuirurgica;
 import controlador.Sistema;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+
 import java.util.Date;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
+
 import java.awt.Toolkit;
 import java.awt.Dialog.ModalExclusionType;
 
@@ -54,7 +62,7 @@ public class AltaPractica extends JDialog {
 	private JButton cancelarButton;
 	private JXDatePicker fechaPractica;
 	private JComboBox ojoComboBox;
-	private JComboBox practicaComboBox;
+	private JComboBox prestacionComboBox;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
@@ -162,12 +170,12 @@ public class AltaPractica extends JDialog {
 		getContentPane().add(practicaPanel);
 		practicaPanel.setLayout(null);
 		
-		practicaComboBox = new JComboBox();
-		practicaComboBox.setBounds(66, 25, 339, 22);
+		prestacionComboBox = new JComboBox();
+		prestacionComboBox.setBounds(66, 25, 339, 22);
 		//TODO
-		practicaComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
-		AutoCompleteDecorator.decorate(this.practicaComboBox);
-		practicaPanel.add(practicaComboBox);
+		prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+		AutoCompleteDecorator.decorate(this.prestacionComboBox);
+		practicaPanel.add(prestacionComboBox);
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -219,7 +227,13 @@ public class AltaPractica extends JDialog {
 		guardarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/guardar.png")));
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				
+				int idAmbulatoria=AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText());
+				
+				String auditar="Se creo un alta de cirugia";
+				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
+				
+				
 			}
 		});
 		guardarButton.setBounds(211, 453, 116, 32);
