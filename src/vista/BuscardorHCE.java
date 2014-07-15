@@ -31,6 +31,7 @@ import javax.swing.border.EtchedBorder;
 
 import controlador.Sistema;
 import modelo.Paciente;
+import persistencia.AdministradorPersistenciaAuditoria;
 import persistencia.AdministradorPersistenciaPaciente;
 
 public class BuscardorHCE extends JDialog {
@@ -128,7 +129,8 @@ public class BuscardorHCE extends JDialog {
 		JButton buscarButton = new JButton("Buscar");
 		buscarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String auditar="Se busco HCE con dni\t"+buscarTextField.getText()+"\ttipo documento\t"+comboBox.getSelectedItem().toString();
+				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),Sistema.getInstancia().fechaActual(),auditar);
 				Paciente p=AdministradorPersistenciaPaciente.getInstancia().buscarPaciente(buscarTextField.getText(),comboBox.getSelectedItem().toString());
 				cargarTabla(p);
 			}
@@ -195,7 +197,7 @@ public class BuscardorHCE extends JDialog {
 		table.setRowSorter(sorter);
 	}
 
-	private void filtrar() {
+/*	private void filtrar() {
 		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
 		RowFilter<TableModel, Object> rf = null;
 		int indiceColumnaTabla = 2;
@@ -218,7 +220,7 @@ public class BuscardorHCE extends JDialog {
 		}
 		sorter.setRowFilter(rf);
 		}
-	
+*/		
 	
 
 
