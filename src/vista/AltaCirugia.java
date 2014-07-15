@@ -15,6 +15,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JEditorPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,21 +24,29 @@ import java.awt.event.KeyEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
+
 import java.awt.Color;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javax.swing.JSpinner.DateEditor;
 
+import javax.swing.JSpinner.DateEditor;
 import javax.swing.JComboBox;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import persistencia.AdministradorPersistenciaAuditoria;
+import persistencia.AdministradorPersistenciaHCE;
+import persistencia.AdministradorPersistenciaPaciente;
+import persistencia.AdministradorPersistenciaPracticaQuirurgica;
 import controlador.Sistema;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+
 import java.util.Date;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
@@ -48,7 +57,7 @@ public class AltaCirugia extends JDialog {
 	private JButton cancelarButton;
 	private JXDatePicker fechaPractica;
 	private JComboBox ojoComboBox;
-	private JComboBox practicaComboBox;
+	private JComboBox prestacionComboBox;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
@@ -58,13 +67,13 @@ public class AltaCirugia extends JDialog {
 	private JLabel lblNewLabel_3;
 	private JTextField textField;
 	private JLabel lblAneste;
-	private JComboBox comboBox;
+	private JComboBox anestesiaComboBox;
 	private JLabel lblHoraInicio;
-	private JTextField textField_1;
+	private JTextField monitoreoTextField;
 	private JLabel lblHoraFin;
 	private JTextField textField_2;
 	private JLabel label;
-	private JComboBox comboBox_1;
+	private JComboBox sexoComboBox;
 	
 
 	/**
@@ -151,9 +160,12 @@ public class AltaCirugia extends JDialog {
 		label.setBounds(226, 51, 69, 14);
 		datosPacientePanel.add(label);
 		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(282, 47, 137, 22);
-		datosPacientePanel.add(comboBox_1);
+		sexoComboBox = new JComboBox();
+		sexoComboBox.setBounds(282, 47, 137, 22);
+		sexoComboBox.setModel(new DefaultComboBoxModel(new String[] {"f", "m"}));
+		AutoCompleteDecorator.decorate(this.sexoComboBox);
+		datosPacientePanel.add(sexoComboBox);
+		
 		
 		JPanel practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Cirug\u00EDa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -161,12 +173,12 @@ public class AltaCirugia extends JDialog {
 		getContentPane().add(practicaPanel);
 		practicaPanel.setLayout(null);
 		
-		practicaComboBox = new JComboBox();
-		practicaComboBox.setBounds(92, 25, 326, 22);
+		prestacionComboBox = new JComboBox();
+		prestacionComboBox.setBounds(92, 25, 326, 22);
 		//TODO
-		practicaComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
-		AutoCompleteDecorator.decorate(this.practicaComboBox);
-		practicaPanel.add(practicaComboBox);
+		prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+		AutoCompleteDecorator.decorate(this.prestacionComboBox);
+		practicaPanel.add(prestacionComboBox);
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -201,20 +213,20 @@ public class AltaCirugia extends JDialog {
 		lblNewLabel_3.setBounds(10, 42, 86, 42);
 		practicaPanel.add(lblNewLabel_3);
 		
-		textField = new JTextField();
-		textField.setBounds(92, 58, 195, 20);
-		practicaPanel.add(textField);
-		textField.setColumns(10);
+		monitoreoTextField = new JTextField();
+		monitoreoTextField.setBounds(92, 58, 195, 20);
+		practicaPanel.add(monitoreoTextField);
+		monitoreoTextField.setColumns(10);
 		
 		lblAneste = new JLabel("Anestesia");
 		lblAneste.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblAneste.setBounds(10, 90, 75, 14);
 		practicaPanel.add(lblAneste);
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"T\u00F3pica", "Totall"}));
-		comboBox.setBounds(92, 89, 156, 22);
-		practicaPanel.add(comboBox);
+		anestesiaComboBox = new JComboBox();
+		anestesiaComboBox.setModel(new DefaultComboBoxModel(new String[] {"T\u00F3pica", "Total"}));
+		anestesiaComboBox.setBounds(92, 89, 156, 22);
+		practicaPanel.add(anestesiaComboBox);
 		
 		lblHoraInicio = new JLabel("Hora Inicio");
 		lblHoraInicio.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -222,7 +234,7 @@ public class AltaCirugia extends JDialog {
 		practicaPanel.add(lblHoraInicio);
 		
 		
-		JSpinner horaInicio = new JSpinner(new SpinnerDateModel());
+		final JSpinner horaInicio = new JSpinner(new SpinnerDateModel());
 		//spinner.setModel(new SpinnerDateModel(new Date(1397790000000L), null, null, Calendar.AM_PM));
 		horaInicio.setBounds(92, 154, 67, 20);
 		horaInicio.setEditor(new DateEditor(horaInicio, "HH:mm"));
@@ -233,7 +245,7 @@ public class AltaCirugia extends JDialog {
 		lblHoraFin.setBounds(221, 160, 46, 14);
 		practicaPanel.add(lblHoraFin);
 				
-		JSpinner horaFin = new JSpinner(new SpinnerDateModel());
+		final JSpinner horaFin = new JSpinner(new SpinnerDateModel());
 		//spinner.setModel(new SpinnerDateModel(new Date(1397790000000L), null, null, Calendar.AM_PM));
 		horaFin.setBounds (291, 154, 67, 20);
 		horaFin.setEditor(new DateEditor(horaFin, "HH:mm"));
@@ -259,7 +271,13 @@ public class AltaCirugia extends JDialog {
 		guardarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/guardar.png")));
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				
+				
+				int idCirugia=AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),(Date)horaInicio.getValue(),(Date)horaFin.getValue(),anestesiaComboBox.getSelectedItem().toString());
+	
+				String auditar="Se creo un alta de cirugia";
+				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
+				
 			}
 		});
 		guardarButton.setBounds(211, 453, 116, 32);

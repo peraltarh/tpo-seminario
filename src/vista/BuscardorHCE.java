@@ -130,9 +130,9 @@ public class BuscardorHCE extends JDialog {
 		buscarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String auditar="Se busco HCE con dni\t"+buscarTextField.getText()+"\ttipo documento\t"+comboBox.getSelectedItem().toString();
-				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 				Paciente p=AdministradorPersistenciaPaciente.getInstancia().buscarPaciente(buscarTextField.getText(),comboBox.getSelectedItem().toString());
 				cargarTabla(p);
+				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 			}
 		});
 		buscarButton.setBounds(404, 7, 116, 32);
