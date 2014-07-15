@@ -71,7 +71,6 @@ public class Sistema{
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		java.sql.Date f = new java.sql.Date(calendar.getTime().getTime());
-		
 		return f;
 				
 	}
@@ -88,8 +87,6 @@ public class Sistema{
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
-		
-				
 	}
 	
 	//OK
