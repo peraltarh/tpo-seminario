@@ -111,6 +111,9 @@ public class BuscardorHCE extends JDialog {
 		model.addColumn("Apellido");
 		model.addColumn("Tipo");
 		model.addColumn("DNI");
+		model.addColumn("Sexo");
+		model.addColumn("Edad");
+		
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -185,6 +188,8 @@ public class BuscardorHCE extends JDialog {
 		model.setValueAt(p.getApellido(), 0,1);
 		model.setValueAt(p.getTipoDoc(), 0, 2);	
 		model.setValueAt(p.getDni(), 0, 3);	
+		model.setValueAt(p.getSexo(), 0, 4);	
+		model.setValueAt((p.calcularEdad(p.getFechaNaciemiento()).substring(0, 2)), 0, 5);
 		table.setModel(model);
 		sorter = new TableRowSorter<TableModel>(model);
 		table.setRowSorter(sorter);

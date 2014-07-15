@@ -26,9 +26,11 @@ import javax.swing.ScrollPaneConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import modelo.Paciente;
 import controlador.Sistema;
 
 import java.awt.Font;
