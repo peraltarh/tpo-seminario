@@ -25,19 +25,18 @@ public class AdministradorPersistenciaAuditoria {
 		return pool;
 	}
 		
-		public void registrar(UsuarioDTO usuarioDTO, Date date, String auditar) {
+		public void registrar(UsuarioDTO usuarioDTO, String auditar) {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 			
 			try
 			{
 				String senten = "INSERT INTO auditoria" +
-						"(usuarioLogin,fechaHs,descripcion) VALUES (?,?,?)" ;
+						"(usuarioLogin,fechaHs,descripcion) VALUES (?,getdate(),?)" ;
 				PreparedStatement ps = null;
 				ps = con.prepareStatement(senten);
 				
 				ps.setString(1,usuarioDTO.getUserName().toString());
-				ps.setString(2,date.toString());
-				ps.setString(3,auditar);
+				ps.setString(2,auditar);
 				ps.execute();
 				
 				PoolConnection.getPoolConnection().realeaseConnection(con);
