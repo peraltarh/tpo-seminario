@@ -157,7 +157,8 @@ public class VerHCE extends JDialog {
 		nuevaPrcticaAmbulatoriaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				AltaPractica ap = new AltaPractica();
+//AP anterior					//AltaPractica ap = new AltaPractica();
+				AltaPractica ap = new AltaPractica(pacienteDTOActual);
 				ap.setVisible(true);
 			}
 		});

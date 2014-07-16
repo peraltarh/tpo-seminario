@@ -8,7 +8,7 @@ import modelo.Paciente;
 
 public class PacienteDTO {
 
-	private long dni;
+	private String dni;
 	private String tipoDoc;
 	private String sexo;
 	private String nombre;
@@ -38,12 +38,12 @@ public class PacienteDTO {
 	}
 
 
-	public long getDni() {
+	public String getDni() {
 		return dni;
 	}
 
 
-	public void setDni(long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 

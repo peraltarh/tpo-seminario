@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import modelo.Paciente;
+import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
 public class AdministradorPersistenciaPracticaAmbulatoria {
@@ -24,7 +26,7 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 	}
 
 
-	public long altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico) 
+	public void altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String fecha, String nroDoc, String tipoDoc) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
 		long idPracticaAmbulatoria=-1;//falta obtener el id que se inserto y devolverlo
@@ -51,7 +53,37 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 				idPracticaAmbulatoria = rs.getLong(1);
 			}
 			
-			System.out.print(idPracticaAmbulatoria);
+			
+			
+			String senten2 = "SELECT (idHCE) WHERE nroDOC=? AND tipoDoc=?";
+					
+			PreparedStatement ps2 = null;
+			ps2 = con.prepareStatement(senten2);
+			ps2.setString(1,nroDoc);
+			ps2.setString(2, tipoDoc);
+			
+			ResultSet result = ps2.executeQuery();
+			int idHCE=-1;
+			while (result.next())
+			{
+				idHCE=(result.getInt(1));
+			}	
+			
+			
+			
+			
+			String senten3 = "INSERT INTO itemHCE" +
+					"(idHCE,fecha,practica,idPracticaAmbulatoria) "
+					+ "VALUES (?,?,?,?)";
+			
+			PreparedStatement ps3 = null;
+			ps3 = con.prepareStatement(senten3);
+			ps3.setInt(1,idHCE);
+			ps3.setString(2,fecha);
+			ps3.setString(3,"PracticaAmbulatoria");
+			ps3.setInt(4,(int)idPracticaAmbulatoria);
+			ps3.executeUpdate();
+			
 			
 			
 			
@@ -66,8 +98,8 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
 
+		
 
-
-		return idPracticaAmbulatoria;
+		
 	}
 }

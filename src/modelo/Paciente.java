@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Paciente {
 
-	private long dni;
+	private String dni;
 	private String tipoDoc;
 	private String sexo;
 	private String nombre;
@@ -18,7 +18,7 @@ public class Paciente {
 	private float nroAfiliado;
 		
 
-	public Paciente(long dni, String tipoDoc, String sexo, String nombre,
+	public Paciente(String dni, String tipoDoc, String sexo, String nombre,
 			String apellido, long celular, long telefono,
 			Date fechaNaciemiento, String email, ObraSocial obraSocial,
 			float nroAfiliado) {
@@ -90,7 +90,7 @@ public class Paciente {
     }
 
 
-	public long getDni() {
+	public String getDni() {
 		return dni;
 	}
 
@@ -135,7 +135,7 @@ public class Paciente {
 		return nroAfiliado;
 	}
 
-	public void setDni(long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
