@@ -262,7 +262,7 @@ public class AdministradorPersistenciaPaciente {
 					
 					p.setNombre(result.getString("nombre"));
 					p.setApellido(result.getString("apellido"));
-					p.setDni(result.getInt("nro"));
+					p.setDni(result.getString("nro"));
 					p.setTipoDoc(result.getString("tipoDoc"));
 					p.setSexo(result.getString("sexo"));
 					p.setEmail(result.getString("email"));
@@ -306,7 +306,7 @@ public class AdministradorPersistenciaPaciente {
 					
 					p.setNombre(result.getString("nombre"));
 					p.setApellido(result.getString("apellido"));
-					p.setDni(result.getInt("nro"));
+					p.setDni(result.getString("nro"));
 					p.setTipoDoc(result.getString("tipoDoc"));
 					p.setSexo(result.getString("sexo"));
 					p.setEmail(result.getString("email"));

@@ -35,6 +35,7 @@ import javax.swing.JComboBox;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import DTO.PacienteDTO;
 import persistencia.AdministradorPersistenciaAuditoria;
 import persistencia.AdministradorPersistenciaPracticaAmbulatoria;
 import persistencia.AdministradorPersistenciaPracticaQuirurgica;
@@ -55,6 +56,7 @@ public class AltaPractica extends JDialog {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel DiagnosticoPanel;
 	private JTextPane diagnositicoTextPane;
@@ -71,14 +73,14 @@ public class AltaPractica extends JDialog {
 	private JTextField edadTextField;
 	private JComboBox obraSocialComboBox;
 	private JTextField numeroAfiliadoTextField;
-	
+	private PacienteDTO pacienteDTOAct;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			AltaPractica dialog = new AltaPractica();
+			AltaPractica dialog = new AltaPractica(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -88,11 +90,13 @@ public class AltaPractica extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param pacienteDTOActual 
 	 */
-	public AltaPractica() {
+	public AltaPractica(PacienteDTO pacienteDTOActual) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaPractica.class.getResource("/image/practica.png")));
 		setTitle("Pr\u00E1ctica Ambulatoria");
+		pacienteDTOAct=pacienteDTOActual;
 		initGUI();
 	}
 	
@@ -115,6 +119,7 @@ public class AltaPractica extends JDialog {
 		nombreTextField.setBounds(68, 19, 137, 20);
 		datosPacientePanel.add(nombreTextField);
 		nombreTextField.setColumns(10);
+		nombreTextField.setText(pacienteDTOAct.getNombre());
 		
 		JLabel lblApellido = new JLabel("Apellido");
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -125,6 +130,7 @@ public class AltaPractica extends JDialog {
 		apellidoTextField.setBounds(282, 19, 137, 20);
 		datosPacientePanel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
+		apellidoTextField.setText(pacienteDTOAct.getApellido());
 		
 		JLabel lblObraSocial = new JLabel("<html>Obra<br>Social</html>");
 		lblObraSocial.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -141,10 +147,13 @@ public class AltaPractica extends JDialog {
 		lblEdad.setBounds(10, 47, 46, 14);
 		datosPacientePanel.add(lblEdad);
 		
+		
+		
 		edadTextField = new JTextField();
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
+		edadTextField.setText(pacienteDTOAct.calcularEdad());
 		
 		obraSocialComboBox = new JComboBox();
 		obraSocialComboBox.setBounds(68, 75, 137, 22);
@@ -163,6 +172,9 @@ public class AltaPractica extends JDialog {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		comboBox.setBounds(282, 47, 137, 22);
 		datosPacientePanel.add(comboBox);
+		if(pacienteDTOAct.getSexo()=="f")
+			comboBox.setSelectedIndex(2);
+		
 		
 		JPanel practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pr\u00E1ctica", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -228,7 +240,7 @@ public class AltaPractica extends JDialog {
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				long idPA=AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText());
+				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),fechaPractica.getDate().toString(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				
 				String auditar="Se creo un alta de cirugia";
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
