@@ -228,7 +228,7 @@ public class AltaPractica extends JDialog {
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				int idAmbulatoria=AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText());
+				long idAmbulatoria=AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText());
 				
 				String auditar="Se creo un alta de cirugia";
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);

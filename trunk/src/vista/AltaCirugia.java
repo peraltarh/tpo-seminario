@@ -273,7 +273,7 @@ public class AltaCirugia extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
-				int idCirugia=AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),(Date)horaInicio.getValue(),(Date)horaFin.getValue(),anestesiaComboBox.getSelectedItem().toString());
+				long idCirugia=AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),horaInicio.getValue().toString(),horaFin.getValue().toString(),anestesiaComboBox.getSelectedItem().toString());
 	
 				String auditar="Se creo un alta de cirugia";
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);

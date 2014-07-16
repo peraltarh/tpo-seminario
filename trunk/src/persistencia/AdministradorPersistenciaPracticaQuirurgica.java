@@ -24,10 +24,10 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 	}
 
 
-	public int altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, java.util.Date hsInicio, java.util.Date hsFin, String anestesia) 
+	public long altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, String hsInicio, String hsFin, String anestesia) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
-		int idPracticaQuirurgica=-1;//falta obtener el id que se inserto y devolverlo
+		long idPracticaQuirurgica=-1;//falta obtener el id que se inserto y devolverlo
 		try
 		{
 			//int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
@@ -49,13 +49,14 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 			ps.setString(6,hsInicio);
 			ps.setString(7,hsFin);
 			ps.setString(8,anestesia);
-			ps.execute();
+			ps.executeUpdate();
 			
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				idPracticaQuirurgica = rs.getLong(1);
+			}		
 			
-			int iUpdCount = ps.getUpdateCount();
-			
-			
-		//copied
+		
 			
 			
 			
