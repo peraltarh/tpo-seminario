@@ -14,6 +14,8 @@ import java.util.Date;
 
 
 
+
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
@@ -227,7 +229,7 @@ public class Sistema{
 	public ArrayList<UsuarioDTO> getUsuarios (){
 		ArrayList<UsuarioDTO> vecUsuarioDTO = new ArrayList<UsuarioDTO>();
 		
-		if(usuarios.size() == 0){
+		if(usuarios.size() <= 1  ){//si tengo uno es el logueado
 			usuarios = new Usuario().buscarAll();	
 		}
 		
@@ -366,15 +368,34 @@ public class Sistema{
 
 		ArrayList<PacienteDTO> pacientesDTO = new ArrayList<PacienteDTO>();
 		
-		if(this.pacientes.isEmpty()){
+
 			this.pacientes = AdministradorPersistenciaPaciente.getInstancia().buscarAll();
-		}
+
 		
 		for (Paciente pacienteTemp : this.pacientes) {
 			pacientesDTO.add(new PacienteDTO(pacienteTemp));
 		}
 		
 		return pacientesDTO;
+	}
+
+
+	public PacienteDTO buscarPaciente(String nroDoc, String tipoDoc) {
+		
+		for (Paciente pacienteTemp : this.pacientes) {
+			if(String.valueOf(pacienteTemp.getDni()).equals(nroDoc) && pacienteTemp.getTipoDoc().equals(tipoDoc)){
+				return new PacienteDTO(pacienteTemp);
+			}
+		}
+		
+		Paciente pacienteTemp = AdministradorPersistenciaPaciente.getInstancia().buscarPaciente(nroDoc, tipoDoc);
+		
+		if(pacienteTemp == null) return null;
+		
+		this.pacientes.add(pacienteTemp);
+		return new PacienteDTO(pacienteTemp);
+		
+		
 	}
 
 

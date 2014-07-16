@@ -24,7 +24,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 	}
 
 
-	public long altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, String hsInicio, String hsFin, String anestesia) 
+	public long altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, java.util.Date date, java.util.Date date2, String anestesia) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
 		long idPracticaQuirurgica=-1;//falta obtener el id que se inserto y devolverlo
@@ -46,8 +46,8 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 			ps.setString(3,ojo);
 			ps.setString(4,diagnostico);
 			ps.setString(5,monitoreo);
-			ps.setString(6,hsInicio);
-			ps.setString(7,hsFin);
+			ps.setDate(6,(Date) date);
+			ps.setDate(7,(Date) date2);
 			ps.setString(8,anestesia);
 			ps.executeUpdate();
 			

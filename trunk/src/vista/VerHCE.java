@@ -1,7 +1,6 @@
 package vista;
 
 import java.awt.EventQueue;
-import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,17 +10,14 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 
 import java.awt.event.ActionListener;
@@ -30,7 +26,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import modelo.Paciente;
+import DTO.PacienteDTO;
 import controlador.Sistema;
 
 import java.awt.Font;
@@ -55,8 +51,11 @@ public class VerHCE extends JDialog {
 	private JTextField edadTextField;
 	private JTextPane detalleTextPane;
 	private JScrollPane scrollDetalleTextPane;
-	private JTextField textField;
+	private JTextField textField_numeroDoc;
 	private JButton buscarButton;
+	private JComboBox comboBox_TipoDoc;
+	private PacienteDTO pacienteDTOActual;
+	private JTextField sexoTextField;
 	
 	/**
 	 * Launch the application.
@@ -137,7 +136,7 @@ public class VerHCE extends JDialog {
 		});
 		nuevaConsultaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/consulta.png")));
 		
-		boolean validarPermisoConsulta = Sistema.getInstancia().validarPermiso("NUEVA_CONSULTA");
+		boolean validarPermisoConsulta = Sistema.getInstancia().validarPermiso("Oftalmologo General");
 		if (validarPermisoConsulta==true){
 			nuevaConsultaButton.setEnabled(true);
 		}else
@@ -154,7 +153,7 @@ public class VerHCE extends JDialog {
 		});
 		cancelarButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/cancel.png")));
 		
-		nuevaPrcticaAmbulatoriaButton= new JButton("<html>Alta Práctica<br>Ambulatoria</html>");
+		nuevaPrcticaAmbulatoriaButton= new JButton("<html>Alta Practica<br>Ambulatoria</html>");
 		nuevaPrcticaAmbulatoriaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -166,13 +165,13 @@ public class VerHCE extends JDialog {
 		nuevaPrcticaAmbulatoriaButton.setBounds(10, 70, 154, 40);
 		panelBotones.add(nuevaPrcticaAmbulatoriaButton);
 		
-		boolean validarPermisoPractica = Sistema.getInstancia().validarPermiso("NUEVA_PRACTICA");
+		boolean validarPermisoPractica = Sistema.getInstancia().validarPermiso("Oftalmologo Practica Ambulatoria");
 		if (validarPermisoPractica==true){
 			nuevaPrcticaAmbulatoriaButton.setEnabled(true);
 		}else
 			nuevaPrcticaAmbulatoriaButton.setEnabled(false);
 		
-		JButton nuevaCirugiaButton = new JButton("<html>Alta Práctica<br>Quirurgíca</html>");
+		JButton nuevaCirugiaButton = new JButton("<html>Alta Practica<br>Quirurgica</html>");
 		nuevaCirugiaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -185,7 +184,7 @@ public class VerHCE extends JDialog {
 		nuevaCirugiaButton.setBounds(10, 121, 154, 32);
 		panelBotones.add(nuevaCirugiaButton);
 		
-		boolean validarPermisoCir = Sistema.getInstancia().validarPermiso("NUEVA_CIRUGIA");
+		boolean validarPermisoCir = Sistema.getInstancia().validarPermiso("Oftalmologo Quirurgico");
 		if (validarPermisoCir==true){
 			nuevaCirugiaButton.setEnabled(true);
 		}else
@@ -233,10 +232,11 @@ public class VerHCE extends JDialog {
 		label_3.setBounds(282, 50, 69, 14);
 		panelDatosPaciente.add(label_3);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
-		comboBox_1.setBounds(328, 46, 197, 22);
-		panelDatosPaciente.add(comboBox_1);
+		sexoTextField = new JTextField();
+		sexoTextField.setColumns(10);
+		sexoTextField.setBounds(328, 46, 197, 22);
+		panelDatosPaciente.add(sexoTextField);
+
 		
 		JPanel panelConsultas = new JPanel();
 		panelConsultas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Detalle", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -263,22 +263,42 @@ public class VerHCE extends JDialog {
 		label_2.setBounds(23, 23, 46, 14);
 		contentPane.add(label_2);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(79, 18, 217, 25);
-		contentPane.add(textField);
+		textField_numeroDoc = new JTextField();
+		textField_numeroDoc.setColumns(10);
+		textField_numeroDoc.setBounds(79, 18, 217, 25);
+		contentPane.add(textField_numeroDoc);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LC"}));
-		comboBox.setBounds(306, 16, 114, 25);
-		contentPane.add(comboBox);
+		comboBox_TipoDoc = new JComboBox();
+		comboBox_TipoDoc.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LU", "LE"}));
+		comboBox_TipoDoc.setBounds(306, 16, 114, 25);
+		contentPane.add(comboBox_TipoDoc);
 		
 		buscarButton = new JButton("Buscar");
 		buscarButton.setIcon(new ImageIcon(BuscardorHCE.class.getResource("/image/search.png")));
 		buscarButton.setBounds(456, 15, 116, 32);
 		contentPane.add(buscarButton);
+		buscarButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				pacienteDTOActual = null;
+				pacienteDTOActual = Sistema.getInstancia().buscarPaciente(textField_numeroDoc.getText(),comboBox_TipoDoc.getSelectedItem().toString());
+				
+				if(pacienteDTOActual != null){
+				apellidoTextField.setText(pacienteDTOActual.getApellido());
+				nombreTextField.setText(pacienteDTOActual.getNombre());
+				edadTextField.setText(pacienteDTOActual.calcularEdad());
+				sexoTextField.setText(pacienteDTOActual.getSexo());
+				llenarTabla();
+				
+				}else{
+					//TODO mostrar Error
+
+				}
+				
+			}
+		});
 		
-		llenarTabla();
+	
 		
 		this.setLocationRelativeTo(null);
 		//setAlwaysOnTop(true);
@@ -286,6 +306,10 @@ public class VerHCE extends JDialog {
 	}
 	
 	public void llenarTabla(){
+		
+		//TODO ACA HAY QUE BUSCAR LAS HISTORIA CLINICA Y METERLA EN LA TABLA
+		
+		
 //		usuarios = Sistema.getInstancia().getUsuarios();
 //
 //		model.setNumRows(usuarios.size());
