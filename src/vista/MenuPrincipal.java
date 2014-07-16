@@ -55,9 +55,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		usuarioActual =  Sistema.getInstancia().getUsuarioActual();
 		
 		// SOLO PARA TEST
-		if(usuarioActual== null){
-			usuarioActual =  Sistema.getInstancia().getUsuario(30489590);
-		}
+//		if(usuarioActual== null){
+//			usuarioActual =  Sistema.getInstancia().getUsuario(30489590);
+//		}
 		
 		initGUI();
 	}
@@ -201,8 +201,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			buscarHCE.setMnemonic(KeyEvent.VK_B);
 			buscarHCE.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					BuscardorHCE b = new  BuscardorHCE();
-					b.setVisible(true);
+					//BuscardorHCE b = new  BuscardorHCE();
+					//b.setVisible(true);
+					VerHCE vh = new VerHCE();
+					vh.setVisible(true);
 				}
 			});
 			
@@ -225,7 +227,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		{
 			jMenu3 = new JMenu();
 			jMenuBar1.add(jMenu3);
-			jMenu3.setText("Administración");
+			jMenu3.setText("Administracion");
 			jMenu3.setMnemonic(KeyEvent.VK_A);
 			{
 				usuarioMenuItem = new JMenuItem();

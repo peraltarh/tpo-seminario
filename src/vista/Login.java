@@ -192,13 +192,13 @@ public class Login extends javax.swing.JDialog {
 								JOptionPane.showMessageDialog(null, "Debe Ingresar un usuario", "Login", JOptionPane.INFORMATION_MESSAGE);
 							}else
 								if (passwordText.getText().equalsIgnoreCase("")){
-									JOptionPane.showMessageDialog(null, "Debe Ingresar una contraseña", "Login", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Debe Ingresar una contraseÃ±a", "Login", JOptionPane.INFORMATION_MESSAGE);
 								}else{
 									
 									boolean con = Sistema.getInstancia().probarConexion();
 									
 									if (con == false){
-										JOptionPane.showMessageDialog(null, "No se pudo establecer conexión con la Base de Datos, consulte con el Administrador del Sistema", "Login", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, "No se pudo establecer conexion con la Base de Datos, consulte con el Administrador del Sistema", "Login", JOptionPane.ERROR_MESSAGE);
 									}else{
 										
 										boolean validar = Sistema.getInstancia().validarLogin(usuarioText.getText(), passwordText.getText());
@@ -208,7 +208,7 @@ public class Login extends javax.swing.JDialog {
 											mpc.setVisible(true);
 											dispose();
 										}else{
-											JOptionPane.showMessageDialog(null, "Usuario y Contraseña Invalidos", "Login", JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, "Usuario y ContraseÃ±a Invalidos", "Login", JOptionPane.ERROR_MESSAGE);
 										}
 										
 									}
