@@ -24,10 +24,10 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 	}
 
 
-	public int altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico) 
+	public long altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
-		int idPracticaAmbulatoria=-1;//falta obtener el id que se inserto y devolverlo
+		long idPracticaAmbulatoria=-1;//falta obtener el id que se inserto y devolverlo
 		try
 		{
 			//int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
@@ -41,34 +41,17 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);
 			ps.setInt(1,idPrestacion);
-			//ps.setString(2,usuarioDTO.getUserName().toString());
-	//test
-			ps.setString(2,"dmoretti");
+			ps.setString(2,usuarioDTO.getUserName().toString());
 			ps.setString(3,ojo);
 			ps.setString(4,diagnostico);
-			ps.execute();
+			ps.executeUpdate();
 			
-			
-			int iUpdCount = ps.getUpdateCount();
-			System.out.print(idPracticaAmbulatoria);
-			boolean bMoreResults = true;
-			ResultSet rs = null;
-			while (bMoreResults || iUpdCount!=-1)
-			{
-				rs = ps.getResultSet();
-			
-				if (rs != null)
-				{
-					rs.next();
-					idPracticaAmbulatoria = rs.getInt(0);
-				}
-				bMoreResults = ps.getMoreResults();
-				iUpdCount = ps.getUpdateCount();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				idPracticaAmbulatoria = rs.getLong(1);
 			}
 			
-			
 			System.out.print(idPracticaAmbulatoria);
-		//copied
 			
 			
 			
