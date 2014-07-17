@@ -27,7 +27,9 @@ import javax.swing.border.EtchedBorder;
 
 import java.awt.Color;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JSpinner.DateEditor;
@@ -36,6 +38,7 @@ import javax.swing.JComboBox;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import DTO.PacienteDTO;
 import persistencia.AdministradorPersistenciaAuditoria;
 import persistencia.AdministradorPersistenciaHCE;
 import persistencia.AdministradorPersistenciaPaciente;
@@ -74,14 +77,14 @@ public class AltaCirugia extends JDialog {
 	private JTextField textField_2;
 	private JLabel label;
 	private JComboBox sexoComboBox;
-	
+	private PacienteDTO pacienteDTOAct;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			AltaCirugia dialog = new AltaCirugia();
+			AltaCirugia dialog = new AltaCirugia(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -92,7 +95,9 @@ public class AltaCirugia extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AltaCirugia() {
+	public AltaCirugia(PacienteDTO pacienteDTOActual) 
+	{
+		pacienteDTOAct=pacienteDTOActual;
 		setTitle("Cirug\u00EDa");
 		initGUI();
 	}
@@ -116,6 +121,7 @@ public class AltaCirugia extends JDialog {
 		nombreTextField.setBounds(68, 19, 137, 20);
 		datosPacientePanel.add(nombreTextField);
 		nombreTextField.setColumns(10);
+		nombreTextField.setText(pacienteDTOAct.getNombre());
 		
 		JLabel lblApellido = new JLabel("Apellido");
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -126,6 +132,7 @@ public class AltaCirugia extends JDialog {
 		apellidoTextField.setBounds(282, 19, 137, 20);
 		datosPacientePanel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
+		apellidoTextField.setText(pacienteDTOAct.getApellido());
 		
 		JLabel lblObraSocial = new JLabel("<html>Obra<br>Social</html>");
 		lblObraSocial.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -146,6 +153,8 @@ public class AltaCirugia extends JDialog {
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
+		edadTextField.setText(pacienteDTOAct.calcularEdad());
+
 		
 		JComboBox obraSocialComboBox = new JComboBox();
 		obraSocialComboBox.setBounds(68, 77, 137, 22);
@@ -175,8 +184,10 @@ public class AltaCirugia extends JDialog {
 		
 		prestacionComboBox = new JComboBox();
 		prestacionComboBox.setBounds(92, 25, 326, 22);
-		//TODO
-		prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPrestaciones();
+		for (String string : prestacionesDesc) {
+			prestacionComboBox.addItem(string);
+		}
 		AutoCompleteDecorator.decorate(this.prestacionComboBox);
 		practicaPanel.add(prestacionComboBox);
 		
@@ -271,10 +282,9 @@ public class AltaCirugia extends JDialog {
 		guardarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/guardar.png")));
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				long idCirugia=AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),horaInicio.getValue().toString(),horaFin.getValue().toString(),anestesiaComboBox.getSelectedItem().toString());
-	
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = format.format(fechaPractica.getDate());
+				AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),horaInicio.getValue().toString(),horaFin.getValue().toString(),anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				String auditar="Se creo un alta de cirugia";
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 				
