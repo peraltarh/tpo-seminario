@@ -26,17 +26,17 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 	}
 
 
-	public void altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String fecha, String nroDoc, String tipoDoc) 
+	public void altaAmbulatoria(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String dateString, String nroDoc, String tipoDoc) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
-		long idPracticaAmbulatoria=-1;//falta obtener el id que se inserto y devolverlo
+		long idPracticaAmbulatoria=-1;
+		int idHCE=-1;
 		try
 		{
-			//int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
-	//test
-			int idPrestacion=2;
+			int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
 			
-			
+
+
 			String senten = "INSERT INTO practicaAmbulatoria" +
 					"(idPrestacion,usuarioLogin,ojo,diagnostico) "
 					+ "VALUES (?,?,?,?);SELECT @@IDENTITY";
@@ -47,31 +47,53 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 			ps.setString(3,ojo);
 			ps.setString(4,diagnostico);
 			ps.executeUpdate();
-			
+
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {
 				idPracticaAmbulatoria = rs.getLong(1);
 			}
+
+
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		}
+		catch( SQLException e ) 
+		{
+			System.out.println("Mensaje Error -Auditar-: " + e.getMessage());
+			e.printStackTrace();
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		}
+		con = PoolConnection.getPoolConnection().getConnection();
+		try
+		{
 			
-			
-			
-			String senten2 = "SELECT (idHCE) WHERE nroDOC=? AND tipoDoc=?";
-					
+			String senten2 = "SELECT (idHCE) FROM HCE WHERE nroDoc=? AND tipoDoc=?";
 			PreparedStatement ps2 = null;
 			ps2 = con.prepareStatement(senten2);
 			ps2.setString(1,nroDoc);
 			ps2.setString(2, tipoDoc);
-			
+
 			ResultSet result = ps2.executeQuery();
-			int idHCE=-1;
+		
 			while (result.next())
 			{
 				idHCE=(result.getInt(1));
 			}	
-			
-			
-			
-			
+
+
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		}
+		catch( SQLException e ) 
+		{
+			System.out.println("Mensaje Error -Auditar-: " + e.getMessage());
+			e.printStackTrace();
+			PoolConnection.getPoolConnection().realeaseConnection(con);
+		}
+
+		
+		con = PoolConnection.getPoolConnection().getConnection();
+		
+		try
+		{
 			String senten3 = "INSERT INTO itemHCE" +
 					"(idHCE,fecha,practica,idPracticaAmbulatoria) "
 					+ "VALUES (?,?,?,?)";
@@ -79,10 +101,10 @@ public class AdministradorPersistenciaPracticaAmbulatoria {
 			PreparedStatement ps3 = null;
 			ps3 = con.prepareStatement(senten3);
 			ps3.setInt(1,idHCE);
-			ps3.setString(2,fecha);
+			ps3.setString(2,dateString);
 			ps3.setString(3,"PracticaAmbulatoria");
 			ps3.setInt(4,(int)idPracticaAmbulatoria);
-			ps3.executeUpdate();
+			ps3.execute();
 			
 			
 			

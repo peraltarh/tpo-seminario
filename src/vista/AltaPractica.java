@@ -26,7 +26,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import java.awt.Color;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JSpinner.DateEditor;
@@ -64,7 +66,7 @@ public class AltaPractica extends JDialog {
 	private JButton cancelarButton;
 	private JXDatePicker fechaPractica;
 	private JComboBox ojoComboBox;
-	private JComboBox prestacionComboBox;
+	private JComboBox<String> prestacionComboBox;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
@@ -182,10 +184,15 @@ public class AltaPractica extends JDialog {
 		getContentPane().add(practicaPanel);
 		practicaPanel.setLayout(null);
 		
-		prestacionComboBox = new JComboBox();
+		prestacionComboBox = new JComboBox<String>();
 		prestacionComboBox.setBounds(66, 25, 339, 22);
 		//TODO
-		prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPrestaciones();
+		//prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+		for (String string : prestacionesDesc) {
+			prestacionComboBox.addItem(string);
+		}
+		
 		AutoCompleteDecorator.decorate(this.prestacionComboBox);
 		practicaPanel.add(prestacionComboBox);
 		
@@ -239,8 +246,15 @@ public class AltaPractica extends JDialog {
 		guardarButton.setIcon(new ImageIcon(BuscardorUsuario.class.getResource("/image/guardar.png")));
 		guardarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
 				
-				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),fechaPractica.getDate().toString(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = format.format(fechaPractica.getDate());
+				
+				
+				
+				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				
 				String auditar="Se creo un alta de cirugia";
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
