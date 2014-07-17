@@ -41,7 +41,7 @@ public class AdministradorPersistenciaPrestacion {
 				
 				while (result.next())
 				{
-					idPrestacion = result.getInt(idPrestacion);				
+					idPrestacion = result.getInt(1);				
 				}
 				
 				PoolConnection.getPoolConnection().realeaseConnection(con);
@@ -54,8 +54,35 @@ public class AdministradorPersistenciaPrestacion {
 					PoolConnection.getPoolConnection().realeaseConnection(con);
 		      }
 				return idPrestacion;
-			
-			
+		}
+
+		public ArrayList<String> getDescripcionPrestaciones() 
+		{
+			ArrayList<String> prestacionesDesc=new ArrayList<String>();
+			Connection con = PoolConnection.getPoolConnection().getConnection();
+					
+			try
+			{
+				String senten = "SELECT * FROM prestacion" ;
+				PreparedStatement ps = null;
+				ps = con.prepareStatement(senten);
+				
+				ResultSet result = ps.executeQuery();
+				
+				while (result.next())
+				{
+					prestacionesDesc.add(result.getString(2));				
+				}
+				
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+			}
+		      catch( SQLException e ) 
+		      {
+					System.out.println("Mensaje Error - buscar Descripcion Prestaciones: " + e.getMessage());
+					e.printStackTrace();
+					PoolConnection.getPoolConnection().realeaseConnection(con);
+		      }
+				return prestacionesDesc;
 		}
 
 		

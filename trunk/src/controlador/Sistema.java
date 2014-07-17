@@ -16,11 +16,14 @@ import java.util.Date;
 
 
 
+
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
 
 import persistencia.AdministradorPersistenciaPaciente;
+import persistencia.AdministradorPersistenciaPrestacion;
 import persistencia.AdministradorPersistenciaUsuario;
 import persistencia.PoolConnection;
 
@@ -396,6 +399,12 @@ public class Sistema{
 		return new PacienteDTO(pacienteTemp);
 		
 		
+	}
+
+	public ArrayList<String> getPrestaciones() {
+		ArrayList<String> prestacionesDesc=new ArrayList<String>();
+		prestacionesDesc=AdministradorPersistenciaPrestacion.getInstancia().getDescripcionPrestaciones();
+		return prestacionesDesc;
 	}
 
 
