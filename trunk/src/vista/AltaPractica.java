@@ -66,7 +66,7 @@ public class AltaPractica extends JDialog {
 	private JButton cancelarButton;
 	private JXDatePicker fechaPractica;
 	private JComboBox ojoComboBox;
-	private JComboBox<String> prestacionComboBox;
+	private JComboBox prestacionComboBox;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
@@ -184,7 +184,7 @@ public class AltaPractica extends JDialog {
 		getContentPane().add(practicaPanel);
 		practicaPanel.setLayout(null);
 		
-		prestacionComboBox = new JComboBox<String>();
+		prestacionComboBox = new JComboBox();
 		prestacionComboBox.setBounds(66, 25, 339, 22);
 		//TODO
 		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPrestaciones();
