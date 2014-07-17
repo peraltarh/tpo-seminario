@@ -33,14 +33,13 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 		{
 			int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
 
-			String senten = "INSERT INTO practicaQuirurgica" +
+			String senten = "INSERT INTO PracticaQuirurgica" +
 					"(idPrestacion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia) "
 					+ "VALUES (?,?,?,?,?,?,?,?);SELECT @@IDENTITY";
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);
 			ps.setInt(1,idPrestacion);
 			ps.setString(2,usuarioDTO.getUserName().toString());
-			ps.setString(2, "dmoretti");
 			ps.setString(3,ojo);
 			ps.setString(4,diagnostico); 
 			ps.setString(5,monitoreo);
@@ -64,7 +63,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 		}
 		catch( SQLException e ) 
 		{
-			System.out.println("Mensaje Error -Auditar-: " + e.getMessage());
+			System.out.println("Mensaje Error -Alta Practica Quirurgica-: " + e.getMessage());
 			e.printStackTrace();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
@@ -102,14 +101,14 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 		try
 		{
 			String senten3 = "INSERT INTO itemHCE" +
-					"(idHCE,fecha,practica,idPracticaAmbulatoria) "
+					"(idHCE,fecha,practica,idPracticaQuirurgica) "
 					+ "VALUES (?,?,?,?)";
 
 			PreparedStatement ps3 = null;
 			ps3 = con.prepareStatement(senten3);
 			ps3.setInt(1,idHCE);
 			ps3.setString(2,dateString);
-			ps3.setString(3,"PracticaAmbulatoria");
+			ps3.setString(3,"PracticaQuirurgica");
 			ps3.setInt(4,(int)idPracticaQuirurgica);
 			ps3.execute();
 
@@ -122,7 +121,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 		}
 		catch( SQLException e ) 
 		{
-			System.out.println("Mensaje Error -Auditar-: " + e.getMessage());
+			System.out.println("Mensaje Error -Practica Quirurgica-: " + e.getMessage());
 			e.printStackTrace();
 			PoolConnection.getPoolConnection().realeaseConnection(con);
 		}
