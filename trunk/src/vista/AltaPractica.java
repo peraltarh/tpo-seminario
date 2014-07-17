@@ -155,7 +155,7 @@ public class AltaPractica extends JDialog {
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
-		edadTextField.setText(pacienteDTOAct.calcularEdad());
+		edadTextField.setText(pacienteDTOAct.calcularEdad().substring(0, 2));
 		
 		obraSocialComboBox = new JComboBox();
 		obraSocialComboBox.setBounds(68, 75, 137, 22);
@@ -256,7 +256,7 @@ public class AltaPractica extends JDialog {
 				
 				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				
-				String auditar="Se creo un alta de cirugia";
+				String auditar="Se creo una Practica Ambulatoria y se asoció al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 				
 				
