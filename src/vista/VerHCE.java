@@ -176,7 +176,7 @@ public class VerHCE extends JDialog {
 		nuevaCirugiaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				AltaCirugia ac = new AltaCirugia();
+				AltaCirugia ac = new AltaCirugia(pacienteDTOActual);
 				ac.setVisible(true);
 				
 			}
