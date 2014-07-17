@@ -18,10 +18,10 @@ insert into dbo.ObraSocial values ('UOM')
 insert into dbo.ObraSocial values ('PAMI')
 
 
-insert into dbo.Paciente values ('22459884','dni','m','Gonzalo','Higuan','153039389','43456332','19840423','',28)
-insert into dbo.Paciente values ('20355893','dni','m','Javier','Mascherano','159385938','5948943','19820713','',30)
-insert into dbo.Paciente values ('30549865','dni','m','Leonel','Messi','523462344','1231256','19871112','',28)
-insert into dbo.Paciente values ('18938389','dni','f','Josefina','Gonzalez','153039389','43456332','19840423','',37)
+insert into dbo.Paciente values ('22459884','dni','m','Gonzalo','Higuan','153039389','43456332','19840423','',40)
+insert into dbo.Paciente values ('20355893','dni','m','Javier','Mascherano','159385938','5948943','19820713','',42)
+insert into dbo.Paciente values ('30549865','dni','m','Leonel','Messi','523462344','1231256','19871112','',37)
+insert into dbo.Paciente values ('18938389','dni','f','Josefina','Gonzalez','153039389','43456332','19840423','',40)
 
 
 insert into dbo.ObraSocial_Paciente values (1,'22459884','dni',32144323)
@@ -30,11 +30,13 @@ insert into dbo.ObraSocial_Paciente values (3,'30549865','dni',76345222)
 insert into dbo.ObraSocial_Paciente values (4,'18938389','dni',34543521)
 
 
-insert into dbo.Prestacion values ('Fondo de Ojo')
-insert into dbo.Prestacion values ('Catarata')
-insert into dbo.Prestacion values ('Miopia')
-insert into dbo.Prestacion values ('Consulta General')
-insert into dbo.Prestacion values ('Intervencion Laser')
+insert into dbo.Prestacion values ('PA- Fondo de Ojo')
+insert into dbo.Prestacion values ('PQ- Catarata')
+insert into dbo.Prestacion values ('PQ- Miopia')
+insert into dbo.Prestacion values ('CP- Consulta General')
+insert into dbo.Prestacion values ('CP- Consulta Inicial')
+insert into dbo.Prestacion values ('PQ- Intervencion Laser')
+insert into dbo.Prestacion values ('PA- Control Presion Ocular')
 
 
 insert into dbo.Prestador values (1,1,'mcastro')
@@ -62,7 +64,7 @@ insert into dbo.Nomenclador values (14000,3,3)
 insert into dbo.Nomenclador values (120,4,3)
 
 
-insert into dbo.Consulta values (1,'dmoretti','Corte ojo izquierdo','N/A','Revision','Corte, sin daño permanente.','N/A')
+insert into dbo.Consulta values (1,'dmoretti','Corte ojo izquierdo','N/A','Revision','Corte, sin daï¿½o permanente.','N/A')
 insert into dbo.Consulta values (1,'mburgos','Inflamacion ojo derecho','hielo cada 2hs y 500mg analgesico','Consulta','N/A','Inflamacion')
 insert into dbo.Consulta values (1,'dmoretti','Conjuntivitis','Medicacion correspondiente','Consulta','Conjuntivitis','N/A')
 insert into dbo.Consulta values (1,'mburgos','Orzuelo','Inyeccion esteroides 10ml','Revision','Orzuelo 1mm','N/A')
