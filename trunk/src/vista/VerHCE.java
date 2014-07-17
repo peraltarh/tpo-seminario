@@ -287,8 +287,13 @@ public class VerHCE extends JDialog {
 				if(pacienteDTOActual != null){
 				apellidoTextField.setText(pacienteDTOActual.getApellido());
 				nombreTextField.setText(pacienteDTOActual.getNombre());
-				edadTextField.setText(pacienteDTOActual.calcularEdad());
-				sexoTextField.setText(pacienteDTOActual.getSexo());
+				edadTextField.setText(pacienteDTOActual.calcularEdad().substring(0, 2));
+				String sexo="";
+				if(pacienteDTOActual.getSexo()=="f")
+					sexo="Femenino";
+				else
+					sexo="Masculino";
+				sexoTextField.setText(sexo);
 				llenarTabla();
 				
 				}else{
