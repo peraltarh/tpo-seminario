@@ -176,7 +176,8 @@ public class AltaPractica extends JDialog {
 		datosPacientePanel.add(comboBox);
 		if(pacienteDTOAct.getSexo()=="f")
 			comboBox.setSelectedIndex(2);
-		
+		else
+			comboBox.setSelectedIndex(1);
 		
 		JPanel practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pr\u00E1ctica", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
