@@ -64,7 +64,7 @@ insert into dbo.Nomenclador values (14000,3,3)
 insert into dbo.Nomenclador values (120,4,3)
 
 
-insert into dbo.Consulta values (1,'dmoretti','Corte ojo izquierdo','N/A','Revision','Corte, sin da�o permanente.','N/A')
+insert into dbo.Consulta values (1,'dmoretti','Corte ojo izquierdo','N/A','Revision','Corte, sin daño permanente.','N/A')
 insert into dbo.Consulta values (1,'mburgos','Inflamacion ojo derecho','hielo cada 2hs y 500mg analgesico','Consulta','N/A','Inflamacion')
 insert into dbo.Consulta values (1,'dmoretti','Conjuntivitis','Medicacion correspondiente','Consulta','Conjuntivitis','N/A')
 insert into dbo.Consulta values (1,'mburgos','Orzuelo','Inyeccion esteroides 10ml','Revision','Orzuelo 1mm','N/A')
