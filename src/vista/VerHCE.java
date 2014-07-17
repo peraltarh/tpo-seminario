@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import persistencia.AdministradorPersistenciaAuditoria;
 import DTO.PacienteDTO;
 import controlador.Sistema;
 
@@ -282,7 +283,9 @@ public class VerHCE extends JDialog {
 			
 			public void actionPerformed(ActionEvent e) {
 				pacienteDTOActual = null;
+				String auditar="Se busco HCE con dni\t"+textField_numeroDoc.getText()+"\ttipo documento\t"+comboBox_TipoDoc.getSelectedItem().toString();
 				pacienteDTOActual = Sistema.getInstancia().buscarPaciente(textField_numeroDoc.getText(),comboBox_TipoDoc.getSelectedItem().toString());
+				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 				
 				if(pacienteDTOActual != null){
 				apellidoTextField.setText(pacienteDTOActual.getApellido());
