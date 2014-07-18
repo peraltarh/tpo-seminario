@@ -171,7 +171,7 @@ public class AltaCirugia extends JDialog {
 		sexoComboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		//AutoCompleteDecorator.decorate(this.sexoComboBox);
 		datosPacientePanel.add(sexoComboBox);
-		if(pacienteDTOAct.getSexo()=="f")
+		if(pacienteDTOAct.getSexo().equalsIgnoreCase("f"))
 			sexoComboBox.setSelectedIndex(1);
 		else
 			sexoComboBox.setSelectedIndex(0);
