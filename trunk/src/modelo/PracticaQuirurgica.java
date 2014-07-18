@@ -15,7 +15,7 @@ public class PracticaQuirurgica extends Prestacion{
 	private String anestesia;
 	
 	
-	public PracticaQuirurgica(String descripcion, int idPracticaQuirurgica,
+	public PracticaQuirurgica(String descripcion,
 			String ojo, String diagnostico, String monitoreo, Date horaInicio,
 			Date horaFin, String anestesia) {
 		super(descripcion);

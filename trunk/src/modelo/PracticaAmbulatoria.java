@@ -11,7 +11,7 @@ public class PracticaAmbulatoria extends Prestacion{
 	
 	
 	
-	public PracticaAmbulatoria(String descripcion, int idPracticaAmbulatoria,
+	public PracticaAmbulatoria( String descripcion,
 			String ojo, String diagnostico) {
 		super(descripcion);
 		this.idPracticaAmbulatoria = PracticaAmbulatoria.idPracticaAmbulatoriaInc++;

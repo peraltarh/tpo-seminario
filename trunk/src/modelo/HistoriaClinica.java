@@ -34,5 +34,17 @@ public class HistoriaClinica {
 	}
 
 
+	public void addPractica(itemHistoriaClinica itemHistoriaClinica) {
+		this.preacticas.add(itemHistoriaClinica);
+		
+	}
+
+
+	public boolean tenesPaciente(String nroDoc, String tipoDoc) {
+		if(paciente.sosPaciente(nroDoc,tipoDoc))return true;
+		return false;
+	}
+
+
 
 }

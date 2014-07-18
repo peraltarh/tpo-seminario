@@ -1,11 +1,9 @@
 package persistencia;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import DTO.UsuarioDTO;
 
@@ -35,7 +33,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 
 			String senten = "INSERT INTO PracticaQuirurgica" +
 					"(idPrestacion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia) "
-					+ "VALUES (?,?,?,?,?,?,?,?);SELECT @@IDENTITY";
+					+ "VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);
 			ps.setInt(1,idPrestacion);

@@ -1,6 +1,7 @@
 package DTO;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import modelo.ObraSocial;
@@ -17,8 +18,8 @@ public class PacienteDTO {
 	private long telefono;
 	private Date fechaNaciemiento;
 	private String email;
-	private ObraSocial obraSocial;
-	private float nroAfiliado;
+	private ArrayList<String> obrasSociales;
+	private ArrayList<Integer> nroAfiliadoOSs;
 	
 	
 	public PacienteDTO(Paciente pacienteTemp) {
@@ -32,8 +33,13 @@ public class PacienteDTO {
 		this.telefono = pacienteTemp.getTelefono();
 		this.fechaNaciemiento = pacienteTemp.getFechaNaciemiento();
 		this.email = pacienteTemp.getEmail();
-		this.obraSocial = pacienteTemp.getObraSocial();
-		this.nroAfiliado =  pacienteTemp.getNroAfiliado();
+		this.obrasSociales = new ArrayList<String>();
+		ArrayList<ObraSocial> obrasSocialesTemp = pacienteTemp.getObrasSociales();
+		for (ObraSocial obraSocial : obrasSocialesTemp) {
+			this.obrasSociales.add(obraSocial.getRazonSocial());
+		}
+
+		this.nroAfiliadoOSs =  pacienteTemp.getNroAfiliado();
 
 	}
 
@@ -128,24 +134,19 @@ public class PacienteDTO {
 	}
 
 
-	public ObraSocial getObraSocial() {
-		return obraSocial;
+	public ArrayList<String> getObrasSociales() {
+		return obrasSociales;
 	}
 
 
-	public void setObraSocial(ObraSocial obraSocial) {
-		this.obraSocial = obraSocial;
+
+
+
+	public ArrayList<Integer> getNroAfiliado() {
+		return nroAfiliadoOSs;
 	}
 
 
-	public float getNroAfiliado() {
-		return nroAfiliado;
-	}
-
-
-	public void setNroAfiliado(float nroAfiliado) {
-		this.nroAfiliado = nroAfiliado;
-	}
 
 	
 	public String calcularEdad() {

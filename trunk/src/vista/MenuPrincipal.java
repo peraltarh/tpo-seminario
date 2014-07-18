@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.swing.*;
+
 import DTO.UsuarioDTO;
 import controlador.Sistema;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -15,9 +18,7 @@ import java.awt.Color;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JMenuItem cambiarContrasena;
 	private JMenu jmenuMicuenta;
@@ -34,41 +35,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	protected TimerThread timerThread;
 	private UsuarioDTO usuarioActual;
 	private JLabel solpaLabel;
+	private JToolBar toolbar;
+	private JStatusBar statusBar;
+	private JLabel dateLabel;
+	private JLabel timeLabel;
 
-	/**
-	* Auto-generated main method to display this JFrame
-	*/
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				MenuPrincipal inst = new MenuPrincipal();
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-				
-			}
-		});
-	}
 	
 	public MenuPrincipal() {
 		super();
 		getContentPane().setBackground(Color.LIGHT_GRAY);
 		usuarioActual =  Sistema.getInstancia().getUsuarioActual();
-		
-		// SOLO PARA TEST
-//		if(usuarioActual== null){
-//			usuarioActual =  Sistema.getInstancia().getUsuario(30489590);
-//		}
-		
+		Sistema.getInstancia().cargaInicial();
 		initGUI();
 	}
 	
-//	public MenuPrincipal(int id) {
-//		super();
-//		idUsuario = id;
-//		usuarioActual =  Sistema.getInstancia().getUsuario(idUsuario);
-//		initGUI();
-//		
-//	}
 	
 	private void initGUI() {
 		try {
@@ -79,21 +59,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				menuMicuenta();
 			}
 			
-			JToolBar toolbar = new JToolBar("Botonera");
-			addButtons(toolbar);
+			toolbar = new JToolBar("Botonera");
 			getContentPane().add(toolbar, BorderLayout.NORTH);
 			
 						
-			JStatusBar statusBar = new JStatusBar();
+			statusBar = new JStatusBar();
 		    JLabel leftLabel = new JLabel("Usuario Logueado: "+ usuarioActual.getNombre() + " " + usuarioActual.getApellido());
 		    statusBar.setLeftComponent(leftLabel);
 
-		    final JLabel dateLabel = new JLabel();
+		    dateLabel = new JLabel();
 		    dateLabel.setHorizontalAlignment(JLabel.CENTER);
 		    statusBar.addRightComponent(dateLabel);
 		        
 
-		    final JLabel timeLabel = new JLabel();
+		    timeLabel = new JLabel();
 		    timeLabel.setHorizontalAlignment(JLabel.CENTER);
 		    statusBar.addRightComponent(timeLabel);
 		        
@@ -201,8 +180,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			buscarHCE.setMnemonic(KeyEvent.VK_B);
 			buscarHCE.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//BuscardorHCE b = new  BuscardorHCE();
-					//b.setVisible(true);
 					VerHCE vh = new VerHCE();
 					vh.setVisible(true);
 				}
@@ -277,9 +254,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 	}
 	
 	
-	private void addButtons(JToolBar toolBar) {
-		// TODO Auto-generated method stub
-	}
 	
 	public class TimerThread extends Thread {
 

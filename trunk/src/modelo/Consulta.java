@@ -15,7 +15,7 @@ public class Consulta extends Prestacion{
 	
 	public Consulta( String descripcionPractica, String observacionGeneral,
 			String tratamiento, String motivo, String observacionOjoIzq,
-			String observacionOjoDer, Prestacion presctacion) {
+			String observacionOjoDer) {
 		super(descripcionPractica);
 		this.idConsulta = Consulta.idConsultaInc++;
 		this.observacionGeneral = observacionGeneral;

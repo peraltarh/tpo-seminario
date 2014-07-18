@@ -18,13 +18,28 @@ import java.util.Date;
 
 
 
+
+
+
+
+
+
+
+
+
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
 
+import persistencia.AdministradorPersistenciaAuditoria;
+import persistencia.AdministradorPersistenciaHCE;
+import persistencia.AdministradorPersistenciaNomenclador;
 import persistencia.AdministradorPersistenciaPaciente;
+import persistencia.AdministradorPersistenciaPracticaQuirurgica;
 import persistencia.AdministradorPersistenciaPrestacion;
 import persistencia.AdministradorPersistenciaUsuario;
+import persistencia.AdministradorPresistenciaObrasSociales;
 import persistencia.PoolConnection;
 
 
@@ -53,12 +68,11 @@ public class Sistema{
 		usuarios = new ArrayList<Usuario>();
 		permisos = new ArrayList<String>();
 		historiasClinicas = new ArrayList<HistoriaClinica>();
-		obrasSociales = new ArrayList<ObraSocial>();
-		prestaciones = new ArrayList<Prestacion>();
-		nomencladores = new ArrayList<Nomenclador>();
 		pacientes = new ArrayList<Paciente>();
 	}
 	
+	
+
 	//OK
 	public static Sistema getInstancia(){
 		if(instancia == null)
@@ -383,7 +397,7 @@ public class Sistema{
 	}
 
 
-	public PacienteDTO buscarPaciente(String nroDoc, String tipoDoc) {
+	public PacienteDTO getPaciente(String nroDoc, String tipoDoc) {
 		
 		for (Paciente pacienteTemp : this.pacientes) {
 			if(String.valueOf(pacienteTemp.getDni()).equals(nroDoc) && pacienteTemp.getTipoDoc().equals(tipoDoc)){
@@ -402,11 +416,147 @@ public class Sistema{
 	}
 
 	public ArrayList<String> getPrestaciones() {
+		
 		ArrayList<String> prestacionesDesc=new ArrayList<String>();
 		prestacionesDesc=AdministradorPersistenciaPrestacion.getInstancia().getDescripcionPrestaciones();
 		return prestacionesDesc;
+		
+	}
+	
+	
+	public void cargaInicial(){
+		//Debe seguir este orden ya que Nomencaldor necesita Obras Sociales y Prestaciones
+		cargarObrasSociales();
+		cargarPrestaciones();
+		cargarNomenclador();
+		
+	}
+	
+	
+	public void cargarPrestaciones() {
+		prestaciones = new ArrayList<Prestacion>();
+		ArrayList<String> prestacionesDesc=new ArrayList<String>();
+		prestacionesDesc=AdministradorPersistenciaPrestacion.getInstancia().getDescripcionPrestaciones();
+
+		for (String string : prestacionesDesc) {
+			prestaciones.add(new Prestacion(string));
+		}
+		
+		
+	}
+	
+	private void cargarObrasSociales() {
+		obrasSociales = new ArrayList<ObraSocial>();
+		ArrayList<String> obrasSocialesTemp = AdministradorPresistenciaObrasSociales.getInstancia().getObrasSociales();
+		
+		for (String string : obrasSocialesTemp) {
+			obrasSociales.add(new ObraSocial(string));
+		}
+
+	}
+	
+	private void cargarNomenclador(){
+		nomencladores = new ArrayList<Nomenclador>();
+		nomencladores.addAll(AdministradorPersistenciaNomenclador.getInstancia().getAll());
 	}
 
+	public ObraSocial buscarObrasocial(String obraSocial) {
+		for (ObraSocial obraSocialTemp : obrasSociales) {
+			if(obraSocialTemp.getRazonSocial().equals(obraSocial)) return obraSocialTemp;
+		}
+		return null;
+	}
+
+	public Prestacion buscarPrestaion(String prestacion) {
+		for (Prestacion prestacionTemp : prestaciones) {
+			if(prestacionTemp.getDescripcion().equals(prestacion)) return prestacionTemp;
+		}
+		return null;
+	}
+
+	public ArrayList<String> getPracticasAmbulatoriasObraSocial(String obraSocial) {
+		
+		ArrayList<String> praticas = new ArrayList<String>();
+		
+		for (Nomenclador nomencladorTemp : nomencladores) {
+			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PA-")){
+				praticas.add(nomencladorTemp.getPrestacion().getDescripcion());
+			}
+		}
+
+		return praticas;
+	}
+	
+	public ArrayList<String> getPracticasQuirurjicasObraSocial(String obraSocial) {
+		
+		ArrayList<String> praticas = new ArrayList<String>();
+		
+		for (Nomenclador nomencladorTemp : nomencladores) {
+			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PQ-")){
+				praticas.add(nomencladorTemp.getPrestacion().getDescripcion());
+			}
+		}
+
+		return praticas;
+	}
+
+
+
+	public void altaPracticaQuirurjica(String prestacion,
+			UsuarioDTO usuarioActual, String ojo, String diagnostico,
+			String monitoreo, String hsIni, String hsFin, String anestecia,
+			String dateString, String nroDoc, String tipoDoc) {
+
+		//TODO Crear la practica quirurjica y meterla en la HCE en memoria del paciente
+		
+		
+		AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(
+				prestacion,
+				usuarioActual,
+				ojo,
+				diagnostico, 
+				monitoreo,
+				hsIni, hsFin, 
+				anestecia,
+				dateString, nroDoc,
+				tipoDoc);
+		
+		PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
+		
+		String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+		AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
+	
+
+	}
+
+
+
+	public Paciente buscarPaciente(String tipoDoc, String nroDoc) {
+		for (Paciente pacienteTemp : this.pacientes) {
+			if(String.valueOf(pacienteTemp.getDni()).equals(nroDoc) && pacienteTemp.getTipoDoc().equals(tipoDoc)){
+				return pacienteTemp;
+			}
+		}
+		
+		Paciente pacienteTemp = AdministradorPersistenciaPaciente.getInstancia().buscarPaciente(nroDoc, tipoDoc);
+		
+		this.pacientes.add(pacienteTemp);
+		
+		return pacienteTemp;
+	}
+
+	//TODO, deberia devolver un View
+	public HistoriaClinica buscarHCE (String nroDoc, String tipoDoc) {
+		for (HistoriaClinica historiaClinica : historiasClinicas) {
+			if(historiaClinica.tenesPaciente(nroDoc,tipoDoc)){
+				return historiaClinica;
+			}
+		}
+		HistoriaClinica hceTemp = AdministradorPersistenciaHCE.getInstancia().buscarHistoriaClinica(tipoDoc, nroDoc);
+		this.historiasClinicas.add(hceTemp);
+		return hceTemp;
+	}
+	
 
 }
 	
