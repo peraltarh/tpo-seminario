@@ -1,18 +1,13 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
-import javax.swing.JScrollBar;
-import javax.swing.JEditorPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 
@@ -21,8 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import java.awt.Color;
@@ -31,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.swing.JSpinner.DateEditor;
 import javax.swing.JComboBox;
 
 import org.jdesktop.swingx.JXDatePicker;
@@ -40,24 +32,17 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import DTO.PacienteDTO;
 import persistencia.AdministradorPersistenciaAuditoria;
 import persistencia.AdministradorPersistenciaPracticaAmbulatoria;
-import persistencia.AdministradorPersistenciaPracticaQuirurgica;
 import controlador.Sistema;
 
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 
-import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 import java.awt.Toolkit;
-import java.awt.Dialog.ModalExclusionType;
 
 public class AltaPractica extends JDialog {
-	/**
-	 * 
-	 */
+
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel DiagnosticoPanel;
@@ -76,24 +61,16 @@ public class AltaPractica extends JDialog {
 	private JComboBox obraSocialComboBox;
 	private JTextField numeroAfiliadoTextField;
 	private PacienteDTO pacienteDTOAct;
+	private JLabel lblObraSocial;
+	private JLabel lblNewLabel_2;
+	private JLabel lblEdad;
+	private JLabel label;
+	private JComboBox comboBox;
+	private JPanel practicaPanel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AltaPractica dialog = new AltaPractica(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	/**
-	 * Create the dialog.
-	 * @param pacienteDTOActual 
-	 */
+
+
 	public AltaPractica(PacienteDTO pacienteDTOActual) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaPractica.class.getResource("/image/practica.png")));
@@ -134,17 +111,17 @@ public class AltaPractica extends JDialog {
 		apellidoTextField.setColumns(10);
 		apellidoTextField.setText(pacienteDTOAct.getApellido());
 		
-		JLabel lblObraSocial = new JLabel("<html>Obra<br>Social</html>");
+		lblObraSocial = new JLabel("<html>Obra<br>Social</html>");
 		lblObraSocial.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblObraSocial.setBounds(10, 71, 33, 28);
 		datosPacientePanel.add(lblObraSocial);
 		
-		JLabel lblNewLabel_2 = new JLabel("<html>N\u00FAmero<br>Afiliado</html>");
+		lblNewLabel_2 = new JLabel("<html>N\u00FAmero<br>Afiliado</html>");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_2.setBounds(226, 75, 59, 24);
 		datosPacientePanel.add(lblNewLabel_2);
 		
-		JLabel lblEdad = new JLabel("Edad");
+		lblEdad = new JLabel("Edad");
 		lblEdad.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEdad.setBounds(10, 47, 46, 14);
 		datosPacientePanel.add(lblEdad);
@@ -161,25 +138,35 @@ public class AltaPractica extends JDialog {
 		obraSocialComboBox.setBounds(68, 75, 137, 22);
 		datosPacientePanel.add(obraSocialComboBox);
 		
+		ArrayList<String> obrasSocialesPaciente =  pacienteDTOAct.getObrasSociales();
+		for (String string : obrasSocialesPaciente) {
+			obraSocialComboBox.addItem(string);
+		}
+
 		numeroAfiliadoTextField = new JTextField();
 		numeroAfiliadoTextField.setBounds(282, 77, 137, 22);
 		datosPacientePanel.add(numeroAfiliadoTextField);
 		
-		JLabel label = new JLabel("Sexo");
+		//TODO esto va tambien en el focus listener para cuando selecciona otra obra social
+		ArrayList<Integer> numerosDeAfiliadoPaciente = pacienteDTOAct.getNroAfiliado();
+		numeroAfiliadoTextField.setText(numerosDeAfiliadoPaciente.get(obraSocialComboBox.getSelectedIndex()).toString());
+		
+		
+		label = new JLabel("Sexo");
 		label.setFont(new Font("Tahoma", Font.BOLD, 11));
 		label.setBounds(226, 51, 69, 14);
 		datosPacientePanel.add(label);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		comboBox.setBounds(282, 47, 137, 22);
 		datosPacientePanel.add(comboBox);
 		if(pacienteDTOAct.getSexo()=="f")
-			comboBox.setSelectedIndex(2);
-		else
 			comboBox.setSelectedIndex(1);
+		else
+			comboBox.setSelectedIndex(0);
 		
-		JPanel practicaPanel = new JPanel();
+		practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pr\u00E1ctica", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		practicaPanel.setBounds(10, 127, 441, 100);
 		getContentPane().add(practicaPanel);
@@ -187,9 +174,10 @@ public class AltaPractica extends JDialog {
 		
 		prestacionComboBox = new JComboBox();
 		prestacionComboBox.setBounds(66, 25, 339, 22);
-		//TODO
-		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPrestaciones();
-		//prestacionComboBox.setModel(new DefaultComboBoxModel(new String[] {"CURVA TENSIONAL OCULAR CON REPOSO MATINAL", "TEST OJO SECO SCHIMER, ROSA DE BENGALA", "CAMPIMETRIA COMPUT.BILATERAL (CAMPO VISUAL)", "FONDO DE OJO"}));
+
+		//TODO esto va tambien en el focus listener para cuando selecciona otra obra social
+		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasAmbulatoriasObraSocial(this.obraSocialComboBox.getSelectedItem().toString());;
+		
 		for (String string : prestacionesDesc) {
 			prestacionComboBox.addItem(string);
 		}
@@ -257,9 +245,10 @@ public class AltaPractica extends JDialog {
 				
 				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				
-				String auditar="Se creo una Practica Ambulatoria y se asoció al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+				String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
 				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
 				
+				dispose();
 				
 			}
 		});

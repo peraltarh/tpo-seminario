@@ -1,11 +1,14 @@
 package modelo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import controlador.Sistema;
 
 public class Paciente {
 
-	private String dni;
+	private String nroDoc;
 	private String tipoDoc;
 	private String sexo;
 	private String nombre;
@@ -14,16 +17,16 @@ public class Paciente {
 	private long telefono;
 	private Date fechaNaciemiento;
 	private String email;
-	private ObraSocial obraSocial;
-	private float nroAfiliado;
+	private ArrayList<ObraSocial> obrasSociales;
+	private ArrayList<Integer> nroAfiliadoOSs;
 		
 
-	public Paciente(String dni, String tipoDoc, String sexo, String nombre,
+	public Paciente(String nroDoc, String tipoDoc, String sexo, String nombre,
 			String apellido, long celular, long telefono,
-			Date fechaNaciemiento, String email, ObraSocial obraSocial,
-			float nroAfiliado) {
+			Date fechaNaciemiento, String email) {
+		
 		super();
-		this.dni = dni;
+		this.nroDoc = nroDoc;
 		this.tipoDoc = tipoDoc;
 		this.sexo = sexo;
 		this.nombre = nombre;
@@ -32,8 +35,8 @@ public class Paciente {
 		this.telefono = telefono;
 		this.fechaNaciemiento = fechaNaciemiento;
 		this.email = email;
-		this.obraSocial = obraSocial;
-		this.nroAfiliado = nroAfiliado;
+		this.obrasSociales = new ArrayList<ObraSocial>();
+		this.nroAfiliadoOSs = new ArrayList<Integer>();
 	}
 
 	public Paciente(){};
@@ -85,13 +88,13 @@ public class Paciente {
             anio = anio - 1;
             mes = 12 + mes;
         }
-        String edad = anio + " años con " + mes + " meses y " + dia + " dias";
+        String edad = anio + " aï¿½os con " + mes + " meses y " + dia + " dias";
         return edad;
     }
 
 
 	public String getDni() {
-		return dni;
+		return nroDoc;
 	}
 
 
@@ -127,16 +130,16 @@ public class Paciente {
 		return email;
 	}
 
-	public ObraSocial getObraSocial() {
-		return obraSocial;
+	public ArrayList<ObraSocial> getObrasSociales() {
+		return obrasSociales;
 	}
 
-	public float getNroAfiliado() {
-		return nroAfiliado;
+	public ArrayList<Integer> getNroAfiliado() {
+		return nroAfiliadoOSs;
 	}
 
 	public void setDni(String dni) {
-		this.dni = dni;
+		this.nroDoc = dni;
 	}
 
 	public void setTipoDoc(String tipoDoc) {
@@ -171,13 +174,26 @@ public class Paciente {
 		this.email = email;
 	}
 
-	public void setObraSocial(ObraSocial obraSocial) {
-		this.obraSocial = obraSocial;
+	public void addObraSocial(ObraSocial obraSocial,int nroAfiliado) {
+		if(obrasSociales==null)obrasSociales=new ArrayList<ObraSocial>();
+		this.obrasSociales.add(obraSocial);
+		if(nroAfiliadoOSs==null)nroAfiliadoOSs=new ArrayList<Integer>();
+		this.nroAfiliadoOSs.add(nroAfiliado);
 	}
 
-	public void setNroAfiliado(float nroAfiliado) {
-		this.nroAfiliado = nroAfiliado;
+	public void addObraSocial(String obraSocial, String nroAfiliado) {
+		if(obrasSociales==null)obrasSociales=new ArrayList<ObraSocial>();
+		this.obrasSociales.add(Sistema.getInstancia().buscarObrasocial(obraSocial));
+		if(nroAfiliadoOSs==null)nroAfiliadoOSs=new ArrayList<Integer>();
+		this.nroAfiliadoOSs.add(Integer.valueOf(nroAfiliado));
+		
 	}
+
+	public boolean sosPaciente(String nroDoc, String tipo) {
+		if(this.nroDoc.equals(nroDoc)&&this.tipoDoc.equals(tipo))return true;
+		return false;
+	}
+
 
 	
 	

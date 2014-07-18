@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modelo.Paciente;
-import modelo.Prestacion;
 
 
 public class AdministradorPersistenciaPrestacion {
