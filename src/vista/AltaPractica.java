@@ -161,7 +161,7 @@ public class AltaPractica extends JDialog {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		comboBox.setBounds(282, 47, 137, 22);
 		datosPacientePanel.add(comboBox);
-		if(pacienteDTOAct.getSexo()=="f")
+		if(pacienteDTOAct.getSexo().equalsIgnoreCase("f"))
 			comboBox.setSelectedIndex(1);
 		else
 			comboBox.setSelectedIndex(0);

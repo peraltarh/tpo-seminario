@@ -224,7 +224,8 @@ public class Login extends javax.swing.JDialog implements ActionListener{
 					
 				}
 		}
-		else if(event.getSource() == this.cancelButton){
+		else if(event.getSource() == this.cancelButton)
+		{
 			System.exit(0);
 		}
 		

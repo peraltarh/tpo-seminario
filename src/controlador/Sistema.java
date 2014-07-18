@@ -479,7 +479,7 @@ public class Sistema{
 		ArrayList<String> praticas = new ArrayList<String>();
 		
 		for (Nomenclador nomencladorTemp : nomencladores) {
-			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PA-")){
+			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PA -")){
 				praticas.add(nomencladorTemp.getPrestacion().getDescripcion());
 			}
 		}
@@ -492,7 +492,7 @@ public class Sistema{
 		ArrayList<String> praticas = new ArrayList<String>();
 		
 		for (Nomenclador nomencladorTemp : nomencladores) {
-			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PQ-")){
+			if(nomencladorTemp.getObraSocial().getRazonSocial().equals(obraSocial) && nomencladorTemp.getPrestacion().getDescripcion().contains("PQ -")){
 				praticas.add(nomencladorTemp.getPrestacion().getDescripcion());
 			}
 		}

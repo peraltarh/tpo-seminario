@@ -293,29 +293,31 @@ public class VerHCE extends JDialog implements FocusListener{
 						 model.addRow(new Object[]{itemHCETemp.getFecha(), itemHCETemp.getPractica().getDescripcion()});        
 
 				}
-				
-					table.setModel(model);
-					sorter = new TableRowSorter<TableModel>(model);
-					table.setRowSorter(sorter);
-					
+
+				table.setModel(model);
+				sorter = new TableRowSorter<TableModel>(model);
+				table.setRowSorter(sorter);
+
 				apellidoTextField.setText(pacienteDTOActual.getApellido());
 				nombreTextField.setText(pacienteDTOActual.getNombre());
 				edadTextField.setText(pacienteDTOActual.calcularEdad().substring(0, 2));
-				String sexo="";
-				if(pacienteDTOActual.getSexo()=="f")
-					sexo="Femenino";
+				String sexo=pacienteDTOActual.getSexo();
+				if(sexo.equalsIgnoreCase("f"))
+					sexoTextField.setText("Femenino");				
 				else
-					sexo="Masculino";
-				sexoTextField.setText(sexo);
-				
-				}else{
+					sexoTextField.setText("Masculino");	
+
+
+				}
+				else
+				{
 					System.out.println("error");
 
 				}
-				
+
 			}
 		});
-		
+
 	
 		
 		this.setLocationRelativeTo(null);
