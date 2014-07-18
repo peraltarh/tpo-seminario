@@ -264,11 +264,11 @@ public class VerHCE extends JDialog implements FocusListener{
 
 			public void actionPerformed(ActionEvent e) {
 				pacienteDTOActual = null;
-				String auditar="Se busco HCE con dni\t"+textField_numeroDoc.getText()+"\ttipo documento\t"+comboBox_TipoDoc.getSelectedItem().toString();
+				
 				pacienteDTOActual = Sistema.getInstancia().getPaciente(textField_numeroDoc.getText(),comboBox_TipoDoc.getSelectedItem().toString());
 				//TODO la auditoria deberia registrarla el sistema
-				
-				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
+			//	String auditar="Se busco HCE con dni\t"+textField_numeroDoc.getText()+"\ttipo documento\t"+comboBox_TipoDoc.getSelectedItem().toString();
+			//	AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
 
 				
 				if(pacienteDTOActual != null){

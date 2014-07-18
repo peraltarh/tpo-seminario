@@ -28,6 +28,11 @@ import java.util.Date;
 
 
 
+
+
+
+
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
@@ -36,6 +41,7 @@ import persistencia.AdministradorPersistenciaAuditoria;
 import persistencia.AdministradorPersistenciaHCE;
 import persistencia.AdministradorPersistenciaNomenclador;
 import persistencia.AdministradorPersistenciaPaciente;
+import persistencia.AdministradorPersistenciaPracticaAmbulatoria;
 import persistencia.AdministradorPersistenciaPracticaQuirurgica;
 import persistencia.AdministradorPersistenciaPrestacion;
 import persistencia.AdministradorPersistenciaUsuario;
@@ -410,6 +416,10 @@ public class Sistema{
 		if(pacienteTemp == null) return null;
 		
 		this.pacientes.add(pacienteTemp);
+		
+		String auditar="Se busco HCE con dni\t"+nroDoc+"\ttipo documento\t"+tipoDoc;
+		AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
+		
 		return new PacienteDTO(pacienteTemp);
 		
 		
@@ -524,7 +534,7 @@ public class Sistema{
 		PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
 		
 		String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-		AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);
+		AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
 	
 
 	}
@@ -556,6 +566,25 @@ public class Sistema{
 		this.historiasClinicas.add(hceTemp);
 		return hceTemp;
 	}
+
+
+
+	public void altaPracticaAmbulatoria(String prestacion,
+			UsuarioDTO usuarioActual2, String ojo, String diagnostico,
+			String dateString, String nroDoc, String tipoDoc) 
+	{
+			AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateString,nroDoc,tipoDoc);
+			PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
+			String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+			AdministradorPersistenciaAuditoria.getInstancia().auditar(usuarioActual2,auditar);
+	}
+
+
+
+	/*public void Auditar(UsuarioDTO usuarioDTO, String auditar) {
+		AdministradorPersistenciaAuditoria.getInstancia().auditar(usuarioDTO,auditar);
+		
+	}*/
 	
 
 }

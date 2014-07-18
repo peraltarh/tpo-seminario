@@ -25,7 +25,7 @@ public class AdministradorPersistenciaAuditoria {
 		return pool;
 	}
 		
-		public void registrar(UsuarioDTO usuarioDTO, String auditar) {
+		public void auditar(UsuarioDTO usuarioDTO, String auditar) {
 			Connection con = PoolConnection.getPoolConnection().getConnection();
 			
 			try
