@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.Date;
 
-public class PracticaQuirurgica extends Prestacion{
+public class PracticaQuirurgica<Datetime> extends Prestacion{
 
 	private int idPracticaQuirurgica;
 	private static int idPracticaQuirurgicaInc = 0;
@@ -10,14 +10,14 @@ public class PracticaQuirurgica extends Prestacion{
 	private String ojo;
 	private String diagnostico;
 	private String monitoreo;
-	private Date horaInicio;
-	private Date horaFin;
+	private Datetime horaInicio;
+	private Datetime horaFin;
 	private String anestesia;
 	
 	
 	public PracticaQuirurgica(String descripcion,
-			String ojo, String diagnostico, String monitoreo, Date horaInicio,
-			Date horaFin, String anestesia) {
+			String ojo, String diagnostico, String monitoreo, Datetime horaInicio,
+			Datetime horaFin, String anestesia) {
 		super(descripcion);
 		this.idPracticaQuirurgica = PracticaQuirurgica.idPracticaQuirurgicaInc++;
 		this.ojo = ojo;
@@ -49,12 +49,12 @@ public class PracticaQuirurgica extends Prestacion{
 	}
 
 
-	public Date getHoraInicio() {
+	public Datetime getHoraInicio() {
 		return horaInicio;
 	}
 
 
-	public Date getHoraFin() {
+	public Datetime getHoraFin() {
 		return horaFin;
 	}
 
