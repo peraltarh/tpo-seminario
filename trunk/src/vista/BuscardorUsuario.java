@@ -262,7 +262,7 @@ public class BuscardorUsuario extends JDialog {
 				model.setValueAt("SI", i, 4);	
 			}else
 				model.setValueAt("NO", i, 4);
-			model.setValueAt(usuarios.get(i).getEspecialidad(), i, 5);
+			model.setValueAt(usuarios.get(i).getEspecialidades(), i, 5);
 			
 		}
 		

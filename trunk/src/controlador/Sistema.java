@@ -33,6 +33,11 @@ import java.util.Date;
 
 
 
+
+
+
+
+
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
@@ -282,15 +287,16 @@ public class Sistema{
 	}
 
 	
-	public boolean altaUsuario(String nombre, String apellido, int dni, String matricula, String userName, String password, String Permisos ){
+	public boolean altaUsuario(String nombre, String apellido, int dni, String matricula, String userName, String password, ArrayList<String> Permisos ){
 		
 		Usuario u = buscarUsuario(dni);
-		String vp = Permisos;
+		ArrayList<String> vp = new ArrayList();
+		vp=Permisos;
 		
 		if(u == null){
 			u = new Usuario(nombre, apellido, matricula, dni, userName, password);
 
-			u.setEspecialidad(vp);
+			u.setEspecialidades(vp);
 			u.savePermisos();
 			usuarios.add(u);
 			return true;
@@ -301,15 +307,16 @@ public class Sistema{
 	
 	
 	public boolean modificarUsuario(String nombre, String apellido, int dni, String matricula, String userName, 
-		String password, String Permisos, boolean borrado){
+		String password, ArrayList<String> Permisos, boolean borrado){
 		
 		Usuario u = buscarUsuario(dni);
-		String vp = Permisos;
+		ArrayList<String> vp = new ArrayList();
+		vp=Permisos;
 		
 		if(u != null){
 			u.modificarUsuario(nombre, apellido, matricula, userName, password, borrado);
 					
-			u.setEspecialidad(vp);
+			u.setEspecialidades(vp);
 			return true;
 		}else{
 			return false;
@@ -318,11 +325,12 @@ public class Sistema{
 	
 	
 	public boolean validarPermiso (String permiso){
-		String vp = usuarioActual.getEspecialidad();
+		ArrayList<String> vp = new ArrayList();
+		vp=usuarioActual.getEspecialidades();
 
-			if (vp.contains(permiso))
+		for(String string : vp)
+			if (string.matches(".*"+permiso+".*"))
 				return true;
-		
 		return false;
 		
 	}

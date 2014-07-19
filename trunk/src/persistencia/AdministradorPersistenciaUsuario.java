@@ -48,7 +48,7 @@ public class AdministradorPersistenciaUsuario {
 				u.setUserName(result.getString("usuarioLogin"));
 				u.setPassword(result.getString("clave"));
 				u.setBorrado(result.getBoolean("borrado"));
-				u.setEspecialidad(this.getEspecialidadUsuario(result.getInt("idEspecialidad")));
+				u.setEspecialidades(this.getEspecialidadesUsuario(result.getString("nro"),result.getString("tipoDoc")));
 				
 		
 			}
@@ -87,7 +87,7 @@ public class AdministradorPersistenciaUsuario {
 				u.setUserName(result.getString("usuarioLogin"));
 				u.setPassword(result.getString("clave"));
 				u.setBorrado(result.getBoolean("borrado"));
-				u.setEspecialidad(this.getEspecialidadUsuario(result.getInt("idEspecialidad")));
+				u.setEspecialidades(this.getEspecialidadesUsuario(result.getString("nro"),result.getString("tipoDoc")));
 			}
 			
 			PoolConnection.getPoolConnection().realeaseConnection(con);
@@ -266,7 +266,7 @@ public class AdministradorPersistenciaUsuario {
 					u.setUserName(result.getString("usuarioLogin"));
 					u.setPassword(result.getString("clave"));
 					u.setBorrado(result.getBoolean("borrado"));
-					u.setEspecialidad(this.getEspecialidadUsuario(result.getInt("idEspecialidad")));
+				//  u.setEspecialidad(this.getEspecialidadUsuario(result.getInt("idEspecialidad")));
 					vecUser.add(u);
 					
 				}
@@ -287,35 +287,40 @@ public class AdministradorPersistenciaUsuario {
 
 		
 
-		public String getEspecialidadUsuario(int id){
+		public ArrayList<String> getEspecialidadesUsuario(String nroDoc, String tipoDoc){
 			Connection con = PoolConnection.getPoolConnection().getConnection();
-			String resultado = null;
+			
+			ArrayList <String> resultado = new ArrayList();
 			try
 			{
-				String senten = "SELECT * from especialidad WHERE idEspecialidad = ?" ;
+				String senten = "SELECT e.descripcion from usuario as u INNER JOIN Usuario_Especialidad as ue ON u.nro=ue.nro INNER JOIN Especialidad as e ON e.idEspecialidad= ue.idEspecialidad where u.nro =? and u.tipoDoc=? and borrado = 0 " ;
 				PreparedStatement ps = null;
-				
+
 				ps = con.prepareStatement(senten);
-				ps.setInt(1, id);
-				
+				ps.setString(1, nroDoc);
+				ps.setString(2, tipoDoc);
+
 				ResultSet result = ps.executeQuery();
 				while (result.next()){
-				
-				resultado = result.getString("descripcion");
+
+					resultado.add(result.getString("descripcion"));
 				}
 				PoolConnection.getPoolConnection().realeaseConnection(con);
-				return resultado;
-				
-				
+
+
 			}
-		      catch( SQLException e ) 
-		      {
-					System.out.println("Mensaje Error -Especialidad- : " + e.getMessage());
-					e.printStackTrace();
-					PoolConnection.getPoolConnection().realeaseConnection(con);
-					return resultado;
-					
-		      }		
+			catch( SQLException e ) 
+			{
+				System.out.println("Mensaje Error -Especialidad- : " + e.getMessage());
+				e.printStackTrace();
+				PoolConnection.getPoolConnection().realeaseConnection(con);
+				return resultado;
+
+			}		
+			
+		
+
+			return resultado;
 			
 		}
 

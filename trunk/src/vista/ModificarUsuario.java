@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 
 
 
+
 import java.awt.Font;
 
 public class ModificarUsuario extends JDialog {
@@ -199,8 +200,11 @@ public class ModificarUsuario extends JDialog {
 							matricula = null;
 						}else
 							matricula = matriculaTextField.getText();
-		//TODO
-						boolean alta = Sistema.getInstancia().modificarUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a",borradoCheckBox.isSelected());
+						
+//COMENTADO PORQUE NO SE DAN ALTAS
+						
+		
+						/*boolean alta = Sistema.getInstancia().modificarUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a",borradoCheckBox.isSelected());
 						if (alta){
 							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue Modificado.");
 							dispose();
@@ -208,7 +212,7 @@ public class ModificarUsuario extends JDialog {
 							bu.setVisible(true);
 						}else{
 							JOptionPane.showMessageDialog(null, "No se pudo modificar el Usuario", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
-						}
+						}*/
 					}
 					
 					 
@@ -373,7 +377,8 @@ public class ModificarUsuario extends JDialog {
 		
 		ArrayList<String> vecPermisoDTO  = Sistema.getInstancia().getAllPermisos();
 		
-		String PermisoDTOAsignado  = userDTO.getEspecialidad();
+		ArrayList<String> PermisoDTOAsignado  = new ArrayList();
+		PermisoDTOAsignado=	userDTO.getEspecialidades();
 		//TODO
 //		for (int i = 0; i < vecPermisoDTOAsignado.size(); i++) {
 //			asignadoModel.addElement(vecPermisoDTOAsignado.get(i).getDescripcion());
