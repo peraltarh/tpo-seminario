@@ -7,7 +7,7 @@ import persistencia.AdministradorPersistenciaUsuario;
 
 public class Usuario {
 	
-	private String especialiadad;
+	private ArrayList<String> especialiadades;
 	private int dni;
 	private String nombre;
 	private String apellido;
@@ -29,7 +29,7 @@ public class Usuario {
 		this.password = password;
 		this.matricula = matricula;
 		this.borrado = false;
-		this.especialiadad =  null;
+		this.especialiadades =  new ArrayList();
 		
 		AdministradorPersistenciaUsuario.getInstancia().insert(this);
 		
@@ -83,7 +83,7 @@ public class Usuario {
 	}
 	
 	public UsuarioDTO getView(){
-		return new UsuarioDTO(nombre, apellido, matricula, dni, userName, password, borrado, especialiadad);
+		return new UsuarioDTO(nombre, apellido, matricula, dni, userName, password, borrado, especialiadades);
 		
 	}
 
@@ -132,13 +132,13 @@ public class Usuario {
 		AdministradorPersistenciaUsuario.getInstancia().updateBorrar(this);
 	}
 
-	public String getEspecialidad() {
+	public ArrayList<String> getEspecialidades() {
 
-		return this.especialiadad;
+		return this.especialiadades;
 	}
 
-	public void setEspecialidad(String especialidad) {
-		this.especialiadad = especialidad;
+	public void setEspecialidades(ArrayList<String> especialidades) {
+		this.especialiadades = especialidades;
 	}
 	
 	public void savePermisos(){

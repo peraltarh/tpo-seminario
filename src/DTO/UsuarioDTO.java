@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.ArrayList;
+
 
 public class UsuarioDTO {
 	
@@ -10,14 +12,14 @@ public class UsuarioDTO {
 	private String userName;
 	private String password;
 	private boolean borrado;
-	private String especialidad;
+	private ArrayList<String> especialidades;
 	
 	public UsuarioDTO(){
 		
 	}
 	
 	public UsuarioDTO(String nombre, String apellido, String matricula,
-				int dni,String userName, String password,boolean borrado,String especialidad) {
+				int dni,String userName, String password,boolean borrado,ArrayList<String> especialiadades) {
 		super(); 
 		
 		this.nombre = nombre;
@@ -27,7 +29,7 @@ public class UsuarioDTO {
 		this.userName = userName;
 		this.password = password;
 		this.borrado = borrado;
-		this.especialidad= especialidad;
+		this.especialidades= especialiadades;
 		
 	}
 	
@@ -57,8 +59,8 @@ public class UsuarioDTO {
 		return dni;
 	}
 	
-	public String getEspecialidad() {
-		return especialidad;
+	public ArrayList<String> getEspecialidades() {
+		return especialidades;
 	}
 	
 	public void setDni(int dni) {
@@ -83,8 +85,8 @@ public class UsuarioDTO {
 		this.borrado = borrado;
 	}
 
-	public void setEspecialidad(String especialidad) {
-		this.especialidad = especialidad;
+	public void setEspecialidades(ArrayList<String> especialidades) {
+		this.especialidades = especialidades;
 	}
 
 	

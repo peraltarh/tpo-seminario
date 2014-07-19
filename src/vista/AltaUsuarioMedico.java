@@ -189,14 +189,17 @@ public class AltaUsuarioMedico extends JDialog {
 //							matricula = 0;
 //						}else
 							String matricula = matriculaTextField.getText();
-				//TODO
-							boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
+							
+							//COMENTADO PORQUE NO SE DAN ALTAS
+													
+									
+							/*boolean alta = Sistema.getInstancia().altaUsuario(nombreTextField.getText(), apellidoTextField.getText(), Integer.parseInt(dniTextField.getText()), matricula , usuarioTextField.getText(), pswTextField.getText(), "a");
 						if (alta){
 							JOptionPane.showMessageDialog(null, "El Usuario con DNI " + dniTextField.getText() + " fue creado.");
 							dispose();
 						}else{
 							JOptionPane.showMessageDialog(null, "No se pudo dar de Alta el Usuario", "Alta Usuario", JOptionPane.ERROR_MESSAGE);
-						}
+						}*/
 					}
 					
 					 
