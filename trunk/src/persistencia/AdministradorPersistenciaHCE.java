@@ -77,7 +77,7 @@ public class AdministradorPersistenciaHCE {
 		
 		try
 		{
-			String senten = "SELECT fecha,practica,idPracticaAmbulatoria,idConsulta,idPracticaQuirurgica FROM ItemHCE, (SELECT idHCE FROM HCE WHERE nroDoc = ? AND tipoDoc = ?) AS idHCEBuscado WHERE idHCEBuscado.idHCE = ItemHCE.idHCE";
+			String senten = "SELECT fecha,practica,idPracticaAmbulatoria,idConsulta,idPracticaQuirurgica FROM ItemHCE, (SELECT idHCE FROM HCE WHERE nroDoc = ? AND tipoDoc = ?) AS idHCEBuscado WHERE idHCEBuscado.idHCE = ItemHCE.idHCE ORDER BY fecha desc";
 			
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);
@@ -117,8 +117,8 @@ public class AdministradorPersistenciaHCE {
 								result2.getString("ojo"), 
 								result2.getString("diagnostico"), 
 								result2.getString("monitoreo"), 
-								result2.getDate("horaInicio"), 
-								result2.getDate("horaFin"), 
+								result2.getString("horaInicio"), 
+								result2.getString("horaFin"), 
 								result2.getString("anestesia"));
 					}
 					

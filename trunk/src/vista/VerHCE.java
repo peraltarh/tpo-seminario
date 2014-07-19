@@ -368,8 +368,8 @@ public class VerHCE extends JDialog implements FocusListener{
 						"<br><b>Ojo: </b>" + ((PracticaQuirurgica)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgica)pTemp).getDiagnostico() + "</br>" +
 						"<br><b>Monitoreo: </b>" + ((PracticaQuirurgica)pTemp).getMonitoreo() + "</br>" +
-						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgica)pTemp).getHoraInicio().toString() + "</br>" +
-						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgica)pTemp).getHoraFin().toString() + "</br>" +
+						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgica)pTemp).getHoraInicio().toString().substring(11) + "</br>" +
+						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgica)pTemp).getHoraFin().toString().substring(11) + "</br>" +
 						"<br><b>Anestecia: </b>" + ((PracticaQuirurgica)pTemp).getAnestesia() + "</br>" +
 						"</html>";
 				}
