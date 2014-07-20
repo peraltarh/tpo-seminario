@@ -63,6 +63,7 @@ public class AdministradorPersistenciaHCE {
 	}
 
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HistoriaClinica buscarHistoriaClinica (String tipoDoc, String nro){
 		
 

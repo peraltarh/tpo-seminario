@@ -27,13 +27,7 @@ import java.awt.event.FocusListener;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import modelo.Consulta;
-import modelo.HistoriaClinica;
-import modelo.PracticaAmbulatoria;
-import modelo.PracticaQuirurgica;
-import modelo.Prestacion;
-import modelo.itemHistoriaClinica;
-import persistencia.AdministradorPersistenciaAuditoria;
+
 import DTO.ConsultaDTO;
 import DTO.HistoriaClinicaDTO;
 import DTO.ItemHistoriaClinicaDTO;
@@ -122,10 +116,11 @@ public class VerHCE extends JDialog implements FocusListener{
 		panelBotones.add(nuevaConsultaButton);
 		nuevaConsultaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(pacienteDTOActual!=null){
 				dispose();
 				AltaConsulta ac = new AltaConsulta();
 				ac.setVisible(true);
-				
+				}
 			}
 		});
 		nuevaConsultaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/consulta.png")));
@@ -150,9 +145,11 @@ public class VerHCE extends JDialog implements FocusListener{
 		nuevaPrcticaAmbulatoriaButton= new JButton("<html>Alta Practica<br>Ambulatoria</html>");
 		nuevaPrcticaAmbulatoriaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(pacienteDTOActual!=null){
 				dispose();
 				AltaPractica ap = new AltaPractica(pacienteDTOActual);
 				ap.setVisible(true);
+				}
 			}
 		});
 		nuevaPrcticaAmbulatoriaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/practica.png")));
@@ -168,10 +165,12 @@ public class VerHCE extends JDialog implements FocusListener{
 		JButton nuevaCirugiaButton = new JButton("<html>Alta Practica<br>Quirurgica</html>");
 		nuevaCirugiaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(pacienteDTOActual!=null){
+				
 				dispose();
 				AltaCirugia ac = new AltaCirugia(pacienteDTOActual);
 				ac.setVisible(true);
-				
+				}
 			}
 		});
 		nuevaCirugiaButton.setIcon(new ImageIcon(VerHCE.class.getResource("/image/cirugia.png")));
@@ -332,6 +331,7 @@ public class VerHCE extends JDialog implements FocusListener{
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void focusGained(FocusEvent event) {
 		if (event.getSource() == this.table){
