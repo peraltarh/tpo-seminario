@@ -1,14 +1,10 @@
 package persistencia;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import modelo.Paciente;
-import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
 public class AdministradorPersistenciaPracticaAmbulatoria {
