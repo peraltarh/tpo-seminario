@@ -32,9 +32,12 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import DTO.PacienteDTO;
-import persistencia.AdministradorPersistenciaAuditoria;
-import persistencia.AdministradorPersistenciaPracticaAmbulatoria;
 import controlador.Sistema;
+
+
+
+
+
 
 
 
@@ -42,9 +45,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
 
-public class AltaPractica extends JDialog {
+public class AltaPractica extends JDialog{
 
 	
 	private static final long serialVersionUID = 1L;
@@ -142,8 +144,8 @@ public class AltaPractica extends JDialog {
 		
 		obraSocialComboBox = new JComboBox();
 		obraSocialComboBox.setBounds(68, 75, 137, 22);
-		
 		datosPacientePanel.add(obraSocialComboBox);
+
 		
 		ArrayList<String> obrasSocialesPaciente =  pacienteDTOAct.getObrasSociales();
 		for (String string : obrasSocialesPaciente) {
@@ -155,7 +157,6 @@ public class AltaPractica extends JDialog {
 		numeroAfiliadoTextField.setBounds(282, 77, 137, 22);
 		datosPacientePanel.add(numeroAfiliadoTextField);
 		
-		//TODO esto va tambien en el focus listener para cuando selecciona otra obra social
 		ArrayList<Integer> numerosDeAfiliadoPaciente = pacienteDTOAct.getNroAfiliado();
 		numeroAfiliadoTextField.setText(numerosDeAfiliadoPaciente.get(obraSocialComboBox.getSelectedIndex()).toString());
 		
@@ -185,7 +186,6 @@ public class AltaPractica extends JDialog {
 		prestacionComboBox = new JComboBox();
 		prestacionComboBox.setBounds(66, 25, 339, 22);
 
-		//TODO esto va tambien en el focus listener para cuando selecciona otra obra social
 		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasAmbulatoriasObraSocial(this.obraSocialComboBox.getSelectedItem().toString());;
 		
 		for (String string : prestacionesDesc) {
@@ -287,6 +287,18 @@ public class AltaPractica extends JDialog {
                if(e.getStateChange() == ItemEvent.SELECTED){
 				ArrayList<Integer> numerosDeAfiliadoPaciente = pacienteDTOAct.getNroAfiliado();
 				numeroAfiliadoTextField.setText(numerosDeAfiliadoPaciente.get(obraSocialComboBox.getSelectedIndex()).toString());
+				
+				
+				prestacionComboBox.removeAllItems();
+				ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasAmbulatoriasObraSocial(obraSocialComboBox.getSelectedItem().toString());;
+				
+				for (String string : prestacionesDesc) {
+					prestacionComboBox.addItem(string);
+				}
+				if(prestacionComboBox.getItemCount()>0)prestacionComboBox.setSelectedIndex(0);
+				diagnositicoTextPane.requestFocus();
+               
+               
                }  
             }
         });
@@ -307,4 +319,5 @@ public class AltaPractica extends JDialog {
 		setAlwaysOnTop(true);
 		setModal(true);
 	}
+
 }

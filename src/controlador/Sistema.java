@@ -39,6 +39,9 @@ import java.util.Date;
 
 
 
+
+
+
 import DTO.HistoriaClinicaDTO;
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
@@ -292,7 +295,7 @@ public class Sistema{
 	public boolean altaUsuario(String nombre, String apellido, int dni, String matricula, String userName, String password, ArrayList<String> Permisos ){
 		
 		Usuario u = buscarUsuario(dni);
-		ArrayList<String> vp = new ArrayList();
+		ArrayList<String> vp = new ArrayList<String>();
 		vp=Permisos;
 		
 		if(u == null){
@@ -312,7 +315,7 @@ public class Sistema{
 		String password, ArrayList<String> Permisos, boolean borrado){
 		
 		Usuario u = buscarUsuario(dni);
-		ArrayList<String> vp = new ArrayList();
+		ArrayList<String> vp = new ArrayList<String>();
 		vp=Permisos;
 		
 		if(u != null){
@@ -327,7 +330,7 @@ public class Sistema{
 	
 	
 	public boolean validarPermiso (String permiso){
-		ArrayList<String> vp = new ArrayList();
+		ArrayList<String> vp = new ArrayList<String>();
 		vp=usuarioActual.getEspecialidades();
 
 		for(String string : vp)

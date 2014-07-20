@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.border.EtchedBorder;
@@ -32,7 +34,6 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import DTO.PacienteDTO;
-import persistencia.AdministradorPersistenciaAuditoria;
 import controlador.Sistema;
 
 import javax.swing.JSpinner;
@@ -42,7 +43,7 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-public class AltaCirugia extends JDialog {
+public class AltaCirugia extends JDialog{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel DiagnosticoPanel;
@@ -328,8 +329,33 @@ public class AltaCirugia extends JDialog {
 		lblNewLabel_1.setBounds(10, 496, 148, 14);
 		getContentPane().add(lblNewLabel_1);
 		
+		obraSocialComboBox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+               if(e.getStateChange() == ItemEvent.SELECTED){
+				ArrayList<Integer> numerosDeAfiliadoPaciente = pacienteDTOAct.getNroAfiliado();
+				numeroAfiliadoTextField.setText(numerosDeAfiliadoPaciente.get(obraSocialComboBox.getSelectedIndex()).toString());
+
+				
+				prestacionComboBox.removeAllItems();
+				ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasQuirurjicasObraSocial(obraSocialComboBox.getSelectedItem().toString());;
+
+				for (String string : prestacionesDesc) {
+					prestacionComboBox.addItem(string);
+				}
+				if(prestacionComboBox.getItemCount()>0)prestacionComboBox.setSelectedIndex(0);
+				diagnositicoTextPane.requestFocus();
+               
+               
+               }  
+            }
+        });
+		
+		
+		
 		this.setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setModal(true);
 	}
+
 }

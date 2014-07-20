@@ -1,6 +1,5 @@
 package vista;
 
-import java.awt.EventQueue;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -48,31 +47,12 @@ public class BuscardorUsuario extends JDialog {
 	
 	private TableRowSorter<TableModel> sorter;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BuscardorUsuario frame = new BuscardorUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public BuscardorUsuario() {
 		initGUI();
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	public void initGUI(){
 		setTitle("Buscar Usuarios");
 		setResizable(false);
@@ -111,7 +91,7 @@ public class BuscardorUsuario extends JDialog {
 		model.addColumn("DNI");
 		model.addColumn("Nombre Usuario");
 		model.addColumn("Borrado");
-		model.addColumn("Especialidad");
+	
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -262,7 +242,6 @@ public class BuscardorUsuario extends JDialog {
 				model.setValueAt("SI", i, 4);	
 			}else
 				model.setValueAt("NO", i, 4);
-			model.setValueAt(usuarios.get(i).getEspecialidades(), i, 5);
 			
 		}
 		

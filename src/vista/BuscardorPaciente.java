@@ -2,8 +2,7 @@ package vista;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.Vector;
-import java.util.regex.Pattern;
+
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,13 +22,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.border.EtchedBorder;
 
 import DTO.PacienteDTO;
-import DTO.UsuarioDTO;
-
 import controlador.Sistema;
 
 public class BuscardorPaciente extends JDialog {
@@ -108,7 +107,7 @@ public class BuscardorPaciente extends JDialog {
 		model.addColumn("Nombre");
 		model.addColumn("Apellido");
 		model.addColumn("Tipo Doc.");
-		model.addColumn("DNI");
+		model.addColumn("Numero");
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
@@ -196,6 +195,7 @@ public class BuscardorPaciente extends JDialog {
 		setModal(true);
 	}
 	
+	@SuppressWarnings("unused")
 	private void filtrar() {
 		ArrayList<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object,Object>>();
 		RowFilter<TableModel, Object> rf = null;
