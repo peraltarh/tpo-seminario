@@ -14,17 +14,18 @@ drop table auditoria
 drop table consulta
 drop table nomenclador
 drop table obrasocial
-drop table paciente
 drop table practicaambulatoria
 drop table practicaquirurgica
 drop table prestacion
-drop table prestador
-drop table usuario
+drop table prestador 
+drop table usuario 
 drop table hce
 drop table Especialidad
-drop table obrasocial
-drop table obrasocial_paciente
+drop table obrasocial 
+drop table obrasocial_paciente 
 drop table itemhce
+drop table Usuario_Especialidad
+drop table paciente 
 */
 
 --creacion de tablas
@@ -39,19 +40,31 @@ CREATE TABLE Especialidad
 CREATE TABLE Usuario
 	(
 		nro varchar(16) NOT NULL,
-		tipoDoc varchar(8) NOT NULL,
+		tipoDoc varchar(16) NOT NULL,
 		usuarioLogin varchar(16) NOT NULL,
 		clave varchar(16) NOT NULL,
 		nombre varchar(32) NOT NULL,
 		apellido varchar(32) NOT NULL,
 		matricula varchar(32),
-		idEspecialidad smallint,
 		borrado bit,
 		CONSTRAINT PK_Usuario PRIMARY KEY (nro, tipoDoc),
 		CONSTRAINT PK_Usuario2 UNIQUE (usuarioLogin),
-		CONSTRAINT FK_Usuario_Especialidad FOREIGN KEY (idEspecialidad)
-			REFERENCES Especialidad(idEspecialidad)
 	) 
+
+CREATE TABLE Usuario_Especialidad
+	(
+		idUsuario_Especialidad smallint NOT NULL IDENTITY(1,1),
+		idEspecialidad smallint NOT NULL,
+		nro varchar(16) NOT NULL,
+		tipoDoc varchar(16) NOT NULL,
+		CONSTRAINT PK_Usuario_Especialidad PRIMARY KEY (idUsuario_Especialidad),
+		CONSTRAINT FK_Especialidad_Usuario FOREIGN KEY (idEspecialidad)
+			REFERENCES Especialidad(idEspecialidad),
+		CONSTRAINT FK_Usuario_Especialidad FOREIGN KEY (nro,tipoDoc)
+			REFERENCES Usuario(nro,tipoDoc)
+
+	)
+
 CREATE TABLE Auditoria
 	(
 		idAudit smallint NOT NULL IDENTITY(1,1),
@@ -79,7 +92,7 @@ CREATE TABLE Paciente
 		apellido varchar(32) NOT NULL,
 		celular varchar(32) NOT NULL,
 		telefono varchar(32) NOT NULL,
-		fechaNacimiento date NOT NULL,
+		fechaNacimiento datetime NOT NULL,
 		email varchar(32),
 		edad smallint,
 		CONSTRAINT PK_Paciente PRIMARY KEY (nro, tipoDoc)
@@ -106,7 +119,7 @@ CREATE TABLE ObraSocial_Paciente
 CREATE TABLE Prestacion
 	(
 		idPrestacion smallint NOT NULL IDENTITY(1,1),
-		descripcion varchar(32) NOT NULL,
+		descripcion varchar(128) NOT NULL,
 		CONSTRAINT PK_Prestacion PRIMARY KEY (idPrestacion)
 	)
 
@@ -207,7 +220,7 @@ CREATE TABLE HCE
 	(
 		idItemHCE smallint NOT NULL IDENTITY(1,1),
 		idHCE smallint NOT NULL,
-		fecha date NOT NULL,
+		fecha datetime NOT NULL,
 		practica varchar(32) NOT NULL,
 		idPracticaAmbulatoria smallint,
 		idPracticaQuirurgica smallint,
