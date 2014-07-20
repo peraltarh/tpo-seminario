@@ -13,11 +13,12 @@ public class PracticaQuirurgica<Datetime> extends Prestacion{
 	private Datetime horaInicio;
 	private Datetime horaFin;
 	private String anestesia;
+	private String medico;
 	
 	
 	public PracticaQuirurgica(String descripcion,
 			String ojo, String diagnostico, String monitoreo, Datetime horaInicio,
-			Datetime horaFin, String anestesia) {
+			Datetime horaFin, String anestesia, String medico) {
 		super(descripcion);
 		this.idPracticaQuirurgica = PracticaQuirurgica.idPracticaQuirurgicaInc++;
 		this.ojo = ojo;
@@ -26,6 +27,7 @@ public class PracticaQuirurgica<Datetime> extends Prestacion{
 		this.horaInicio = horaInicio;
 		this.horaFin = horaFin;
 		this.anestesia = anestesia;
+		this.medico = medico;
 	}
 
 
@@ -63,6 +65,8 @@ public class PracticaQuirurgica<Datetime> extends Prestacion{
 		return anestesia;
 	}
 
-	
+	public String getMedico() {
+		return medico;
+	}
 	
 }

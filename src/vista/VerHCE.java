@@ -34,7 +34,13 @@ import modelo.PracticaQuirurgica;
 import modelo.Prestacion;
 import modelo.itemHistoriaClinica;
 import persistencia.AdministradorPersistenciaAuditoria;
+import DTO.ConsultaDTO;
+import DTO.HistoriaClinicaDTO;
+import DTO.ItemHistoriaClinicaDTO;
 import DTO.PacienteDTO;
+import DTO.PracticaAmbulatoriaDTO;
+import DTO.PracticaQuirurgicaDTO;
+import DTO.PrestacionDTO;
 import controlador.Sistema;
 
 import java.awt.Font;
@@ -65,7 +71,7 @@ public class VerHCE extends JDialog implements FocusListener{
 	private PacienteDTO pacienteDTOActual;
 	private JTextField sexoTextField;
 	private JPanel panelConsultas;
-	private HistoriaClinica hceTemp;
+	private HistoriaClinicaDTO hceTemp;
 	
 	public VerHCE() {
 		initGUI();
@@ -273,7 +279,7 @@ public class VerHCE extends JDialog implements FocusListener{
 				
 				if(pacienteDTOActual != null){
 				
-				hceTemp = Sistema.getInstancia().buscarHCE(pacienteDTOActual.getDni(), pacienteDTOActual.getTipoDoc());
+				hceTemp = Sistema.getInstancia().getHCE(pacienteDTOActual.getDni(), pacienteDTOActual.getTipoDoc());
 
 				model = new DefaultTableModel(){
 					private static final long serialVersionUID = 1L;
@@ -288,7 +294,7 @@ public class VerHCE extends JDialog implements FocusListener{
 				model.addColumn("Fecha");
 				model.addColumn("Tipo");
 				
-				for (itemHistoriaClinica itemHCETemp : hceTemp.getPreacticas()) {
+				for (ItemHistoriaClinicaDTO itemHCETemp : hceTemp.getPracticas()) {
 						
 						 model.addRow(new Object[]{itemHCETemp.getFecha(), itemHCETemp.getPractica().getDescripcion()});        
 
@@ -330,47 +336,50 @@ public class VerHCE extends JDialog implements FocusListener{
 	public void focusGained(FocusEvent event) {
 		if (event.getSource() == this.table){
 
-			itemHistoriaClinica itemTemp = hceTemp.getPreacticas().get(table.getSelectedRow());
-			Prestacion pTemp = itemTemp.getPractica();
+			ItemHistoriaClinicaDTO itemTemp = hceTemp.getPracticas().get(table.getSelectedRow());
+			PrestacionDTO pTemp = itemTemp.getPractica();
 			
 			String detalle = null;
 	
-			if (pTemp instanceof Consulta) {
+			if (pTemp instanceof ConsultaDTO) {
 				
 				
 				detalle = "<html>"+
+						"<br><b>Medico: </b>" + ((ConsultaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
-						"<br><b>Tipo: </b>" + ((Consulta)pTemp).getDescripcion() + "</br>" +
-						"<br><b>Observacion general: </b>" + ((Consulta)pTemp).getObservacionGeneral() + "</br>" +
-						"<br><b>Tratamiento: </b> " + ((Consulta)pTemp).getTratamiento() + "</br>" +
-						"<br><b>Motivo: </b>" + ((Consulta)pTemp).getMotivo() + "</br>" +
-						"<br><b>Observacion Ojo Der: </b>" + ((Consulta)pTemp).getObservacionOjoDer() + "</br>" +
-						"<br><b>Observacion Ojo Izq: </b>" + ((Consulta)pTemp).getObservacionOjoIzq() + "</br>" +
-						"<br><b>Observacion General: </b>" + ((Consulta)pTemp).getObservacionGeneral() + "</br>" +
+						"<br><b>Tipo: </b>" + ((ConsultaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Observacion general: </b>" + ((ConsultaDTO)pTemp).getObservacionGeneral() + "</br>" +
+						"<br><b>Tratamiento: </b> " + ((ConsultaDTO)pTemp).getTratamiento() + "</br>" +
+						"<br><b>Motivo: </b>" + ((ConsultaDTO)pTemp).getMotivo() + "</br>" +
+						"<br><b>Observacion Ojo Der: </b>" + ((ConsultaDTO)pTemp).getObservacionOjoDer() + "</br>" +
+						"<br><b>Observacion Ojo Izq: </b>" + ((ConsultaDTO)pTemp).getObservacionOjoIzq() + "</br>" +
+						"<br><b>Observacion General: </b>" + ((ConsultaDTO)pTemp).getObservacionGeneral() + "</br>" +
 						"</html>";
 				}
-			else if (pTemp instanceof PracticaAmbulatoria) {
+			else if (pTemp instanceof PracticaAmbulatoriaDTO) {
 				
 				
 				detalle = "<html>"+
+						"<br><b>Medico: </b>" +  ((PracticaAmbulatoriaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
-						"<br><b>Tipo: </b>" + ((PracticaAmbulatoria)pTemp).getDescripcion() + "</br>" +
-						"<br><b>Ojo: </b>" + ((PracticaAmbulatoria)pTemp).getOjo() + "</br>" +
-						"<br><b>Diagnostico: </b> " + ((PracticaAmbulatoria)pTemp).getDiagnostico() + "</br>" +
+						"<br><b>Tipo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Ojo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getOjo() + "</br>" +
+						"<br><b>Diagnostico: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
 						"</html>";
 				}
-			else if (pTemp instanceof PracticaQuirurgica) {
+			else if (pTemp instanceof PracticaQuirurgicaDTO) {
 				
 
 				detalle = "<html>"+
+						"<br><b>Medico: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
-						"<br><b>Tipo: </b>" + ((PracticaQuirurgica)pTemp).getDescripcion() + "</br>" +
-						"<br><b>Ojo: </b>" + ((PracticaQuirurgica)pTemp).getOjo() + "</br>" +
-						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgica)pTemp).getDiagnostico() + "</br>" +
-						"<br><b>Monitoreo: </b>" + ((PracticaQuirurgica)pTemp).getMonitoreo() + "</br>" +
-						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgica)pTemp).getHoraInicio().toString().substring(11) + "</br>" +
-						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgica)pTemp).getHoraFin().toString().substring(11) + "</br>" +
-						"<br><b>Anestecia: </b>" + ((PracticaQuirurgica)pTemp).getAnestesia() + "</br>" +
+						"<br><b>Tipo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Ojo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getOjo() + "</br>" +
+						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgicaDTO)pTemp).getDiagnostico() + "</br>" +
+						"<br><b>Monitoreo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMonitoreo() + "</br>" +
+						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraInicio().toString().substring(11) + "</br>" +
+						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraFin().toString().substring(11) + "</br>" +
+						"<br><b>Anestecia: </b>" + ((PracticaQuirurgicaDTO)pTemp).getAnestesia() + "</br>" +
 						"</html>";
 				}
 			

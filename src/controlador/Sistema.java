@@ -38,6 +38,8 @@ import java.util.Date;
 
 
 
+
+import DTO.HistoriaClinicaDTO;
 import DTO.PacienteDTO;
 import DTO.UsuarioDTO;
 
@@ -563,7 +565,14 @@ public class Sistema{
 		return pacienteTemp;
 	}
 
-	//TODO, deberia devolver un View
+	public HistoriaClinicaDTO getHCE (String nroDoc, String tipoDoc) {
+		
+		HistoriaClinica hceTemp = buscarHCE ( nroDoc,  tipoDoc);
+
+		return new HistoriaClinicaDTO(hceTemp);
+	}
+	
+	
 	public HistoriaClinica buscarHCE (String nroDoc, String tipoDoc) {
 		for (HistoriaClinica historiaClinica : historiasClinicas) {
 			if(historiaClinica.tenesPaciente(nroDoc,tipoDoc)){

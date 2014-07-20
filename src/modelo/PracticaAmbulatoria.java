@@ -8,15 +8,16 @@ public class PracticaAmbulatoria extends Prestacion{
 
 	private String ojo;
 	private String diagnostico;
+	private String medico;
 	
 	
-	
-	public PracticaAmbulatoria( String descripcion,
-			String ojo, String diagnostico) {
+	public PracticaAmbulatoria(String descripcion,
+			String ojo, String diagnostico, String medico) {
 		super(descripcion);
 		this.idPracticaAmbulatoria = PracticaAmbulatoria.idPracticaAmbulatoriaInc++;
 		this.ojo = ojo;
 		this.diagnostico = diagnostico;
+		this.medico = medico;
 	}
 
 	
@@ -36,7 +37,9 @@ public class PracticaAmbulatoria extends Prestacion{
 		return diagnostico;
 	}
 
-
+	public String getMedico() {
+		return medico;
+	}
 
 	
 }
