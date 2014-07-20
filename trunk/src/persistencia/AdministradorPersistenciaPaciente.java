@@ -48,6 +48,19 @@ public class AdministradorPersistenciaPaciente {
 					p.setCelular(result.getLong("celular")); 
 					p.setTelefono(result.getLong("telefono"));
 					p.setFechaNaciemiento(result.getDate("fechaNacimiento"));
+					
+					
+					//Cargo las obras sociales
+					senten = "SELECT nro,tipoDoc,nroAfiliado,razonSocial FROM ObraSocial_Paciente,ObraSocial WHERE ObraSocial_Paciente.idObraSocial = ObraSocial.idObraSocial AND nro = ? AND tipoDoc = ?";
+					ps = con.prepareStatement(senten);
+					ps.setString(1,p.getDni());
+					ps.setString(2,p.getTipoDoc());
+					
+					ResultSet result2 = ps.executeQuery();
+					while (result2.next())
+					{
+						p.addObraSocial(result2.getString("razonSocial"), result2.getString("nroAfiliado"));
+					}
 					vecPac.add(p);
 				}
 				

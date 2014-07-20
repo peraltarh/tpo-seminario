@@ -90,7 +90,7 @@ public class AdministradorPersistenciaHCE {
 				
 				if(result1.getString("practica").equals("Consulta")){
 					
-					senten = "SELECT descripcion,usuarioLogin,observacionGeneral,tratamiento,motivo,observacionOjoDer,observacionOjoIzq FROM Consulta,Prestacion WHERE idConsulta = ? AND Consulta.idPrestacion = Prestacion.idPrestacion";
+					senten = "SELECT descripcion,nombre,apellido,observacionGeneral,tratamiento,motivo,observacionOjoDer,observacionOjoIzq FROM Consulta,Prestacion,Usuario WHERE idConsulta = ? AND Consulta.idPrestacion = Prestacion.idPrestacion AND Usuario.usuarioLogin = Consulta.usuarioLogin ";
 					ps = con.prepareStatement(senten);
 					ps.setInt(1, result1.getInt("idConsulta"));
 					ResultSet result2 = ps.executeQuery();
@@ -101,13 +101,14 @@ public class AdministradorPersistenciaHCE {
 								result2.getString("tratamiento"), 
 								result2.getString("motivo"), 
 								result2.getString("observacionOjoIzq"), 
-								result2.getString("observacionOjoDer"));
+								result2.getString("observacionOjoDer"),
+								result2.getString("apellido") +" "+ result2.getString("nombre"));
 					}
 					
 				}
 				else if(result1.getString("practica").equals("PracticaQuirurgica")){
 					
-					senten = "SELECT descripcion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia FROM PracticaQuirurgica,Prestacion WHERE idPracticaQuirurgica = ? AND PracticaQuirurgica.idPrestacion = Prestacion.idPrestacion";
+					senten = "SELECT descripcion,nombre,apellido,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia FROM PracticaQuirurgica,Prestacion,Usuario WHERE idPracticaQuirurgica = ? AND PracticaQuirurgica.idPrestacion = Prestacion.idPrestacion AND Usuario.usuarioLogin = PracticaQuirurgica.usuarioLogin";
 					ps = con.prepareStatement(senten);
 					ps.setInt(1, result1.getInt("idPracticaQuirurgica"));
 					ResultSet result2 = ps.executeQuery();
@@ -119,7 +120,8 @@ public class AdministradorPersistenciaHCE {
 								result2.getString("monitoreo"), 
 								result2.getString("horaInicio"), 
 								result2.getString("horaFin"), 
-								result2.getString("anestesia"));
+								result2.getString("anestesia"),
+								result2.getString("apellido") +" "+ result2.getString("nombre"));
 					}
 					
 					
@@ -127,7 +129,7 @@ public class AdministradorPersistenciaHCE {
 				}
 				else if(result1.getString("practica").equals("PracticaAmbulatoria")){
 					
-					senten = "SELECT descripcion,usuarioLogin,ojo,diagnostico FROM PracticaAmbulatoria,Prestacion WHERE idPracticaAmbulatoria = ? AND PracticaAmbulatoria.idPrestacion = Prestacion.idPrestacion";
+					senten = "SELECT descripcion,nombre,apellido,ojo,diagnostico FROM PracticaAmbulatoria,Prestacion,Usuario WHERE idPracticaAmbulatoria = ? AND PracticaAmbulatoria.idPrestacion = Prestacion.idPrestacion AND Usuario.usuarioLogin = PracticaAmbulatoria.usuarioLogin";
 					ps = con.prepareStatement(senten);
 					ps.setInt(1, result1.getInt("idPracticaAmbulatoria"));
 					ResultSet result2 = ps.executeQuery();
@@ -135,7 +137,8 @@ public class AdministradorPersistenciaHCE {
 						
 						practicatemp = new PracticaAmbulatoria(result2.getString("descripcion"), 
 								result2.getString("ojo"), 
-								result2.getString("diagnostico"));
+								result2.getString("diagnostico"),
+								result2.getString("apellido") +" "+ result2.getString("nombre"));
 						
 					}
 					

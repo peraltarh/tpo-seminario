@@ -1,5 +1,6 @@
 package modelo;
 
+
 public class Consulta extends Prestacion{
 
 	
@@ -11,11 +12,12 @@ public class Consulta extends Prestacion{
 	private String motivo;
 	private String observacionOjoIzq;
 	private String observacionOjoDer;
+	private String medico;
 	
 	
 	public Consulta( String descripcionPractica, String observacionGeneral,
 			String tratamiento, String motivo, String observacionOjoIzq,
-			String observacionOjoDer) {
+			String observacionOjoDer, String medico) {
 		super(descripcionPractica);
 		this.idConsulta = Consulta.idConsultaInc++;
 		this.observacionGeneral = observacionGeneral;
@@ -23,6 +25,7 @@ public class Consulta extends Prestacion{
 		this.motivo = motivo;
 		this.observacionOjoIzq = observacionOjoIzq;
 		this.observacionOjoDer = observacionOjoDer;
+		this.medico = medico;
 	}
 
 
@@ -56,6 +59,8 @@ public class Consulta extends Prestacion{
 		return observacionOjoDer;
 	}
 
-
+	public String getMedico() {
+		return medico;
+	}
 
 }
