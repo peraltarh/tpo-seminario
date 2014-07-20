@@ -7,40 +7,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import java.util.GregorianCalendar;
 
 import DTO.HistoriaClinicaDTO;
 import DTO.PacienteDTO;
@@ -357,7 +331,6 @@ public class Sistema{
 			 try {
 				  path = miDir.getCanonicalPath()+"/";
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -376,7 +349,6 @@ public class Sistema{
 				con.setAutoCommit(true);
 				callBackupDbase = con.createStatement();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -385,7 +357,6 @@ public class Sistema{
 					callBackupDbase.execute(dbackup);
 					return true;
 				}catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					return false;
 				}
@@ -525,13 +496,20 @@ public class Sistema{
 
 
 
+	@SuppressWarnings({ "unchecked", "rawtypes"})
 	public void altaPracticaQuirurjica(String prestacion,
 			UsuarioDTO usuarioActual, String ojo, String diagnostico,
 			String monitoreo, String hsIni, String hsFin, String anestecia,
 			String dateString, String nroDoc, String tipoDoc) {
 
-		//TODO Crear la practica quirurjica y meterla en la HCE en memoria del paciente
 		
+		PracticaQuirurgica pqTemp = new PracticaQuirurgica(prestacion, ojo, diagnostico, monitoreo, hsIni, hsFin, anestecia, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+		
+
+		Date dTemp = GregorianCalendar.getInstance().getTime();
+		
+		
+		buscarHCE(nroDoc, tipoDoc).addPractica(new itemHistoriaClinica(dTemp, pqTemp));
 		
 		AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(
 				prestacion,
@@ -589,10 +567,20 @@ public class Sistema{
 
 
 
+
 	public void altaPracticaAmbulatoria(String prestacion,
 			UsuarioDTO usuarioActual2, String ojo, String diagnostico,
 			String dateString, String nroDoc, String tipoDoc) 
 	{
+			
+		
+			PracticaAmbulatoria paTemp = new PracticaAmbulatoria(prestacion, ojo, diagnostico, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+			
+			Date dTemp = GregorianCalendar.getInstance().getTime();
+			
+			
+			buscarHCE(nroDoc, tipoDoc).addPractica(new itemHistoriaClinica(dTemp, paTemp));
+
 			AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateString,nroDoc,tipoDoc);
 			PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
 			String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();

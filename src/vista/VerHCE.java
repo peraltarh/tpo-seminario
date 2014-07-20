@@ -28,6 +28,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 
+
 import DTO.ConsultaDTO;
 import DTO.HistoriaClinicaDTO;
 import DTO.ItemHistoriaClinicaDTO;
@@ -39,6 +40,9 @@ import controlador.Sistema;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 
 public class VerHCE extends JDialog implements FocusListener{
 
@@ -293,9 +297,24 @@ public class VerHCE extends JDialog implements FocusListener{
 				model.addColumn("Fecha");
 				model.addColumn("Tipo");
 				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String currentDate = format.format(GregorianCalendar.getInstance().getTime());
+				
 				for (ItemHistoriaClinicaDTO itemHCETemp : hceTemp.getPracticas()) {
+					
+					String fecha = null;
+	
+					if (format.format(itemHCETemp.getFecha()).equals(currentDate)){
+					
+					fecha = "HOY";
 						
-						 model.addRow(new Object[]{itemHCETemp.getFecha(), itemHCETemp.getPractica().getDescripcion()});        
+					}else{
+					
+					fecha = itemHCETemp.getFecha().toString();
+					
+					}
+					
+					model.addRow(new Object[]{fecha, itemHCETemp.getPractica().getDescripcion()});        
 
 				}
 
