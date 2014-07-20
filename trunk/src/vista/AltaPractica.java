@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.border.EtchedBorder;
@@ -40,6 +42,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
 
 public class AltaPractica extends JDialog {
 
@@ -95,6 +98,7 @@ public class AltaPractica extends JDialog {
 		datosPacientePanel.add(lblNombre);
 		
 		nombreTextField = new JTextField();
+		nombreTextField.setEditable(false);
 		nombreTextField.setBounds(68, 19, 137, 20);
 		datosPacientePanel.add(nombreTextField);
 		nombreTextField.setColumns(10);
@@ -106,6 +110,7 @@ public class AltaPractica extends JDialog {
 		datosPacientePanel.add(lblApellido);
 		
 		apellidoTextField = new JTextField();
+		apellidoTextField.setEditable(false);
 		apellidoTextField.setBounds(282, 19, 137, 20);
 		datosPacientePanel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
@@ -129,6 +134,7 @@ public class AltaPractica extends JDialog {
 		
 		
 		edadTextField = new JTextField();
+		edadTextField.setEditable(false);
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
@@ -136,6 +142,7 @@ public class AltaPractica extends JDialog {
 		
 		obraSocialComboBox = new JComboBox();
 		obraSocialComboBox.setBounds(68, 75, 137, 22);
+		
 		datosPacientePanel.add(obraSocialComboBox);
 		
 		ArrayList<String> obrasSocialesPaciente =  pacienteDTOAct.getObrasSociales();
@@ -144,6 +151,7 @@ public class AltaPractica extends JDialog {
 		}
 
 		numeroAfiliadoTextField = new JTextField();
+		numeroAfiliadoTextField.setEditable(false);
 		numeroAfiliadoTextField.setBounds(282, 77, 137, 22);
 		datosPacientePanel.add(numeroAfiliadoTextField);
 		
@@ -158,6 +166,8 @@ public class AltaPractica extends JDialog {
 		datosPacientePanel.add(label);
 		
 		comboBox = new JComboBox();
+		comboBox.setEditable(true);
+		comboBox.setEnabled(false);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		comboBox.setBounds(282, 47, 137, 22);
 		datosPacientePanel.add(comboBox);
@@ -267,6 +277,20 @@ public class AltaPractica extends JDialog {
 			}
 		});
 		cancelarButton.setBounds(335, 453, 116, 32);
+		
+		
+		
+		
+		obraSocialComboBox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+               if(e.getStateChange() == ItemEvent.SELECTED){
+				ArrayList<Integer> numerosDeAfiliadoPaciente = pacienteDTOAct.getNroAfiliado();
+				numeroAfiliadoTextField.setText(numerosDeAfiliadoPaciente.get(obraSocialComboBox.getSelectedIndex()).toString());
+               }  
+            }
+        });
+		
 		getContentPane().add(cancelarButton);
 		
 		lblNewLabel = new JLabel("Secreto m\u00E9dico dentro de los alcances del Art. 156 del CODIGO PENAL.");
