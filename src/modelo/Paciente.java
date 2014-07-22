@@ -88,7 +88,7 @@ public class Paciente {
             anio = anio - 1;
             mes = 12 + mes;
         }
-        String edad = anio + " aï¿½os con " + mes + " meses y " + dia + " dias";
+        String edad = anio + " años con " + mes + " meses y " + dia + " dias";
         return edad;
     }
 

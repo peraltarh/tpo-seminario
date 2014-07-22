@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 import java.util.GregorianCalendar;
@@ -115,13 +116,13 @@ public class Sistema{
 	//OK
 	public boolean validarLogin(String userName, String password){
 		
+		String pswEnc = Encriptacion.Encriptar(password);
 		
-		Usuario u = this.buscarUsuario(userName, password) ;
-		
+		Usuario u = this.buscarUsuario(userName, pswEnc) ;
 		
 		if (u!=null){
 			
-			if(password.equals(u.getPassword())){
+			if(pswEnc.equals(u.getPassword())){
 				usuarioActual = u.getView();
 				return true;
 			}
@@ -133,6 +134,8 @@ public class Sistema{
 	
 	//OK
 	public boolean cambiarContrasena(int dni, String psw){
+		
+		psw = Encriptacion.Encriptar(psw);
 		
 		Usuario u = buscarUsuario(dni) ;
 			
@@ -497,35 +500,51 @@ public class Sistema{
 
 
 	@SuppressWarnings({ "unchecked", "rawtypes"})
-	public void altaPracticaQuirurjica(String prestacion,
+	public boolean altaPracticaQuirurjica(String prestacion,
 			UsuarioDTO usuarioActual, String ojo, String diagnostico,
 			String monitoreo, String hsIni, String hsFin, String anestecia,
-			String dateString, String nroDoc, String tipoDoc) {
+			Date dateString, String nroDoc, String tipoDoc) {
 
 		
-		PracticaQuirurgica pqTemp = new PracticaQuirurgica(prestacion, ojo, diagnostico, monitoreo, hsIni, hsFin, anestecia, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+		HistoriaClinica hce = buscarHCE(nroDoc, tipoDoc);
 		
+		if (hce == null){
+			return false;
+		}else{
+			
+			PracticaQuirurgica pqTemp = new PracticaQuirurgica(prestacion, ojo, diagnostico, monitoreo, hsIni, hsFin, anestecia, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+			
 
-		Date dTemp = GregorianCalendar.getInstance().getTime();
+			//Date dTemp = GregorianCalendar.getInstance().getTime();
+			
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			String dateText= format.format(dateString);
+			
+			hce.addPractica(new itemHistoriaClinica(dateString, pqTemp));
+				
+			AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(
+					prestacion,
+					usuarioActual,
+					ojo,
+					diagnostico, 
+					monitoreo,
+					hsIni, hsFin, 
+					anestecia,
+					dateText, nroDoc,
+					tipoDoc);
+			
+			PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
+			
+			String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+			AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
+			
+			return true;
+			
+		}
+			
 		
 		
-		buscarHCE(nroDoc, tipoDoc).addPractica(new itemHistoriaClinica(dTemp, pqTemp));
 		
-		AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(
-				prestacion,
-				usuarioActual,
-				ojo,
-				diagnostico, 
-				monitoreo,
-				hsIni, hsFin, 
-				anestecia,
-				dateString, nroDoc,
-				tipoDoc);
-		
-		PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
-		
-		String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-		AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
 	
 
 	}
@@ -555,11 +574,12 @@ public class Sistema{
 	
 	
 	public HistoriaClinica buscarHCE (String nroDoc, String tipoDoc) {
-		for (HistoriaClinica historiaClinica : historiasClinicas) {
-			if(historiaClinica.tenesPaciente(nroDoc,tipoDoc)){
-				return historiaClinica;
-			}
-		}
+//		for (HistoriaClinica historiaClinica : historiasClinicas) {
+//			if(historiaClinica.tenesPaciente(nroDoc,tipoDoc)){
+//				return historiaClinica;
+//			}
+//		}
+		
 		HistoriaClinica hceTemp = AdministradorPersistenciaHCE.getInstancia().buscarHistoriaClinica(tipoDoc, nroDoc);
 		this.historiasClinicas.add(hceTemp);
 		return hceTemp;
@@ -568,23 +588,34 @@ public class Sistema{
 
 
 
-	public void altaPracticaAmbulatoria(String prestacion,
+	public boolean altaPracticaAmbulatoria(String prestacion,
 			UsuarioDTO usuarioActual2, String ojo, String diagnostico,
-			String dateString, String nroDoc, String tipoDoc) 
+			Date dateString, String nroDoc, String tipoDoc)
 	{
 			
 		
-			PracticaAmbulatoria paTemp = new PracticaAmbulatoria(prestacion, ojo, diagnostico, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+			HistoriaClinica hce = buscarHCE(nroDoc, tipoDoc);
 			
-			Date dTemp = GregorianCalendar.getInstance().getTime();
+			if (hce==null){
+				return false;
+			}else{
 			
-			
-			buscarHCE(nroDoc, tipoDoc).addPractica(new itemHistoriaClinica(dTemp, paTemp));
+				PracticaAmbulatoria paTemp = new PracticaAmbulatoria(prestacion, ojo, diagnostico, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
+				
+				//Date dTemp = GregorianCalendar.getInstance().getTime();
+				
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String dateText= format.format(dateString);
+							
+				hce.addPractica(new itemHistoriaClinica(dateString, paTemp));
 
-			AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateString,nroDoc,tipoDoc);
-			PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
-			String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-			AdministradorPersistenciaAuditoria.getInstancia().auditar(usuarioActual2,auditar);
+				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateText,nroDoc,tipoDoc);
+				PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
+				String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+				AdministradorPersistenciaAuditoria.getInstancia().auditar(usuarioActual2,auditar);
+				return true;
+			}
+			
 	}
 
 

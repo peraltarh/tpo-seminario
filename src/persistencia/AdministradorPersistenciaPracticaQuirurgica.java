@@ -41,8 +41,8 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 			ps.setString(3,ojo);
 			ps.setString(4,diagnostico); 
 			ps.setString(5,monitoreo);
-			ps.setString(6,hsFin);
-			ps.setString(7,hsInicio);
+			ps.setString(6,hsInicio);
+			ps.setString(7,hsFin);
 			ps.setString(8,anestesia);
 			ps.executeUpdate();
 
