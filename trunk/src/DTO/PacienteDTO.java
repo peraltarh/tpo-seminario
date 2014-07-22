@@ -197,7 +197,7 @@ public class PacienteDTO {
             anio = anio - 1;
             mes = 12 + mes;
         }
-        String edad = anio + " aÃ±os";
+        String edad = anio + " años con " + mes + " meses y " + dia + " dias";
         return edad;
     }
 

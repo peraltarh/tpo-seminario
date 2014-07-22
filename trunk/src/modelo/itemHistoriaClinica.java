@@ -14,7 +14,6 @@ public class itemHistoriaClinica {
 		this.practica = practica;
 	}
 
-
 	public Date getFecha() {
 		return fecha;
 	}
@@ -24,5 +23,6 @@ public class itemHistoriaClinica {
 		return practica;
 	}
 	
+
 	
 }

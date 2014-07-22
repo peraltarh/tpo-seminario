@@ -11,10 +11,8 @@ public class PrestacionDTO {
 		this.descripcion = descripcion;
 	}
 
-
 	public String getDescripcion() {
 		return descripcion;
 	}
-	
 
 }

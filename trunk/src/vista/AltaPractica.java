@@ -3,6 +3,7 @@ package vista;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -22,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 
 import java.awt.Color;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -251,15 +253,31 @@ public class AltaPractica extends JDialog{
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				String dateString = format.format(fechaPractica.getDate());
 				
-				
-				Sistema.getInstancia().altaPracticaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+				if (diagnositicoTextPane.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "El campo Diagnostico es un dato obligatorio", "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);
+				}else{
+					
+					boolean alta = Sistema.getInstancia().altaPracticaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+					if(alta){
+						JOptionPane.showMessageDialog(null, "Se creó la Practica Ambulatoria", "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);
+						dispose();
+						VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+						vhce.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Error al crear Practica Ambulatoria", "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);
+					}
+						
 
-			//	AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+					//	AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+						
+						/*String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+						AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);*/
+						
+						
+					
+				}
 				
-				/*String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-				AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);*/
 				
-				dispose();
 				
 			}
 		});
@@ -272,7 +290,7 @@ public class AltaPractica extends JDialog{
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				VerHCE vhce = new VerHCE();
+				VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				vhce.setVisible(true);
 			}
 		});
@@ -316,7 +334,7 @@ public class AltaPractica extends JDialog{
 		getContentPane().add(lblNewLabel_1);
 		
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
 

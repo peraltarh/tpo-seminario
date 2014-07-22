@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 
+import modelo.Encriptacion;
+
 import DTO.UsuarioDTO;
 
 import controlador.Sistema;
@@ -106,7 +108,8 @@ public class CambiarContrasena extends JDialog {
 			aceptarButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//boolean validar = Sistema.getInstancia().validarContrasenaActual(idUsuario, contrasenaActualtextField.getText());
-					if(usuario.getPassword().equalsIgnoreCase(contrasenaActualtextField.getText())){
+					String pswEnc = Encriptacion.Encriptar(contrasenaActualtextField.getText());
+					if(usuario.getPassword().equalsIgnoreCase(pswEnc)){
 						
 						if (contrasenaNuevatextField.getText().length() == 0){
 							JOptionPane.showMessageDialog(null, "La contrasena no puede ser vacna", "Cambiar Contrasena", JOptionPane.ERROR_MESSAGE);								

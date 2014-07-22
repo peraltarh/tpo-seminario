@@ -28,10 +28,8 @@ public class ItemHistoriaClinicaDTO {
 		}else if(ihcTemp.getPractica() instanceof PracticaQuirurgica){
 			this.practica = new PracticaQuirurgicaDTO(ihcTemp.getPractica());
 			
-			
 		}
 	}
-	
 	
 	public Date getFecha(){
 		return this.fecha;

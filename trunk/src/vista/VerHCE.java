@@ -9,6 +9,7 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -27,6 +28,8 @@ import java.awt.event.FocusListener;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import org.jdesktop.swingx.painter.BusyPainter;
+
 
 
 import DTO.ConsultaDTO;
@@ -41,8 +44,13 @@ import controlador.Sistema;
 import java.awt.Font;
 import java.awt.Color;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class VerHCE extends JDialog implements FocusListener{
 
@@ -75,9 +83,16 @@ public class VerHCE extends JDialog implements FocusListener{
 		initGUI();
 	}
 	
+	public VerHCE(String dni, String tipo) {
+		initGUI();
+		textField_numeroDoc.setText(dni);
+		comboBox_TipoDoc.setSelectedItem(tipo);
+		buscarButton.doClick();
+			
+	}
 	
 	public void initGUI(){
-		setTitle("Buscar HCE");
+		setTitle("HCE");
 		setResizable(false);
 		setBounds(100, 100, 758, 463);
 		contentPane = new JPanel();
@@ -86,6 +101,8 @@ public class VerHCE extends JDialog implements FocusListener{
 		contentPane.setLayout(null);
 		
 		table = new JTable();
+		
+		
 		model = new DefaultTableModel(){
 			private static final long serialVersionUID = 1L;
 
@@ -101,13 +118,14 @@ public class VerHCE extends JDialog implements FocusListener{
 		
 		table.setBounds(10, 65, 510, 202);
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 141, 146, 291);
+		scrollPane.setBounds(10, 141, 217, 291);
 		getContentPane().add(scrollPane);
 		
 		table.setModel(model);
 		table.getTableHeader().setReorderingAllowed(false) ;
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.addFocusListener(this);
+		
 		
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -124,6 +142,8 @@ public class VerHCE extends JDialog implements FocusListener{
 				dispose();
 				AltaConsulta ac = new AltaConsulta();
 				ac.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Debe buscar un paciente previamente", "HCE", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 		});
@@ -135,9 +155,8 @@ public class VerHCE extends JDialog implements FocusListener{
 		}else
 			nuevaConsultaButton.setEnabled(false);
 		
-		
 		JButton cancelarButton = new JButton("Cancelar");
-		cancelarButton.setBounds(10, 359, 154, 32);
+		cancelarButton.setBounds(10, 407, 154, 32);
 		panelBotones.add(cancelarButton);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -153,6 +172,8 @@ public class VerHCE extends JDialog implements FocusListener{
 				dispose();
 				AltaPractica ap = new AltaPractica(pacienteDTOActual);
 				ap.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Debe buscar un paciente previamente", "HCE", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 		});
@@ -170,10 +191,11 @@ public class VerHCE extends JDialog implements FocusListener{
 		nuevaCirugiaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(pacienteDTOActual!=null){
-				
 				dispose();
 				AltaCirugia ac = new AltaCirugia(pacienteDTOActual);
 				ac.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Debe buscar un paciente previamente", "HCE", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 		});
@@ -195,11 +217,14 @@ public class VerHCE extends JDialog implements FocusListener{
 		panelDatosPaciente.setLayout(null);
 		
 		apellidoTextField = new JTextField();
+		apellidoTextField.setEditable(false);
 		apellidoTextField.setColumns(10);
+		
 		apellidoTextField.setBounds(328, 22, 197, 20);
 		panelDatosPaciente.add(apellidoTextField);
 		
 		nombreTextField = new JTextField();
+		nombreTextField.setEditable(false);
 		nombreTextField.setColumns(10);
 		nombreTextField.setBounds(78, 22, 184, 20);
 		panelDatosPaciente.add(nombreTextField);
@@ -215,6 +240,7 @@ public class VerHCE extends JDialog implements FocusListener{
 		panelDatosPaciente.add(label_1);
 		
 		edadTextField = new JTextField();
+		edadTextField.setEditable(false);
 		edadTextField.setColumns(10);
 		edadTextField.setBounds(78, 47, 184, 20);
 		panelDatosPaciente.add(edadTextField);
@@ -230,6 +256,7 @@ public class VerHCE extends JDialog implements FocusListener{
 		panelDatosPaciente.add(label_3);
 		
 		sexoTextField = new JTextField();
+		sexoTextField.setEditable(false);
 		sexoTextField.setColumns(10);
 		sexoTextField.setBounds(328, 46, 197, 22);
 		panelDatosPaciente.add(sexoTextField);
@@ -237,13 +264,14 @@ public class VerHCE extends JDialog implements FocusListener{
 		
 		panelConsultas = new JPanel();
 		panelConsultas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Detalle", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panelConsultas.setBounds(166, 130, 406, 303);
+		panelConsultas.setBounds(231, 135, 341, 312);
 		contentPane.add(panelConsultas);
 		panelConsultas.setLayout(null);
 		
 		detalleTextPane = new JTextPane();
+		detalleTextPane.setEditable(false);
 		scrollDetalleTextPane = new JScrollPane(detalleTextPane);
-		scrollDetalleTextPane.setBounds(10, 17, 386, 272);
+		scrollDetalleTextPane.setBounds(10, 17, 318, 277);
 		scrollDetalleTextPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelConsultas.add(scrollDetalleTextPane);
 		detalleTextPane.setContentType("text/html");
@@ -269,8 +297,6 @@ public class VerHCE extends JDialog implements FocusListener{
 		contentPane.add(buscarButton);
 		buscarButton.addActionListener(new ActionListener() {
 			
-
-
 			public void actionPerformed(ActionEvent e) {
 				pacienteDTOActual = null;
 				
@@ -278,7 +304,6 @@ public class VerHCE extends JDialog implements FocusListener{
 				//TODO la auditoria deberia registrarla el sistema
 			//	String auditar="Se busco HCE con dni\t"+textField_numeroDoc.getText()+"\ttipo documento\t"+comboBox_TipoDoc.getSelectedItem().toString();
 			//	AdministradorPersistenciaAuditoria.getInstancia().auditar(Sistema.getInstancia().getUsuarioActual(),auditar);
-
 				
 				if(pacienteDTOActual != null){
 				
@@ -300,49 +325,78 @@ public class VerHCE extends JDialog implements FocusListener{
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				String currentDate = format.format(GregorianCalendar.getInstance().getTime());
 				
+				
 				for (ItemHistoriaClinicaDTO itemHCETemp : hceTemp.getPracticas()) {
 					
+//					Collections.sort(hceTemp.getPracticas(), new Comparator<ItemHistoriaClinicaDTO>(){
+//
+//						@Override
+//						public int compare(ItemHistoriaClinicaDTO item,ItemHistoriaClinicaDTO item1) {
+//							DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//							String fecha = format.format(item.getFecha());
+//							String fecha1 = format.format(item1.getFecha());
+//						
+//							return fecha1.compareTo(fecha);
+//						}
+//					} );					
+					
 					String fecha = null;
-	
 					if (format.format(itemHCETemp.getFecha()).equals(currentDate)){
-					
-					fecha = "HOY";
-						
+						fecha = currentDate;
 					}else{
-					
-					fecha = itemHCETemp.getFecha().toString();
-					
+						
+						DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+						fecha= format1.format(itemHCETemp.getFecha());
+						//fecha = itemHCETemp.getFecha().toString();
+						
 					}
 					
-					model.addRow(new Object[]{fecha, itemHCETemp.getPractica().getDescripcion()});        
-
+					String tipo = null;
+					if (itemHCETemp.getPractica().getDescripcion().contains("PA -")){
+						tipo = "Practica Ambulatoria";
+					}else if (itemHCETemp.getPractica().getDescripcion().contains("PQ -")){
+						tipo = "Practica Quirurjica";
+					}else if (itemHCETemp.getPractica().getDescripcion().contains("CG -")){
+						tipo = "Consulta General";
+					}
+					
+					model.addRow(new Object[]{fecha, tipo});
+					//model.addRow(new Object[]{fecha, itemHCETemp.getPractica().getDescripcion()});
+					
 				}
-
+				
+				//sorter = new TableRowSorter<TableModel>(model);
+				//table.setRowSorter(sorter);
+	                      
 				table.setModel(model);
-				sorter = new TableRowSorter<TableModel>(model);
-				table.setRowSorter(sorter);
-
+				table.getColumnModel().getColumn(0).setPreferredWidth(30);
+				
 				apellidoTextField.setText(pacienteDTOActual.getApellido());
 				nombreTextField.setText(pacienteDTOActual.getNombre());
-				edadTextField.setText(pacienteDTOActual.calcularEdad().substring(0, 2));
+				edadTextField.setText(pacienteDTOActual.calcularEdad());
+				
 				String sexo=pacienteDTOActual.getSexo();
 				if(sexo.equalsIgnoreCase("f"))
 					sexoTextField.setText("Femenino");				
 				else
 					sexoTextField.setText("Masculino");	
 
-
 				}
 				else
 				{
-					System.out.println("error");
-
+					JOptionPane.showMessageDialog(null, "No se encontró el paciente buscado", "HCE", JOptionPane.ERROR_MESSAGE);
+					apellidoTextField.setText("");
+					nombreTextField.setText("");
+					edadTextField.setText("");
+					detalleTextPane.setText("");
+					sexoTextField.setText("");
+					table.setModel(new DefaultTableModel()); 
+					
 				}
 
 			}
 		});
 
-	
 		
 		this.setLocationRelativeTo(null);
 		//setAlwaysOnTop(true);
@@ -354,18 +408,19 @@ public class VerHCE extends JDialog implements FocusListener{
 	@Override
 	public void focusGained(FocusEvent event) {
 		if (event.getSource() == this.table){
-
 			ItemHistoriaClinicaDTO itemTemp = hceTemp.getPracticas().get(table.getSelectedRow());
 			PrestacionDTO pTemp = itemTemp.getPractica();
-			
 			String detalle = null;
 	
 			if (pTemp instanceof ConsultaDTO) {
 				
+				DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+				String fecha= format1.format(itemTemp.getFecha());
+				
 				
 				detalle = "<html>"+
 						"<br><b>Medico: </b>" + ((ConsultaDTO)pTemp).getMedico() + "</br>" +
-						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
+						"<br><b>Fecha: </b>" + fecha + "</br>" +
 						"<br><b>Tipo: </b>" + ((ConsultaDTO)pTemp).getDescripcion() + "</br>" +
 						"<br><b>Observacion general: </b>" + ((ConsultaDTO)pTemp).getObservacionGeneral() + "</br>" +
 						"<br><b>Tratamiento: </b> " + ((ConsultaDTO)pTemp).getTratamiento() + "</br>" +
@@ -377,21 +432,24 @@ public class VerHCE extends JDialog implements FocusListener{
 				}
 			else if (pTemp instanceof PracticaAmbulatoriaDTO) {
 				
+				DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+				String fecha= format1.format(itemTemp.getFecha());
 				
 				detalle = "<html>"+
 						"<br><b>Medico: </b>" +  ((PracticaAmbulatoriaDTO)pTemp).getMedico() + "</br>" +
-						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
+						"<br><b>Fecha: </b>" + fecha + "</br>" +
 						"<br><b>Tipo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getDescripcion() + "</br>" +
 						"<br><b>Ojo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
 						"</html>";
 				}
 			else if (pTemp instanceof PracticaQuirurgicaDTO) {
-				
+				DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+				String fecha= format1.format(itemTemp.getFecha());
 
 				detalle = "<html>"+
 						"<br><b>Medico: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMedico() + "</br>" +
-						"<br><b>Fecha: </b>" + itemTemp.getFecha().toString() + "</br>" +
+						"<br><b>Fecha: </b>" + fecha + "</br>" +
 						"<br><b>Tipo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getDescripcion() + "</br>" +
 						"<br><b>Ojo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgicaDTO)pTemp).getDiagnostico() + "</br>" +
@@ -401,22 +459,19 @@ public class VerHCE extends JDialog implements FocusListener{
 						"<br><b>Anestecia: </b>" + ((PracticaQuirurgicaDTO)pTemp).getAnestesia() + "</br>" +
 						"</html>";
 				}
-			
-			
-
 			detalleTextPane.setText(detalle);
-			
 			detalleTextPane.requestFocus();
 		}
 		
 	}
-
 
 	@Override
 	public void focusLost(FocusEvent event) {
 
 	}
 	
+	
+
 
 }
 

@@ -4,6 +4,7 @@ package vista;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -103,6 +104,7 @@ public class AltaCirugia extends JDialog{
 		datosPacientePanel.add(lblNombre);
 		
 		nombreTextField = new JTextField();
+		nombreTextField.setEditable(false);
 		nombreTextField.setBounds(68, 19, 137, 20);
 		datosPacientePanel.add(nombreTextField);
 		nombreTextField.setColumns(10);
@@ -114,6 +116,7 @@ public class AltaCirugia extends JDialog{
 		datosPacientePanel.add(lblApellido);
 		
 		apellidoTextField = new JTextField();
+		apellidoTextField.setEditable(false);
 		apellidoTextField.setBounds(282, 19, 137, 20);
 		datosPacientePanel.add(apellidoTextField);
 		apellidoTextField.setColumns(10);
@@ -135,6 +138,7 @@ public class AltaCirugia extends JDialog{
 		datosPacientePanel.add(lblEdad);
 		
 		edadTextField = new JTextField();
+		edadTextField.setEditable(false);
 		edadTextField.setBounds(68, 48, 137, 20);
 		datosPacientePanel.add(edadTextField);
 		edadTextField.setColumns(10);
@@ -152,6 +156,7 @@ public class AltaCirugia extends JDialog{
 		
 		
 		numeroAfiliadoTextField = new JTextField();
+		numeroAfiliadoTextField.setEditable(false);
 		numeroAfiliadoTextField.setBounds(282, 75, 137, 22);
 		datosPacientePanel.add(numeroAfiliadoTextField);
 		
@@ -168,6 +173,7 @@ public class AltaCirugia extends JDialog{
 		datosPacientePanel.add(label);
 		
 		sexoComboBox = new JComboBox();
+		sexoComboBox.setEnabled(false);
 		sexoComboBox.setBounds(282, 47, 137, 22);
 		sexoComboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
 		//AutoCompleteDecorator.decorate(this.sexoComboBox);
@@ -292,15 +298,32 @@ public class AltaCirugia extends JDialog{
 				String hsIni= hs.format(horaInicio.getValue());
 				String hsFin= hs.format(horaFin.getValue());
 				
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				String dateString = format.format(fechaPractica.getDate());
+				//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//String dateString = format.format(fechaPractica.getDate());
 				
-				Sistema.getInstancia().altaPracticaQuirurjica(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				
-			//	AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
-/*				String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-				Sistema.getInstancia().Auditar((Sistema.getInstancia().getUsuarioActual(),auditar);*/
-				dispose();
+				if (monitoreoTextField.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "El campo Monitoreo es un dato obligatorio", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
+				}else if (diagnositicoTextPane.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "El campo Diagnostico es un dato obligatorio", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
+				}else{
+					boolean alta = Sistema.getInstancia().altaPracticaQuirurjica(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+					
+					if (alta){
+						JOptionPane.showMessageDialog(null, "Se creó la Practica Quirurjica", "Alta Practica Quirurjica", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+						vhce.setVisible(true);
+					}else{
+						JOptionPane.showMessageDialog(null, "Error al crear la Practica Quirurjica", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					//	AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+		/*				String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+						Sistema.getInstancia().Auditar((Sistema.getInstancia().getUsuarioActual(),auditar);*/
+						
+				}
+					
 			}
 		});
 		guardarButton.setBounds(211, 453, 116, 32);
@@ -312,7 +335,7 @@ public class AltaCirugia extends JDialog{
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				VerHCE vhce = new VerHCE();
+				VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
 				vhce.setVisible(true);
 			}
 		});
@@ -352,9 +375,8 @@ public class AltaCirugia extends JDialog{
         });
 		
 		
-		
 		this.setLocationRelativeTo(null);
-		setAlwaysOnTop(true);
+		//setAlwaysOnTop(true);
 		setModal(true);
 	}
 
