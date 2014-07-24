@@ -11,6 +11,7 @@ public class PracticaAmbulatoriaDTO extends PrestacionDTO {
 	private String medico;
 	
 	
+	
 	public PracticaAmbulatoriaDTO(Prestacion practica) {
 		super(practica.getDescripcion());
 		
