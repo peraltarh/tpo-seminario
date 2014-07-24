@@ -199,7 +199,7 @@ public class AltaCirugia extends JDialog{
 		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasQuirurjicasObraSocial(this.obraSocialComboBox.getSelectedItem().toString());;
 
 		for (String string : prestacionesDesc) {
-			prestacionComboBox.addItem(string);
+			prestacionComboBox.addItem(string.substring(5));
 		}
 		
 		
@@ -304,6 +304,7 @@ public class AltaCirugia extends JDialog{
 				//String dateString = format.format(fechaPractica.getDate());
 				
 				
+				
 				if (monitoreoTextField.getText().equals("")){
 					JOptionPane.showMessageDialog(null, "El campo Monitoreo es un dato obligatorio", "Alta Practica Quirurgica", JOptionPane.ERROR_MESSAGE);
 				}else if (diagnositicoTextPane.getText().equals("")){
@@ -317,8 +318,11 @@ public class AltaCirugia extends JDialog{
 						String msj = "La fecha de la Practica no puede ser superior a "+ currentDate;
 						JOptionPane.showMessageDialog(null, msj , "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);	
 					}else{
+						
+						String pq = "PQ - " + prestacionComboBox.getSelectedItem().toString();
+												
 						ObraSocial os = Sistema.getInstancia().buscarObrasocial(obraSocialComboBox.getSelectedItem().toString());
-						boolean alta = Sistema.getInstancia().altaPracticaQuirurjica(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc(),os.getIdObrasocial());
+						boolean alta = Sistema.getInstancia().altaPracticaQuirurjica(pq,Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc(),os.getIdObrasocial());
 						
 						if (alta){
 							JOptionPane.showMessageDialog(null, "Se creó la Practica Quirurgica", "Alta Practica Quirurgica", JOptionPane.INFORMATION_MESSAGE);
@@ -380,8 +384,9 @@ public class AltaCirugia extends JDialog{
 				ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasQuirurjicasObraSocial(obraSocialComboBox.getSelectedItem().toString());;
 
 				for (String string : prestacionesDesc) {
-					prestacionComboBox.addItem(string);
+					prestacionComboBox.addItem(string.substring(5));
 				}
+				
 				if(prestacionComboBox.getItemCount()>0)prestacionComboBox.setSelectedIndex(0);
 				diagnositicoTextPane.requestFocus();
                
