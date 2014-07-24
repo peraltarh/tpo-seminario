@@ -441,12 +441,14 @@ public class VerHCE extends JDialog implements FocusListener{
 						"<br><b>Tipo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getDescripcion() + "</br>" +
 						"<br><b>Ojo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
+						//"<br><b>Obra Social: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
 						"</html>";
 				}
 			else if (pTemp instanceof PracticaQuirurgicaDTO) {
 				DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 				String fecha= format1.format(itemTemp.getFecha());
-
+				
+								
 				detalle = "<html>"+
 						"<br><b>Medico: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + fecha + "</br>" +
@@ -454,9 +456,9 @@ public class VerHCE extends JDialog implements FocusListener{
 						"<br><b>Ojo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgicaDTO)pTemp).getDiagnostico() + "</br>" +
 						"<br><b>Monitoreo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMonitoreo() + "</br>" +
-						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraInicio().toString().substring(11) + "</br>" +
-						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraFin().toString().substring(11) + "</br>" +
-						"<br><b>Anestecia: </b>" + ((PracticaQuirurgicaDTO)pTemp).getAnestesia() + "</br>" +
+						"<br><b>Hora Inicio: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraInicio().toString().substring(11,16) + "</br>" +
+						"<br><b>Hora Fin: </b>" + ((PracticaQuirurgicaDTO)pTemp).getHoraFin().toString().substring(11,16) + "</br>" +
+						"<br><b>Anestesia: </b>" + ((PracticaQuirurgicaDTO)pTemp).getAnestesia() + "</br>" +
 						"</html>";
 				}
 			detalleTextPane.setText(detalle);

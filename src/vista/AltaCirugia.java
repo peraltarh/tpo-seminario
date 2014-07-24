@@ -70,7 +70,7 @@ public class AltaCirugia extends JDialog{
 	private JTextField monitoreoTextField;
 	private JLabel lblHoraFin;
 	private JLabel label;
-	private JComboBox sexoComboBox;
+	private JTextField sexoTextField;
 	private PacienteDTO pacienteDTOAct;
 	private JLabel lblApellido;
 	private JLabel lblObraSocial;
@@ -175,16 +175,15 @@ public class AltaCirugia extends JDialog{
 		label.setBounds(226, 51, 69, 14);
 		datosPacientePanel.add(label);
 		
-		sexoComboBox = new JComboBox();
-		sexoComboBox.setEnabled(false);
-		sexoComboBox.setBounds(282, 47, 137, 22);
-		sexoComboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
+		sexoTextField = new JTextField();
+		sexoTextField.setEditable(false);
+		sexoTextField.setBounds(282, 47, 137, 22);
 		//AutoCompleteDecorator.decorate(this.sexoComboBox);
-		datosPacientePanel.add(sexoComboBox);
+		datosPacientePanel.add(sexoTextField);
 		if(pacienteDTOAct.getSexo().equalsIgnoreCase("f"))
-			sexoComboBox.setSelectedIndex(1);
+			sexoTextField.setText("Femenino");
 		else
-			sexoComboBox.setSelectedIndex(0);
+			sexoTextField.setText("Masculino");
 		
 		
 		practicaPanel = new JPanel();

@@ -75,7 +75,7 @@ public class AltaPractica extends JDialog{
 	private JLabel lblNewLabel_2;
 	private JLabel lblEdad;
 	private JLabel label;
-	private JComboBox comboBox;
+	private JTextField sexoTextField;
 	private JPanel practicaPanel;
 
 
@@ -171,16 +171,16 @@ public class AltaPractica extends JDialog{
 		label.setBounds(226, 51, 69, 14);
 		datosPacientePanel.add(label);
 		
-		comboBox = new JComboBox();
-		comboBox.setEditable(true);
-		comboBox.setEnabled(false);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Femenino"}));
-		comboBox.setBounds(282, 47, 137, 22);
-		datosPacientePanel.add(comboBox);
+		sexoTextField = new JTextField();
+		sexoTextField.setEditable(false);
+		sexoTextField.setBounds(282, 47, 137, 22);
+		datosPacientePanel.add(sexoTextField);
+		
 		if(pacienteDTOAct.getSexo().equalsIgnoreCase("f"))
-			comboBox.setSelectedIndex(1);
+			sexoTextField.setText("Femenino");
 		else
-			comboBox.setSelectedIndex(0);
+			sexoTextField.setText("Masculino");
+		
 		
 		practicaPanel = new JPanel();
 		practicaPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Pr\u00E1ctica", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
