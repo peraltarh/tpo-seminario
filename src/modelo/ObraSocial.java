@@ -7,6 +7,11 @@ public class ObraSocial {
 	private String razonSocial;
 	
 	
+	public ObraSocial(String razonSocial, int id) {
+		super();
+		this.idObrasocial = id;
+		this.razonSocial = razonSocial;
+	}
 	
 	public ObraSocial(String razonSocial) {
 		super();
@@ -14,7 +19,18 @@ public class ObraSocial {
 		this.razonSocial = razonSocial;
 	}
 
+	public ObraSocial() {
+		
+	}
 
+
+	public void setIdObrasocial(int idObrasocial) {
+		this.idObrasocial = idObrasocial;
+	}
+
+	public void setRazonSocial(String razonSocial) {
+		this.razonSocial = razonSocial;
+	}
 
 	public int getIdObrasocial() {
 		return idObrasocial;
