@@ -287,7 +287,7 @@ public class VerHCE extends JDialog implements FocusListener{
 		contentPane.add(textField_numeroDoc);
 		
 		comboBox_TipoDoc = new JComboBox();
-		comboBox_TipoDoc.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LU", "LE"}));
+		comboBox_TipoDoc.setModel(new DefaultComboBoxModel(new String[] {"DNI", "LC", "LE"}));
 		comboBox_TipoDoc.setBounds(306, 16, 114, 25);
 		contentPane.add(comboBox_TipoDoc);
 		
@@ -295,8 +295,11 @@ public class VerHCE extends JDialog implements FocusListener{
 		buscarButton.setIcon(new ImageIcon(BuscardorHCE.class.getResource("/image/search.png")));
 		buscarButton.setBounds(456, 15, 116, 32);
 		contentPane.add(buscarButton);
+		
+		textField_numeroDoc.requestFocus();
+		
 		buscarButton.addActionListener(new ActionListener() {
-			
+				
 			public void actionPerformed(ActionEvent e) {
 				pacienteDTOActual = null;
 				
@@ -308,7 +311,7 @@ public class VerHCE extends JDialog implements FocusListener{
 				if(pacienteDTOActual != null){
 				
 				hceTemp = Sistema.getInstancia().getHCE(pacienteDTOActual.getDni(), pacienteDTOActual.getTipoDoc());
-
+				detalleTextPane.setText("");
 				model = new DefaultTableModel(){
 					private static final long serialVersionUID = 1L;
 
@@ -397,7 +400,6 @@ public class VerHCE extends JDialog implements FocusListener{
 			}
 		});
 
-		
 		this.setLocationRelativeTo(null);
 		//setAlwaysOnTop(true);
 		setModal(true);
@@ -419,9 +421,10 @@ public class VerHCE extends JDialog implements FocusListener{
 				
 				
 				detalle = "<html>"+
+						"<b>DETALLE DE CONSULTA</b><br></br>" +
 						"<br><b>Medico: </b>" + ((ConsultaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + fecha + "</br>" +
-						"<br><b>Tipo: </b>" + ((ConsultaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Tipo: </b>" + ((ConsultaDTO)pTemp).getDescripcion().substring(5) + "</br>" +
 						"<br><b>Observacion general: </b>" + ((ConsultaDTO)pTemp).getObservacionGeneral() + "</br>" +
 						"<br><b>Tratamiento: </b> " + ((ConsultaDTO)pTemp).getTratamiento() + "</br>" +
 						"<br><b>Motivo: </b>" + ((ConsultaDTO)pTemp).getMotivo() + "</br>" +
@@ -436,12 +439,12 @@ public class VerHCE extends JDialog implements FocusListener{
 				String fecha= format1.format(itemTemp.getFecha());
 				
 				detalle = "<html>"+
+						"<b>DETALLE PRÁCTICA AMBULATORIA </b><br></br>" +
 						"<br><b>Medico: </b>" +  ((PracticaAmbulatoriaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + fecha + "</br>" +
-						"<br><b>Tipo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Tipo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getDescripcion().substring(5) + "</br>" +
 						"<br><b>Ojo: </b>" + ((PracticaAmbulatoriaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
-						//"<br><b>Obra Social: </b> " + ((PracticaAmbulatoriaDTO)pTemp).getDiagnostico() + "</br>" +
 						"</html>";
 				}
 			else if (pTemp instanceof PracticaQuirurgicaDTO) {
@@ -449,10 +452,11 @@ public class VerHCE extends JDialog implements FocusListener{
 				String fecha= format1.format(itemTemp.getFecha());
 				
 								
-				detalle = "<html>"+
+				detalle ="<html>"+
+						"<b>DETALLE PRÁCTICA QUIRURGICA </b><br></br>" +
 						"<br><b>Medico: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMedico() + "</br>" +
 						"<br><b>Fecha: </b>" + fecha + "</br>" +
-						"<br><b>Tipo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getDescripcion() + "</br>" +
+						"<br><b>Tipo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getDescripcion().substring(5) + "</br>" +
 						"<br><b>Ojo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getOjo() + "</br>" +
 						"<br><b>Diagnostico: </b> " + ((PracticaQuirurgicaDTO)pTemp).getDiagnostico() + "</br>" +
 						"<br><b>Monitoreo: </b>" + ((PracticaQuirurgicaDTO)pTemp).getMonitoreo() + "</br>" +

@@ -194,7 +194,7 @@ public class AltaPractica extends JDialog{
 		ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasAmbulatoriasObraSocial(this.obraSocialComboBox.getSelectedItem().toString());;
 		
 		for (String string : prestacionesDesc) {
-			prestacionComboBox.addItem(string);
+			prestacionComboBox.addItem(string.substring(5));
 		}
 		
 		AutoCompleteDecorator.decorate(this.prestacionComboBox);
@@ -264,16 +264,15 @@ public class AltaPractica extends JDialog{
 				}else{
 					
 					String currentDate = format.format(GregorianCalendar.getInstance().getTime());
-					//String fecha = format.format(fechaPractica.getDate());
 					
 					if (GregorianCalendar.getInstance().getTime().before(fechaPractica.getDate())){
 						String msj = "La fecha de la Practica no puede ser superior a "+ currentDate;
 						JOptionPane.showMessageDialog(null, msj , "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);	
 					}else{
+						String pa = "PA - " + prestacionComboBox.getSelectedItem().toString();
 						
 						ObraSocial os = Sistema.getInstancia().buscarObrasocial(obraSocialComboBox.getSelectedItem().toString());
-						
-						boolean alta = Sistema.getInstancia().altaPracticaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc(),os.getIdObrasocial());
+						boolean alta = Sistema.getInstancia().altaPracticaAmbulatoria(pa,Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc(),os.getIdObrasocial());
 						if(alta){
 							JOptionPane.showMessageDialog(null, "Se creó la Practica Ambulatoria", "Alta Practica Ambulatoria", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
@@ -283,14 +282,6 @@ public class AltaPractica extends JDialog{
 							JOptionPane.showMessageDialog(null, "Error al crear Practica Ambulatoria", "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);
 						}
 							
-
-						//	AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
-							
-							/*String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-							AdministradorPersistenciaAuditoria.getInstancia().registrar(Sistema.getInstancia().getUsuarioActual(),auditar);*/
-							
-							
-						
 					}
 					
 				}
@@ -332,7 +323,7 @@ public class AltaPractica extends JDialog{
 				ArrayList<String>prestacionesDesc=Sistema.getInstancia().getPracticasAmbulatoriasObraSocial(obraSocialComboBox.getSelectedItem().toString());;
 				
 				for (String string : prestacionesDesc) {
-					prestacionComboBox.addItem(string);
+					prestacionComboBox.addItem(string.substring(5));
 				}
 				if(prestacionComboBox.getItemCount()>0)prestacionComboBox.setSelectedIndex(0);
 				diagnositicoTextPane.requestFocus();

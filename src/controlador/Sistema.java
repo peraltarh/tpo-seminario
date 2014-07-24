@@ -440,7 +440,6 @@ public class Sistema{
 			prestaciones.add(new Prestacion(string));
 		}
 		
-		
 	}
 	
 	private void cargarObrasSociales() {
@@ -523,10 +522,12 @@ public class Sistema{
 			PracticaQuirurgica pqTemp = new PracticaQuirurgica(prestacion, ojo, diagnostico, monitoreo, hsIni, hsFin, anestecia, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
 			
 
-			//Date dTemp = GregorianCalendar.getInstance().getTime();
+			Date dTemp = GregorianCalendar.getInstance().getTime();
 			
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			String dateText= format.format(dateString);
+			
+			dateText = dateText +" " +dTemp.getHours()+ ":"+dTemp.getMinutes()+ ":"+dTemp.getSeconds();
 			
 			hce.addPractica(new itemHistoriaClinica(dateString, pqTemp));
 				
@@ -609,11 +610,15 @@ public class Sistema{
 			
 				PracticaAmbulatoria paTemp = new PracticaAmbulatoria(prestacion, ojo, diagnostico, usuarioActual.getApellido() + " " + usuarioActual.getNombre());
 				
-				//Date dTemp = GregorianCalendar.getInstance().getTime();
+				Date dTemp = GregorianCalendar.getInstance().getTime();
 				
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				String dateText= format.format(dateString);
-							
+				
+			//	System.out.println(dateText +" " +dTemp.getHours()+ ":"+dTemp.getMinutes()+ ":"+dTemp.getSeconds());			
+				
+				dateText = dateText +" " +dTemp.getHours()+ ":"+dTemp.getMinutes()+ ":"+dTemp.getSeconds();
+				
 				hce.addPractica(new itemHistoriaClinica(dateString, paTemp));
 
 				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateText,nroDoc,tipoDoc,idOS);
