@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 
@@ -444,11 +445,18 @@ public class Sistema{
 	
 	private void cargarObrasSociales() {
 		obrasSociales = new ArrayList<ObraSocial>();
-		ArrayList<String> obrasSocialesTemp = AdministradorPresistenciaObrasSociales.getInstancia().getObrasSociales();
+		ArrayList<ObraSocial> obrasSocialesTemp = AdministradorPresistenciaObrasSociales.getInstancia().getObrasSociales();
 		
-		for (String string : obrasSocialesTemp) {
-			obrasSociales.add(new ObraSocial(string));
+//		for (String string : obrasSocialesTemp) {
+//			obrasSociales.add(new ObraSocial(string));
+//		}
+		
+		for (int i = 0; i < obrasSocialesTemp.size(); i++) {
+			obrasSociales.add(obrasSocialesTemp.get(i));
+			
 		}
+		
+		
 
 	}
 	
@@ -503,7 +511,7 @@ public class Sistema{
 	public boolean altaPracticaQuirurjica(String prestacion,
 			UsuarioDTO usuarioActual, String ojo, String diagnostico,
 			String monitoreo, String hsIni, String hsFin, String anestecia,
-			Date dateString, String nroDoc, String tipoDoc) {
+			Date dateString, String nroDoc, String tipoDoc, int idOs) {
 
 		
 		HistoriaClinica hce = buscarHCE(nroDoc, tipoDoc);
@@ -531,7 +539,7 @@ public class Sistema{
 					hsIni, hsFin, 
 					anestecia,
 					dateText, nroDoc,
-					tipoDoc);
+					tipoDoc,idOs);
 			
 			PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
 			
@@ -581,7 +589,7 @@ public class Sistema{
 //		}
 		
 		HistoriaClinica hceTemp = AdministradorPersistenciaHCE.getInstancia().buscarHistoriaClinica(tipoDoc, nroDoc);
-		this.historiasClinicas.add(hceTemp);
+		//this.historiasClinicas.add(hceTemp);
 		return hceTemp;
 	}
 
@@ -590,10 +598,9 @@ public class Sistema{
 
 	public boolean altaPracticaAmbulatoria(String prestacion,
 			UsuarioDTO usuarioActual2, String ojo, String diagnostico,
-			Date dateString, String nroDoc, String tipoDoc)
+			Date dateString, String nroDoc, String tipoDoc, int idOS)
 	{
 			
-		
 			HistoriaClinica hce = buscarHCE(nroDoc, tipoDoc);
 			
 			if (hce==null){
@@ -609,7 +616,7 @@ public class Sistema{
 							
 				hce.addPractica(new itemHistoriaClinica(dateString, paTemp));
 
-				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateText,nroDoc,tipoDoc);
+				AdministradorPersistenciaPracticaAmbulatoria.getInstancia().altaAmbulatoria(prestacion,usuarioActual2,ojo,diagnostico,dateText,nroDoc,tipoDoc,idOS);
 				PacienteDTO pacienteDTOAct = getPaciente(nroDoc, tipoDoc);
 				String auditar="Se creo una Practica Ambulatoria y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
 				AdministradorPersistenciaAuditoria.getInstancia().auditar(usuarioActual2,auditar);

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import modelo.ObraSocial;
+
 public class AdministradorPresistenciaObrasSociales {
 
 	static AdministradorPresistenciaObrasSociales pool = null;
@@ -21,9 +23,9 @@ public class AdministradorPresistenciaObrasSociales {
 	
 	
 
-	public ArrayList<String> getObrasSociales() {
+	public ArrayList<ObraSocial> getObrasSociales() {
 	
-		ArrayList<String> obrasSociales = new ArrayList<String>();
+		ArrayList<ObraSocial> obrasSociales = new ArrayList<ObraSocial>();
 		Connection con = PoolConnection.getPoolConnection().getConnection();
 				
 		try
@@ -36,7 +38,10 @@ public class AdministradorPresistenciaObrasSociales {
 			
 			while (result.next())
 			{
-				obrasSociales.add(result.getString("razonSocial"));				
+				ObraSocial os = new ObraSocial();
+				os.setIdObrasocial(result.getInt("idObraSocial"));
+				os.setRazonSocial(result.getString("razonSocial"));
+				obrasSociales.add(os);				
 			}
 			
 			PoolConnection.getPoolConnection().realeaseConnection(con);

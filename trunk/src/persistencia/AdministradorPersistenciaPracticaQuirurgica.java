@@ -22,7 +22,7 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 	}
 
 
-	public void altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, String hsInicio, String hsFin, String anestesia, String dateString, String nroDoc, String tipoDoc) 
+	public void altaCirugia(String prestacion, UsuarioDTO usuarioDTO, String ojo, String diagnostico, String monitoreo, String hsInicio, String hsFin, String anestesia, String dateString, String nroDoc, String tipoDoc, int idOs) 
 	{
 		Connection con = PoolConnection.getPoolConnection().getConnection();
 		long idPracticaQuirurgica=-1;
@@ -32,8 +32,8 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 			int idPrestacion=AdministradorPersistenciaPrestacion.getInstancia().buscarPrestacion(prestacion);
 
 			String senten = "INSERT INTO PracticaQuirurgica" +
-					"(idPrestacion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia) "
-					+ "VALUES (?,?,?,?,?,?,?,?);SELECT @@IDENTITY";
+					"(idPrestacion,usuarioLogin,ojo,diagnostico,monitoreo,horaInicio,horaFin,anestesia, idOS) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?);SELECT @@IDENTITY";
 			PreparedStatement ps = null;
 			ps = con.prepareStatement(senten);
 			ps.setInt(1,idPrestacion);
@@ -44,6 +44,8 @@ public class AdministradorPersistenciaPracticaQuirurgica {
 			ps.setString(6,hsInicio);
 			ps.setString(7,hsFin);
 			ps.setString(8,anestesia);
+			ps.setInt(9,idOs);
+			
 			ps.executeUpdate();
 
 			ResultSet rs = ps.getGeneratedKeys();

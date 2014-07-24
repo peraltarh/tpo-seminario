@@ -27,9 +27,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JSpinner.DateEditor;
 import javax.swing.JComboBox;
+
+import modelo.ObraSocial;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -303,26 +306,40 @@ public class AltaCirugia extends JDialog{
 				
 				
 				if (monitoreoTextField.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "El campo Monitoreo es un dato obligatorio", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "El campo Monitoreo es un dato obligatorio", "Alta Practica Quirurgica", JOptionPane.ERROR_MESSAGE);
 				}else if (diagnositicoTextPane.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "El campo Diagnostico es un dato obligatorio", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "El campo Diagnostico es un dato obligatorio", "Alta Practica Quirurgica", JOptionPane.ERROR_MESSAGE);
 				}else{
-					boolean alta = Sistema.getInstancia().altaPracticaQuirurjica(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					String currentDate = format.format(GregorianCalendar.getInstance().getTime());
+					//String fecha = format.format(fechaPractica.getDate());
 					
-					if (alta){
-						JOptionPane.showMessageDialog(null, "Se creó la Practica Quirurjica", "Alta Practica Quirurjica", JOptionPane.INFORMATION_MESSAGE);
-						dispose();
-						VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
-						vhce.setVisible(true);
+					if (GregorianCalendar.getInstance().getTime().before(fechaPractica.getDate())){
+						String msj = "La fecha de la Practica no puede ser superior a "+ currentDate;
+						JOptionPane.showMessageDialog(null, msj , "Alta Practica Ambulatoria", JOptionPane.ERROR_MESSAGE);	
 					}else{
-						JOptionPane.showMessageDialog(null, "Error al crear la Practica Quirurjica", "Alta Practica Quirurjica", JOptionPane.ERROR_MESSAGE);
-					}
-					
-					//	AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
-		/*				String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
-						Sistema.getInstancia().Auditar((Sistema.getInstancia().getUsuarioActual(),auditar);*/
+						ObraSocial os = Sistema.getInstancia().buscarObrasocial(obraSocialComboBox.getSelectedItem().toString());
+						boolean alta = Sistema.getInstancia().altaPracticaQuirurjica(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),fechaPractica.getDate(),pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc(),os.getIdObrasocial());
 						
+						if (alta){
+							JOptionPane.showMessageDialog(null, "Se creó la Practica Quirurgica", "Alta Practica Quirurgica", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							VerHCE vhce = new VerHCE(pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+							vhce.setVisible(true);
+						}else{
+							JOptionPane.showMessageDialog(null, "Error al crear la Practica Quirurgica", "Alta Practica Quirurgica", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						//	AdministradorPersistenciaPracticaQuirurgica.getInstancia().altaCirugia(prestacionComboBox.getSelectedItem().toString(),Sistema.getInstancia().getUsuarioActual(),ojoComboBox.getSelectedItem().toString(),diagnositicoTextPane.getText(),monitoreoTextField.getText(),hsIni,hsFin,anestesiaComboBox.getSelectedItem().toString(),dateString,pacienteDTOAct.getDni(),pacienteDTOAct.getTipoDoc());
+			/*				String auditar="Se creo una Practica Quirurgica y se asocio al Paciente \t"+pacienteDTOAct.getNombre()+"\t"+pacienteDTOAct.getApellido();
+							Sistema.getInstancia().Auditar((Sistema.getInstancia().getUsuarioActual(),auditar);*/
+							
+					}
 				}
+					
+					
+					
+					
 					
 			}
 		});

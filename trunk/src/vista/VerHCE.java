@@ -355,7 +355,7 @@ public class VerHCE extends JDialog implements FocusListener{
 					if (itemHCETemp.getPractica().getDescripcion().contains("PA -")){
 						tipo = "Practica Ambulatoria";
 					}else if (itemHCETemp.getPractica().getDescripcion().contains("PQ -")){
-						tipo = "Practica Quirurjica";
+						tipo = "Practica Quirurgica";
 					}else if (itemHCETemp.getPractica().getDescripcion().contains("CG -")){
 						tipo = "Consulta General";
 					}
